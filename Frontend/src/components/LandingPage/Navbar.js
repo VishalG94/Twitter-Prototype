@@ -57,7 +57,7 @@ class Navbar extends Component {
                             {/* </a> */}
                             <img
                     //   class='preview-img'
-                      src={require('../img/Twitternew.jpg')}
+                      src={require('../img/Twitternew.png')}
                     //   src={this.state.img}
                       alt='Preview Image'
                       width='50'

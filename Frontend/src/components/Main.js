@@ -3,7 +3,7 @@ import {Route} from 'react-router-dom';
 import Login from './Login/Login';
 import SignUp from './SignUp/SignUp';
 import Navbar from './LandingPage/Navbar';
-import BuyerProfile from './BuyerProfile/BuyerProfile';
+//import BuyerProfile from './BuyerProfile/BuyerProfile';
 import Search from './Search/Search';
 
 
@@ -16,7 +16,7 @@ class Main extends Component {
                 <Route path="/" component={Navbar}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/search" component={Search}/>
-                <Route path="/buyerprofile" component={BuyerProfile}/>
+                
                 <Route path="/signup" component={SignUp}/>
             </div>
         )
