@@ -252,11 +252,6 @@ class Search extends Component {
                 </div>
                 <div className='col-sm-1' />
               </div>
-
-              <div style={{ textAlign: 'center' }} class='form-group'>
-                <span>New to Twitter? </span>
-                <Link to='/signup'>Sign up now >></Link>
-              </div>
             </div>
           </form>
         </div>
