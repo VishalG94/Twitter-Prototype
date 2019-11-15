@@ -20,6 +20,7 @@ class SignUp extends Component {
       lastname: '',
       email: '',
       password: '',
+      username: '',
       authFlag: false,
       authFailed: false
     }
@@ -48,13 +49,13 @@ class SignUp extends Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
+  renderInput = ({ input, label, meta, type }) => {
     return (
       <div>
         <div htmlFor='email' style={{ color: '#6b6b83' }}>
           {label}
         </div>
-        <input class='form-control' {...input} />
+        <input class='form-control' type={type} {...input} />
         {this.renderError(meta)}
       </div>
     )
@@ -66,6 +67,7 @@ class SignUp extends Component {
       firstname: formValues.firstname,
       lastname: formValues.lastname,
       email: formValues.email,
+      username : formValues.username,
       password: formValues.password
     }
     axios.defaults.withCredentials = true
@@ -114,6 +116,7 @@ class SignUp extends Component {
                     <div class='col-sm-6'>
                       <Field
                         name='firstname'
+                        type='text'
                         component={this.renderInput}
                         label='First name'
                       />
@@ -121,6 +124,7 @@ class SignUp extends Component {
                     <div class='col-sm-6'>
                       <Field
                         name='lastname'
+                        type='text'
                         component={this.renderInput}
                         label='Last name'
                       />
@@ -130,14 +134,27 @@ class SignUp extends Component {
                 <div class='form-group'>
                   <Field
                     name='email'
+                    type='email'
                     component={this.renderInput}
                     label='Email'
                   />
                   <br />
                 </div>
+
+                <div class='form-group'>
+                  <Field
+                    name='username'
+                    type='text'
+                    component={this.renderInput}
+                    label='Username'
+                  />
+                  <br />
+                </div>
+                
                 <div class='form-group'>
                   <Field
                     name='password'
+                    type='password'
                     component={this.renderInput}
                     label='Password (8 character minimum)'
                   />
@@ -210,8 +227,11 @@ const validate = formValues => {
   if (!formValues.password) {
     error.password = 'Enter a valid Password'
   }
-  if (!formValues.firstname) {
-    error.firstname = 'Enter a valid first name'
+  if (!formValues.password) {
+    error.password = 'Enter a valid Password'
+  }
+  if (!formValues.username) {
+    error.username = 'Enter a valid Username'
   }
   if (!formValues.lastname) {
     error.lastname = 'Enter a valid last name'

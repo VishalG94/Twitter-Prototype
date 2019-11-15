@@ -13,7 +13,7 @@ export function loginuser(values,callback) {
     axios.defaults.withCredentials=true;
 
     const request = axios
-    .post(`${ROOT_URL}/login`,values);
+    .post(`${ROOT_URL}/login/login`,values);
 
     return (dispatch) =>{
         request.then((res)=>{
@@ -35,7 +35,7 @@ export function signupUser(values,callback) {
     axios.defaults.withCredentials=true;
 
     const request = axios
-    .post(`${ROOT_URL}/signup`,values);
+    .post(`${ROOT_URL}/signup/signup`,values);
 
     return (dispatch) =>{
         request.then((res)=>{

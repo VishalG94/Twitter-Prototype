@@ -84,18 +84,9 @@ class Login extends Component {
         this.setState({
           authFlag: true
         })
-
         const user = jwtDecode(res.data.token)
         console.log(user)
         sessionStorage.setItem('email', user.email)
-
-        const cookies = new Cookies()
-        cookies.set('cookie', res.data.token, {
-          maxAge: 900000,
-          httpOnly: false,
-          path: '/'
-        })
-        console.log(cookies.get('myCat'))
         this.props.history.push('/home')
       } else {
         alert('Please enter valid credentials')

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../../App.css'
-import './Search.css'
+import './Home.css'
 import axios from 'axios'
 import cookie from 'react-cookies'
 import { Redirect } from 'react-router'
@@ -14,7 +14,7 @@ import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 // Define a Login Component
-class Search extends Component {
+class Home extends Component {
   // call the constructor method
   constructor (props) {
     super(props)
@@ -176,5 +176,5 @@ export default connect(
   reduxForm({
     form: 'streamLogin',
     validate: validate
-  })(Search)
+  })(Home)
 )
