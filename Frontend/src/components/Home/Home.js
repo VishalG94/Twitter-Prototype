@@ -11,6 +11,7 @@ import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
+import WriteTweet from '../WriteTweet/WriteTweet'
 import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 // Define a Login Component
@@ -112,8 +113,6 @@ class Home extends Component {
   }
 
   render () {
-    
-
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
@@ -122,34 +121,33 @@ class Home extends Component {
       )
     }
 
-    let data={
+    let data = {
       name: 'Vishal',
       handler: 'Handler',
       time: 'time',
       description: 'Description',
-      img:  sampleImg,
+      img: sampleImg,
       likes: 30,
       retweets: 20,
       comments: 10
-
     }
 
     return (
       <div>
-            <div>
-              <div className='row'>
-                <div className='col-sm-2'>
-                  <LeftNavbar />
-                </div>
-                <div className='col-sm-7'>
-                  <ul>
-                    <Tweet tweetsDtls={data}></Tweet>
-                  </ul>
-                </div>
-                <div className='col-sm-1' />
-              </div>
+        <div>
+          <div className='row'>
+            <div className='col-sm-2'>
+              <LeftNavbar />
             </div>
-         
+            <div className='col-sm-7'>
+              <ul>
+                <WriteTweet />
+                <Tweet tweetsDtls={data} />
+              </ul>
+            </div>
+            <div className='col-sm-1' />
+          </div>
+        </div>
       </div>
     )
   }

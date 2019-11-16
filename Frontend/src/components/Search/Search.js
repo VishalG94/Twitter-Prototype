@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import '../../App.css'
 import './Search.css'
 import axios from 'axios'
-import cookie from 'react-cookies'
-import { Redirect } from 'react-router'
-import { Link } from 'react-router-dom'
 import { loginuser } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
@@ -112,8 +109,6 @@ class Search extends Component {
   }
 
   render () {
-    
-
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
@@ -122,34 +117,49 @@ class Search extends Component {
       )
     }
 
-    let data={
+    let data = {
       name: 'Vishal',
       handler: 'Handler',
       time: 'time',
       description: 'Description',
-      img:  sampleImg,
+      img: sampleImg,
       likes: 30,
       retweets: 20,
       comments: 10
-
     }
 
     return (
       <div>
-            <div>
-              <div className='row'>
-                <div className='col-sm-2'>
-                  <LeftNavbar />
-                </div>
-                <div className='col-sm-7'>
-                  <ul>
-                    <Tweet tweetsDtls={data}></Tweet>
-                  </ul>
-                </div>
-                <div className='col-sm-1' />
-              </div>
+        <div>
+          <div className='row'>
+            <div className='col-sm-2'>
+              <LeftNavbar />
             </div>
-         
+            <div className='col-sm-7'>
+              <ul>
+                <a href='#' class='list-group-item'>
+                  {/* <div class='form-group'> */}
+                  {/* <input class='form-control' /> */}
+                  <div class='wrap'>
+                    <div class='search'>
+                      <button type='submit' class='searchButton'>
+                        <i class='fa fa-search' />
+                      </button>
+                      <input
+                        type='text'
+                        class='searchTerm'
+                        placeholder='What are you looking for?'
+                      />
+                    </div>
+                  </div>
+                  {/* </div> */}
+                </a>
+                <Tweet tweetsDtls={data} />
+              </ul>
+            </div>
+            <div className='col-sm-1' />
+          </div>
+        </div>
       </div>
     )
   }
