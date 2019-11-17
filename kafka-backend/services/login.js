@@ -22,7 +22,7 @@ function handle_request(msg, callback) {
                 var token = jwt.sign({ email: result[0].email }, config.secret, {
                     expiresIn: 10080 // in seconds
                 });
-                callback(null, { success: true, token: 'JWT ' + token, username: result[0].username });
+                callback(null, { success: true, token: token , username: result[0].username });
             } else {
                 callback(null, "Invalid Login")
             }
