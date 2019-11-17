@@ -137,23 +137,42 @@ class Search extends Component {
             </div>
             <div className='col-sm-7'>
               <ul>
-                <a href='#' class='list-group-item'>
-                  {/* <div class='form-group'> */}
-                  {/* <input class='form-control' /> */}
-                  <div class='wrap'>
-                    <div class='search'>
-                      <button type='submit' class='searchButton'>
-                        <i class='fa fa-search' />
-                      </button>
-                      <input
-                        type='text'
-                        class='searchTerm'
-                        placeholder='What are you looking for?'
-                      />
+                <li href='#' class='list-group-item'>
+                  <div class='form-group'>
+                    {/* <input class='form-control' /> */}
+                    {/* <div class='wrap'>
+                      <div class='search'> */}
+                    <div class='row'>
+                      <div class='col-sm-1'>
+                        <button type='submit' class='searchButton'>
+                          <i class='fa fa-search' />
+                        </button>
+                      </div>
+                      <div class='col-sm-10'>
+                        <input
+                          type='text'
+                          class='searchTerm'
+                          placeholder='What are you looking for?'
+                        />
+                      </div>
+
+                      <div class='col-sm-1'>
+                        <button type='button' class='btn btn-outline-secondary'>
+                          Secondary
+                        </button>
+                        <button type='button' class='btn btn-outline-warning'>
+                          Warning
+                        </button>
+                        <button type='button' class='btn btn-outline-primary'>
+                          Search
+                        </button>
+                      </div>
                     </div>
+
+                    {/* </div>
+                    </div> */}
                   </div>
-                  {/* </div> */}
-                </a>
+                </li>
                 <Tweet tweetsDtls={data} />
               </ul>
             </div>

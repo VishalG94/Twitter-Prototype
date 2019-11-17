@@ -1,9 +1,9 @@
 /* @import url(https://fonts.googleapis.com/css?family=Open+Sans); */
 
-body {
+/* body {
   background: #f2f2f2;
   font-family: 'Open Sans', sans-serif;
-}
+} */
 
 .search {
   width: 100%;
@@ -13,11 +13,13 @@ body {
 
 .searchTerm {
   width: 100%;
-  border: 3px solid #00b4cc;
+  border: 1px solid #c8c8c8;
+  background-color: #c8c8c8;
   border-right: none;
-  padding: 5px;
-  height: 20px;
-  border-radius: 0 5px 5px 0;
+  float: left;
+  /* padding: 5px; */
+  height: 36px;
+  border-radius: 0 20px 20px 0;
   outline: none;
   color: #9dbfaf;
 }
@@ -28,12 +30,13 @@ body {
 
 .searchButton {
   width: 40px;
+  float: right;
   height: 36px;
-  border: 1px solid #00b4cc;
-  background: #00b4cc;
+  border: 1px solid #c8c8c8;
+  background: #c8c8c8;
   text-align: center;
-  color: #fff;
-  border-radius: 5px 0 0 5px;
+  color: gray;
+  border-radius: 20px 0 0 20px;
   cursor: pointer;
   font-size: 20px;
 }
