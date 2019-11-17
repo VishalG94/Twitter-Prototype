@@ -11,6 +11,9 @@ import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
+import Tweet from '../Tweet/Tweet'
+import WriteTweet from '../WriteTweet/WriteTweet'
+import sampleImg from '../img/GrubhubDetails.jpg'
 
 // Define a Login Component
 class Search extends Component {
@@ -109,6 +112,7 @@ class Search extends Component {
       [e.target.name]: e.target.value
     })
   }
+  
 
   render () {
     // console.log(this.props.user)
@@ -134,6 +138,18 @@ class Search extends Component {
       )
     }
 
+    let data={
+      name: 'Vishal',
+      handler: 'Handler',
+      time: 'time',
+      description: 'Description',
+      img:  sampleImg,
+      likes: 30,
+      retweets: 20,
+      comments: 10
+
+    }
+
     return (
       // <div class='container'>
       <div>
@@ -148,8 +164,11 @@ class Search extends Component {
                   <LeftNavbar />
                 </div>
                 <div className='col-sm-7'>
-                  <ul>
-                    <a
+                  <ul> 
+                  <WriteTweet tweetsDtls={data}>  </WriteTweet>                   
+                  <Tweet tweetsDtls={data}></Tweet>
+                    {
+                    /* <a
                       href='#'
                       style={{ marginTop: '20px' }}
                       class='list-group-item'
@@ -247,7 +266,7 @@ class Search extends Component {
                           <i class='fas fa-arrow-up fa-2x' />
                         </div>
                       </div>
-                    </a>
+                    </a> */}
                   </ul>
                 </div>
                 <div className='col-sm-1' />
