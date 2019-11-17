@@ -128,6 +128,8 @@ class Search extends Component {
       comments: 10
     }
 
+    let isSelected = 'searchTerm'
+
     return (
       <div>
         <div>
@@ -140,37 +142,36 @@ class Search extends Component {
                 <li href='#' class='list-group-item'>
                   <div class='form-group'>
                     {/* <input class='form-control' /> */}
-                    {/* <div class='wrap'>
-                      <div class='search'> */}
-                    <div class='row'>
-                      <div class='col-sm-1'>
-                        <button type='submit' class='searchButton'>
-                          <i class='fa fa-search' />
-                        </button>
-                      </div>
-                      <div class='col-sm-10'>
+                    <div tabIndex='0' class='wrap'>
+                      <div class='search'>
                         <input
+                          id='searchbar'
                           type='text'
                           class='searchTerm'
                           placeholder='What are you looking for?'
                         />
-                      </div>
-
-                      <div class='col-sm-1'>
-                        <button type='button' class='btn btn-outline-secondary'>
-                          Secondary
+                        <button
+                          id='searchbarbutton'
+                          type='submit'
+                          class='searchButton'
+                        >
+                          <i class='fa fa-search' />
                         </button>
-                        <button type='button' class='btn btn-outline-warning'>
-                          Warning
-                        </button>
-                        <button type='button' class='btn btn-outline-primary'>
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        {/* <button
+                          type='button'
+                          style={{
+                            borderRadius: '20px 20px 20px 20px',
+                            backgroundColor: 'white',
+                            color: 'rgb(0, 112, 235)',
+                            outlineColor: 'rgb(0, 112, 235)'
+                          }}
+                          class='btn btn-primary'
+                        >
                           Search
-                        </button>
+                        </button> */}
                       </div>
                     </div>
-
-                    {/* </div>
-                    </div> */}
                   </div>
                 </li>
                 <Tweet tweetsDtls={data} />
