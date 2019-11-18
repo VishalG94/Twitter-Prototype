@@ -11,6 +11,10 @@ input {
   color: #333;
 }
 
+textarea:focus::placeholder {
+  color: #c8c8c8;
+}
+
 textarea {
   border: none;
   border-radius: 10px;

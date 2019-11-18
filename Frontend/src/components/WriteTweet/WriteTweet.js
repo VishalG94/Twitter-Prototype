@@ -22,6 +22,7 @@ let WriteTweet = props => {
             <textarea
               maxlength='280'
               rows='1'
+              class='writetweet'
               //   width='50%'
               placeholder="What's happening  "
             />
