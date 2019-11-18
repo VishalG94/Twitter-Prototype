@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../../App.css'
-import './Search.css'
+import './SearchBar.css'
 import axios from 'axios'
 import { loginuser } from '../../actions'
 import { Field, reduxForm } from 'redux-form'

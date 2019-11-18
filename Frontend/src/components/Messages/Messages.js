@@ -10,6 +10,7 @@ import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
+import SearchBar from '../SearchBar/SearchBar'
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
@@ -133,25 +134,7 @@ class Search extends Component {
                   Messages
                 </li>
                 <li href='#' class='list-group-item'>
-                  <div class='form-group'>
-                    <div tabIndex='0' class='wrap'>
-                      <div class='search'>
-                        <input
-                          id='searchbar'
-                          type='text'
-                          class='searchTerm'
-                          placeholder='What are you looking for?'
-                        />
-                        <button
-                          id='searchbarbutton'
-                          type='submit'
-                          class='searchButton'
-                        >
-                          <i class='fa fa-search' />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
+                  <SearchBar />
                 </li>
               </ul>
             </div>
