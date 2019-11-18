@@ -4,49 +4,54 @@ var mongoose = require("mongoose");
 var config = require('../config/setting');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
+var con = require("../sql/sqlpool");
+const User = require('../api/models/User');
 
 require('../config/passport')(passport);
 
 function handle_request(msg, callback) {
     console.log("in signup kafka");
     console.log(msg);
-    let type_userowner = 0;
-    if (msg.type === 'user') {
-        type_userowner = 1
-    } else {
-        type_userowner = 2
-    }
-    Urcs.findOne({ email: msg.email })
-    .exec()
-    .then(ans => {
-        if(ans){
-            callback(null,"user alredy exists")
-        }else{
-            bcrypt.genSalt(10, function (err, salt) {
-                bcrypt.hash(msg.password, salt, function (err, hash) {
-                    const urcs = new Urcs({
-                        _id: new mongoose.Types.ObjectId(),
-                        name: msg.username,
-                        password: hash,
+    bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(msg.password, salt, function (err, hash) {
+            let sql = 'INSERT INTO user SET ?'
+            let post = {
+                firstname: msg.firstname,
+                password: hash,
+                email: msg.email,
+                lastname: msg.lastname,
+                username: msg.username
+            }
+            con.query(sql, post, (err, result) => {
+                if (err) {
+                    console.log(err);
+                    callback(null, "Error in kafka-backend");
+                }
+                else{
+
+                    console.log(result);
+                    const user = new User({
+        
+                        first_name: msg.firstname,
+                        last_name : msg.lastname,                        
                         email: msg.email,
-                        resname: msg.resname,
-                        reszip: msg.reszip,
-                        type: type_userowner
-                    });
-                    urcs
-                        .save()
+                        password: hash,
+                        username: msg.username
+                        
+                    }) ;                    
+
+                    user.save()
                         .then(result => {
                             console.log(result);
-                            var token = jwt.sign({ email: msg.email }, config.secret, {
-                                expiresIn: 10080 // in seconds
-                            });
-                            callback(null, { success: true, token: 'JWT ' + token });
+                            callback(null,"valid signup");
                         })
                         .catch(err => {
                             console.log(err);
-                            callback(null, "Error in kafka-backend");
-                        })
-                });
+                            callback(err,null);
+
+                        });
+                    // callback(null, "valid signup");                    
+                }               
             });
         }
     })

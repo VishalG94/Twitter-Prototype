@@ -6,7 +6,13 @@ var cookieParser = require('cookie-parser');
 var signup = require('./api/routes/common/signup');
 var login = require('./api/routes/common/login');
 app.use('/sc', express.static(__dirname + '/images'));
+const mongoose = require('mongoose');
 
+mongoose.connect('mongodb+srv://kiranbijjala:kiranbijjala@cluster0-xvhje.mongodb.net/test?retryWrites=true&w=majority',
+    {
+        useMongoClient:true,
+        useUnifiedTopology:true,       
+    });
 
 app.use(cookieParser())
 //saltround = 10;

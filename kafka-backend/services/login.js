@@ -16,7 +16,8 @@ function handle_request(msg, callback){
                 var token = jwt.sign({email:msg.email}, config.secret, {
                     expiresIn: 10080 // in seconds
                 });
-                callback(null,{ success: true, token: 'JWT ' + token, type:result.type });
+                callback(null, { success: true, token: token , username: result[0].username });
+            
             } else {
                callback(null,"Invalid Login")
             }
