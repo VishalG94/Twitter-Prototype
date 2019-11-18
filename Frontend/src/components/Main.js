@@ -4,6 +4,7 @@ import Login from './Login/Login'
 import Home from './Home/Home'
 import SignUp from './SignUp/SignUp'
 import Navbar from './LandingPage/Navbar'
+import Messages from './Messages/Messages'
 // import BuyerProfile from './BuyerProfile/BuyerProfile';
 import Search from './Search/Search'
 
@@ -20,6 +21,7 @@ class Main extends Component {
         <Route path='/search' component={Search} />
         <Route path='/signup' component={SignUp} />
         <Route path='/home' component={Home} />
+        <Route path='/messages' component={Messages} />
       </div>
     )
   }

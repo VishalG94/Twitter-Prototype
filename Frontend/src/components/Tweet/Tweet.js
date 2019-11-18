@@ -34,14 +34,14 @@ let Tweet = props => {
         {/* <div class='col-sm-1'></div> */}
         <div class='col-sm-11'>
           <h4 class='user-name'>
-            {props.tweetsDtls.name}
+            {props.tweetsDtls.name} {}
             <span
               style={{
                 fontWeight: 'normal',
                 color: 'grey'
               }}
             >
-              {props.tweetsDtls.handler}
+              @{props.tweetsDtls.handler} {}
             </span>
             <span />
             <span
