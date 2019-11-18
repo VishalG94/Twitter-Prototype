@@ -1,19 +1,21 @@
 import React, { Component } from 'react'
 import '../../App.css'
-import './Search.css'
+import './Home.css'
 import axios from 'axios'
+import cookie from 'react-cookies'
+import { Redirect } from 'react-router'
+import { Link } from 'react-router-dom'
 import { loginuser } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
-import Tweet from '../Tweet/Tweet'
 import WriteTweet from '../WriteTweet/WriteTweet'
+import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
-
 // Define a Login Component
-class Search extends Component {
+class Home extends Component {
   // call the constructor method
   constructor (props) {
     super(props)
@@ -109,7 +111,6 @@ class Search extends Component {
       [e.target.name]: e.target.value
     })
   }
-  
 
   render () {
     let redirectVar = null
@@ -125,11 +126,10 @@ class Search extends Component {
       handler: 'Handler',
       time: 'time',
       description: 'Description',
-      img:  sampleImg,
+      img: sampleImg,
       likes: 30,
       retweets: 20,
       comments: 10
-
     }
 
     return (
@@ -141,41 +141,7 @@ class Search extends Component {
             </div>
             <div className='col-sm-7'>
               <ul>
-                <li href='#' class='list-group-item'>
-                  <div class='form-group'>
-                    {/* <input class='form-control' /> */}
-                    <div tabIndex='0' class='wrap'>
-                      <div class='search'>
-                        <input
-                          id='searchbar'
-                          type='text'
-                          class='searchTerm'
-                          placeholder='What are you looking for?'
-                        />
-                        <button
-                          id='searchbarbutton'
-                          type='submit'
-                          class='searchButton'
-                        >
-                          <i class='fa fa-search' />
-                        </button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        {/* <button
-                          type='button'
-                          style={{
-                            borderRadius: '20px 20px 20px 20px',
-                            backgroundColor: 'white',
-                            color: 'rgb(0, 112, 235)',
-                            outlineColor: 'rgb(0, 112, 235)'
-                          }}
-                          class='btn btn-primary'
-                        >
-                          Search
-                        </button> */}
-                      </div>
-                    </div>
-                  </div>
-                </li>
+                <WriteTweet />
                 <Tweet tweetsDtls={data} />
               </ul>
             </div>
@@ -208,5 +174,5 @@ export default connect(
   reduxForm({
     form: 'streamLogin',
     validate: validate
-  })(Search)
+  })(Home)
 )

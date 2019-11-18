@@ -17,8 +17,8 @@ router.post('/login', (req, res) => {
       res.end("Invalid Credential!");
     } else {
       console.log("result received")
-      req.session.name = { email: req.body.email, type: results.type };
-      res.status(200).json({ success: results.type, token: 'JWT ' + results.token });
+      req.session.name = { email: req.body.email };
+      res.status(200).json({ username : results.username, token: 'JWT ' + results.token , email: req.body.email });
       res.end("Successful Login");
     }
   });

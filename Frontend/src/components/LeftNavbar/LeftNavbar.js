@@ -5,7 +5,9 @@ class LeftNavbar extends React.Component {
     return (
       <div>
         <h2>
-          <span style={{ marginLeft: '10px', color:'#0070eb', alighText: 'right' }}>
+          <span
+            style={{ marginLeft: '10px', color: '#0070eb', alighText: 'right' }}
+          >
             Your account
           </span>
         </h2>
@@ -18,7 +20,7 @@ class LeftNavbar extends React.Component {
             </a>
           </li>
           <li className='li-profile'>
-            <a href='/explore' className='navLink'>
+            <a href='/search' className='navLink'>
               <i class='fas fa-hashtag' />{' '}
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Explore</span>
@@ -33,29 +35,29 @@ class LeftNavbar extends React.Component {
           </li>
           <li className='li-profile'>
             <a href='/bookmarks' className='navLink'>
-            <i class="far fa-bookmark"></i>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class='far fa-bookmark' />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Bookmarks</span>
             </a>
           </li>
           <li className='li-profile'>
             <a href='/lists' className='navLink'>
-            <i class="far fa-list-alt"></i>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class='far fa-list-alt' />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Lists</span>
             </a>
           </li>
           <li className='li-profile'>
             <a href='/profile' className='navLink'>
-            <i class="far fa-user"></i>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class='far fa-user' />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Profile</span>
             </a>
           </li>
           <li className='li-profile'>
             <a href='/d ashboard' className='navLink'>
-            <i class="fas fa-chart-line"></i>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <i class='fas fa-chart-line' />
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Dashboard</span>
             </a>
           </li>

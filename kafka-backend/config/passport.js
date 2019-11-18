@@ -12,11 +12,22 @@ module.exports = function (passport) {
         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
         secretOrKey: config.secret
     };
+    
     passport.use(new JwtStrategy(opts, function (jwt_payload, callback) {
-        Urcs.findOne({email: jwt_payload.email}, function (res) {
-            var user = res;
-            callback(null, user);
-        }, function (err) {
+        let sql = 'SELECT * from user where email="' + jwt_payload.email + '"';
+        con.query(sql, (err, result) => {
+                if (err || !result.length) {
+                    callback(null, "Invalid Login")
+                }else{
+                    var user = result[0].username;
+                    callback(null, user);
+                }
+            }
+        // twitter.findOne({email: jwt_payload.email}, function (res) {
+        //     var user = res;
+        //     callback(null, user);
+        // }
+        , function (err) {
             return callback(err, false);
         });
     }));
@@ -24,3 +35,19 @@ module.exports = function (passport) {
 
 
 //chmod 775
+
+// con.query(sql, (err, result) => {
+//     if (err || !result.length) {
+//         callback(null, "Invalid Login")
+//     } else {
+//         if (bcrypt.compareSync(req.body.password, result[0].password)) {
+//             //dostuff(true, result[0].type);
+//             var token = jwt.sign({ email: msg.email }, config.secret, {
+//                 expiresIn: 10080 // in seconds
+//             });
+//             callback(null, { success: true, token: 'JWT ' + token, username: result[0].username });
+//         } else {
+//             callback(null, "Invalid Login")
+//         }
+//     }
+// }
