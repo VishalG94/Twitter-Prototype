@@ -18,7 +18,7 @@ class Main extends Component {
         {/* Render Different Component based on Route */}
         <Route path='/' component={Navbar} />
         <Route path='/login' component={Login} />
-        <Route path='/search' component={ } />
+        <Route path='/search' component={Search} />
         <Route path='/signup' component={SignUp} />
         <Route path='/home' component={Home} />
         <Route path='/messages' component={Messages} />
