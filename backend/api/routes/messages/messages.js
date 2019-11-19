@@ -8,7 +8,7 @@ var cors = require('cors')
 const messages = require('../models/message')
 app.use(bodyParser.json())
 var dateforamt = require('dateformat')
-var kafka = require('../../kafka/client')
+var kafka = require('../../../kafka/client')
 
 router.post('/postmessage', function (req, res) {
   console.log('Inside messages Post Request')
