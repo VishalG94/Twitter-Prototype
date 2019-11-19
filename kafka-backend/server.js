@@ -2,30 +2,16 @@ var express = require('express')
 var app = express()
 
 var connection = new require('./kafka/Connection')
-var mongoose = require('mongoose')
 var passport = require('passport')
+var mongoose = require("./sql/mongoose")
 
 // topics files
 var signup = require('./services/signup.js')
 var login = require('./services/login.js')
 
-mongoose.connect(
-  'mongodb+srv://kiranbijjala:kiranbijjala@cluster0-xvhje.gcp.mongodb.net/test?retryWrites=true&w=majority',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  }
-)
-
-// mongoose.connect('mongodb+srv://nishit:nishit@cluster0-hvg0q.mongodb.net/test?retryWrites=true&w=majority', {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-//     // useMongoClient: true
-// })
-
 app.use(passport.initialize())
 
-function handleTopicRequest (topic_name, fname) {
+function handleTopicRequest(topic_name, fname) {
   // var topic_name = 'root_topic';
   var consumer = connection.getConsumer(topic_name)
   var producer = connection.getProducer()

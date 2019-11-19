@@ -1,7 +1,6 @@
 import React from 'react'
 import { nominalTypeHack } from 'prop-types'
 import './WriteTweet.css'
-import { NEG_ONE } from 'long'
 
 let WriteTweet = props => {
   return (

@@ -2,7 +2,6 @@
 var JwtStrategy = require('passport-jwt').Strategy;
 var ExtractJwt = require('passport-jwt').ExtractJwt;
 var config = require('./setting');
-var twitter = require("../api/models/twitter");
 var con = require("../sql/sqlpool");
 
 
@@ -12,24 +11,24 @@ module.exports = function (passport) {
         jwtFromRequest: ExtractJwt.fromAuthHeaderWithScheme("jwt"),
         secretOrKey: config.secret
     };
-    
+
     passport.use(new JwtStrategy(opts, function (jwt_payload, callback) {
         let sql = 'SELECT * from user where email="' + jwt_payload.email + '"';
         con.query(sql, (err, result) => {
-                if (err || !result.length) {
-                    callback(null, "Invalid Login")
-                }else{
-                    var user = result[0].username;
-                    callback(null, user);
-                }
+            if (err || !result.length) {
+                callback(null, "Invalid Login")
+            } else {
+                var user = result[0].username;
+                callback(null, user);
             }
-        // twitter.findOne({email: jwt_payload.email}, function (res) {
-        //     var user = res;
-        //     callback(null, user);
-        // }
-        , function (err) {
-            return callback(err, false);
-        });
+        }
+            // twitter.findOne({email: jwt_payload.email}, function (res) {
+            //     var user = res;
+            //     callback(null, user);
+            // }
+            , function (err) {
+                return callback(err, false);
+            });
     }));
 };
 

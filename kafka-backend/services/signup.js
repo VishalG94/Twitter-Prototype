@@ -1,11 +1,11 @@
 const bcrypt = require('bcrypt')
 var passport = require('passport')
 var con = require('../sql/sqlpool')
-const User = require('../api/models/User')
+const User = require('../api/models/user')
 
 require('../config/passport')(passport)
 
-function handle_request (msg, callback) {
+function handle_request(msg, callback) {
   console.log('in signup kafka')
   console.log(msg)
   bcrypt.genSalt(10, function (err, salt) {
