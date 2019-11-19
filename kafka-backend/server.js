@@ -10,10 +10,16 @@ var signup = require('./services/signup.js');
 var login = require('./services/login.js');
 
 
-mongoose.connect('mongodb+srv://admin:admin@grubhub-kdo0w.mongodb.net/test?retryWrites=true&w=majority', {
+// mongoose.connect('mongodb+srv://admin:admin@grubhub-kdo0w.mongodb.net/test?retryWrites=true&w=majority', {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// });
+
+mongoose.connect('mongodb+srv://nishit:nishit@cluster0-hvg0q.mongodb.net/test?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true
-});
+    // useMongoClient: true
+})
 
 app.use(passport.initialize());
 

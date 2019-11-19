@@ -1,17 +1,17 @@
 const mongoose = require('mongoose')
-const dateforamt = require('dateformat')
+var ObjectId = mongoose.Schema.Types.ObjectId;
+const dateformat = require('dateformat')
 var now = new Date()
-var today = dateforamt(now, 'yyyy-mm-dd HH:MM:ss')
+var today = dateformat(now, 'yyyy-mm-dd HH:MM:ss')
 //mongoose.set('useCreateIndex', true)
 
-var message = mongoose.model('message',{
-  _id: mongoose.Schema.Types.ObjectId,
-  sender_name: { type: String },
-  receiver_name: { type: String },
+var messageSchema = mongoose.model({
+  
+  sender_name: { type: ObjectId, ref:"User" },
+  receiver_name: { type: ObjectId, ref:"User" },
   text: { type: String },
-  created: { type: Date, default: today }
-}
-)
+  created: { type: Date, default: today },  
+})
 
 
-module.exports = message ;
+module.exports = mongoose.model('Messages', messageSchema);
