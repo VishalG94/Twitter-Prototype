@@ -120,7 +120,56 @@ class Search extends Component {
     return (
       <div>
         <div>
-          <div className='row'>
+          <div class='split-left'>
+            <LeftNavbar />
+          </div>
+
+          <div class='split-center'>
+            <h3
+              style={{
+                marginLeft: '20px',
+                fontWeight: '800',
+                fontSize: '19px'
+              }}
+            >
+              Messages
+            </h3>
+            <div style={{ borderBottom: '1px solid #E0E0E0' }} />
+            <SearchBar />
+            {/* <ul
+              style={{
+                width: '90%',
+                float: 'left',
+                witdth: '50px'
+              }}
+            >
+              <li
+                href='#'
+                style={{ fontWeight: '800', fontSize: '19px' }}
+                class='list-group-item'
+              >
+                Messages
+              </li>
+              <li href='#' class='list-group-item'>
+
+              </li>
+            </ul> */}
+          </div>
+
+          <div class='split-right'>
+            <h3
+              style={{
+                marginLeft: '20px',
+                fontWeight: '800',
+                fontSize: '19px'
+              }}
+            >
+              @ Samkit Sheth
+            </h3>
+
+            <div style={{ borderBottom: '1px solid #E0E0E0' }} />
+          </div>
+          {/* <div className='row'>
             <div className='col-sm-2'>
               <LeftNavbar />
             </div>
@@ -141,7 +190,7 @@ class Search extends Component {
             <div className='col-sm-6'>
               <Tweet tweetsDtls={data} />
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     )

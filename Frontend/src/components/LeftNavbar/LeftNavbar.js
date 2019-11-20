@@ -21,7 +21,7 @@ class LeftNavbar extends React.Component {
           </li>
           <li className='li-profile'>
             <a href='/search' className='navLink'>
-              <i class='fas fa-hashtag' />{' '}
+              <i class='fas fa-hashtag' />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Explore</span>
             </a>
