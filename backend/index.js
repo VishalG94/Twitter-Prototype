@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser')
 var signup = require('./api/routes/common/signup')
 var login = require('./api/routes/common/login')
 var messages = require('./api/routes/messages/messages')
+var tweet = require('./api/routes/tweet/writetweet')
 app.use('/sc', express.static(__dirname + '/images'))
 
 app.use(cookieParser())
@@ -45,6 +46,7 @@ app.use(function (req, res, next) {
 app.use(signup)
 app.use(login)
 app.use(messages)
+app.use(tweet)
 
 app.listen(3001)
 console.log('Server Listening on port 3001')
