@@ -12,10 +12,16 @@
 }
 #searchbar:hover + #searchbarbutton {
   background-color: white;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-right: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
 }
 
 #searchbar:focus + #searchbarbutton {
   background-color: white;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-right: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
 }
 
 .searchTerm {
@@ -33,10 +39,16 @@
 
 .searchTerm:focus {
   color: black;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-left: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
 }
 #searchbar:hover,
 #searchbar:focus {
   background-color: white;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-left: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
 }
 
 .searchButton {
@@ -44,6 +56,7 @@
   float: right;
   height: 36px;
   border: 1px solid #e0e0e0;
+  border-left: none;
   background: #e0e0e0;
   text-align: center;
   color: gray;

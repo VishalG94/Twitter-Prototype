@@ -3,10 +3,15 @@ import React from 'react'
 class LeftNavbar extends React.Component {
   render () {
     return (
+      // <div class='col-sm-2'>
       <div>
         <h2>
           <span
-            style={{ marginLeft: '10px', color: '#0070eb', alighText: 'right' }}
+            style={{
+              marginLeft: '10px',
+              color: '#0070eb',
+              alighText: 'right'
+            }}
           >
             Your account
           </span>
@@ -63,6 +68,7 @@ class LeftNavbar extends React.Component {
           </li>
         </ul>
       </div>
+      // </div>
     )
   }
 }

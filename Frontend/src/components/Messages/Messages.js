@@ -11,10 +11,11 @@ import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
+import ROOT_URL from '../../constants'
 // Define a Login Component
-class Search extends Component {
+class Messages extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -25,11 +26,35 @@ class Search extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
     })
+    sessionStorage.setItem('reciever', 'Nishit')
+    let sender = sessionStorage.getItem('email')
+    let reciever = sessionStorage.getItem('reciever')
+    let data = {
+      sender_name: sender,
+      receiver_name: reciever
+    }
+
+    axios
+      .post(`${ROOT_URL}/messagedetails`, data)
+      .then(res => {
+        // update the state with the response data
+        console.log('Axios get:', res.data)
+        if (res.status === 200) {
+          console.log('Inside response', res.data)
+          window.location.reload()
+        } else {
+          console.log('Error occured while sending the message!')
+        }
+      })
+      .catch(err => {
+        console.log('Error occured while sending the message!' + err)
+      })
+
   }
   renderError = ({ error, touched }) => {
     if (touched && error) {
@@ -41,16 +66,11 @@ class Search extends Component {
     }
   }
 
-  renderInput = ({ input, type, label, meta }) => {
+  renderInput = ({ input, type, meta }) => {
     return (
       <div>
-        <div htmlFor='email' style={{ color: '#6b6b83' }}>
-          {label}
-        </div>
-        <div class='form-group'>
-          <input class='form-control' type={type} {...input} />
-          {this.renderError(meta)}
-        </div>
+        <input class='messageTerm' type={type} {...input} />
+        {this.renderError(meta)}
       </div>
     )
   }
@@ -95,7 +115,60 @@ class Search extends Component {
     })
   }
 
-  render () {
+  onSubmit = formValues => {
+    let reciever = sessionStorage.getItem('reciever')
+    let email = sessionStorage.getItem('email')
+    let data = {
+      sender_name: email,
+      receiver_name: reciever,
+      text: formValues.mesg
+    }
+    axios.defaults.withCredentials = true
+    console.log(data)
+    axios
+      .post(`${ROOT_URL}/postmessage`, data)
+      .then(res => {
+        // update the state with the response data
+        console.log('Axios get:', res.data)
+        if (res.status === 200) {
+          console.log('Inside response', res.data)
+          window.location.reload()
+        } else {
+          console.log('Error occured while sending the message!')
+        }
+      })
+      .catch(err => {
+        console.log('Error occured while sending the message!' + err)
+      })
+  }
+
+  renderError = ({ error, touched }) => {
+    if (touched && error) {
+      return (
+        <div>
+          <label style={{ color: 'red' }}>{error}</label>
+        </div>
+      )
+    }
+  }
+
+  renderInput = ({ input, meta, placeholder, className = { className } }) => {
+    return (
+      <div>
+        <input
+          id='messagebar'
+          type='text'
+          class='messageTerm'
+          placeholder={placeholder}
+          // style={{ marginRight: '10px' }}
+          {...input}
+        />
+        {this.renderError(meta)}
+      </div>
+    )
+  }
+
+  render() {
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
@@ -120,7 +193,7 @@ class Search extends Component {
     return (
       <div>
         <div>
-          <div class='split-left'>
+          <div class='col-sm-2'>
             <LeftNavbar />
           </div>
 
@@ -136,26 +209,7 @@ class Search extends Component {
             </h3>
             <div style={{ borderBottom: '1px solid #E0E0E0' }} />
             <SearchBar />
-            {/* <ul
-              style={{
-                width: '90%',
-                float: 'left',
-                witdth: '50px'
-              }}
-            >
-              <li
-                href='#'
-                style={{ fontWeight: '800', fontSize: '19px' }}
-                class='list-group-item'
-              >
-                Messages
-              </li>
-              <li href='#' class='list-group-item'>
-
-              </li>
-            </ul> */}
           </div>
-
           <div class='split-right'>
             <h3
               style={{
@@ -166,31 +220,54 @@ class Search extends Component {
             >
               @ Samkit Sheth
             </h3>
-
             <div style={{ borderBottom: '1px solid #E0E0E0' }} />
-          </div>
-          {/* <div className='row'>
-            <div className='col-sm-2'>
-              <LeftNavbar />
-            </div>
-            <div className='col-sm-3'>
-              <ul>
-                <li
-                  href='#'
-                  style={{ fontWeight: '800', fontSize: '19px' }}
-                  class='list-group-item'
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '50px',
+                width: '100%',
+                borderTop: '1px solid #E0E0E0'
+              }}
+            >
+              <div>
+                <form
+                  className='ui form error'
+                  onSubmit={this.props.handleSubmit(this.onSubmit)}
                 >
-                  Messages
-                </li>
-                <li href='#' class='list-group-item'>
-                  <SearchBar />
-                </li>
-              </ul>
+                  <div class='row'>
+                    <div class='col-sm-11'>
+                      <div class='message'>
+                        <Field
+                          name='mesg'
+                          placeholder='Start a new message'
+                          component={this.renderInput}
+                        />
+                        {/* <input
+                          id='messagebar'
+                          type='text'
+                          class='messageTerm'
+                          placeholder='Start a new message'
+                        /> */}
+                      </div>
+                    </div>
+
+                    <div class='col-sm-1'>
+                      <button
+                        id='messagebarbutton'
+                        type='submit'
+                        class='messageButton'
+                      >
+                        <i class='far fa-paper-plane ' />
+                      </button>
+                    </div>
+                  </div>
+                </form>
+                <div class='form-group'>
+                  <div tabIndex='0' class='wrap' />
+                </div>
+              </div>
             </div>
-            <div className='col-sm-6'>
-              <Tweet tweetsDtls={data} />
-            </div>
-          </div> */}
+          </div>
         </div>
       </div>
     )
@@ -218,5 +295,5 @@ export default connect(
   reduxForm({
     form: 'streamLogin',
     validate: validate
-  })(Search)
+  })(Messages)
 )

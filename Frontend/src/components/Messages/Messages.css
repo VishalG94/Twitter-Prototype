@@ -24,6 +24,7 @@
   border-right: 1px solid #e0e0e0;
   overflow-x: hidden;
 }
+
 .split-right {
   margin-top: 52px;
   height: 100%;
@@ -66,4 +67,53 @@
 .centered img {
   width: 150px;
   border-radius: 50%;
+}
+
+.messageButton {
+  width: 40px;
+  float: right;
+  height: 30px;
+  border: none;
+  margin-top: 17px;
+  text-align: center;
+  color: rgba(29, 161, 242, 1);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.messageTerm {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  background-color: #e0e0e0;
+  border-right: none;
+  float: left;
+  height: 36px;
+  border-radius: 20px 20px 20px 20px;
+  /* outline-radius: 20px 20px 20px 20px; */
+  /* outline: none; */
+}
+.message {
+  width: 100%;
+  margin-top: 15px;
+  margin-left: 5px;
+  /* position: relative;
+  display: flex; */
+}
+
+#messagebar:hover,
+#messagebar:focus {
+  background-color: white;
+  border: 1px solid rgba(29, 161, 242, 1);
+  /* outline-color: rgba(29, 161, 242, 1); */
+}
+
+/* {
+  background-color: white;
+  outline-color: rgba(29, 161, 242, 1);
+} */
+
+#messagebar:hover,
+#messagebar:focus {
+  background-color: white;
+  outline-color: rgba(29, 161, 242, 1);
 }

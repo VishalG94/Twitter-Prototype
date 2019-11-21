@@ -3,12 +3,14 @@ var app = express()
 
 var connection = new require('./kafka/Connection')
 var passport = require('passport')
-var mongoose = require("./sql/mongoose")
+var mongoose = require('./sql/mongoose')
 
 // topics files
 var signup = require('./services/signup.js')
 var login = require('./services/login.js')
-
+var writetweet = require('./services/writetweet.js')
+var postmessage = require('./services/postmessage.js')
+let messagedetails = require('./services/messagedetails')
 app.use(passport.initialize())
 
 function handleTopicRequest(topic_name, fname) {
@@ -46,3 +48,6 @@ function handleTopicRequest(topic_name, fname) {
 
 handleTopicRequest('post_signup', signup)
 handleTopicRequest('post_login', login)
+handleTopicRequest('post_tweet', writetweet)
+handleTopicRequest('post_message', postmessage)
+handleTopicRequest('message_details', messagedetails)

@@ -1,54 +1,49 @@
 var express = require('express');
 var router = express.Router();
-const multer = require('multer');
+var path = require('path');
+var kafka = require('../../../kafka/client');
 
-const storec = multer.diskStorage({
+var multer = require('multer');
+var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './images/tweet/')
+    cb(null, 'uploads/')
   },
   filename: function (req, file, cb) {
-    info = JSON.parse(req.body.body);
-    cb(null, info.text + '.jpg')
+    cb(null, file.fieldname + '-' + Date.now() + '.jpg')
   }
-});
+})
 
-const uploadc = multer({ storage: storec })
+var upload = multer({ storage: storage });
+router.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-router.post('/writetweet', uploadc.single('image'), (req, res) => {
-  console.log("Inside Cuisine Post Request");
-  re = JSON.parse(req.body.body);
-  console.log(re);
-//   re['photo'] = '/sc/cuisine/' + re.name + req.cookies.cookie.email + '.jpg';
-//   let post = {
-//     name: re.name,
-//     description: re.des,
-//     foodtype: re.menutype,
-//     price: parseInt(re.price, 10),
-//     photo: re.photo
-//   }
-//   Urcs.updateOne({ email: req.cookies.cookie.email }, { $push: { cuisine: post } })
-//     .exec()
-//     .then(res => {
-//       console.log(res);
-//       dostuff(true);
-//     })
-//     .catch(err => {
-//       console.log(err);
-//       dostuff(false);
-//     })
-//   let dostuff = (auth) => {
-//     if (auth) {
-//       res.writeHead(200, {
-//         'Content-Type': 'text/plain'
-//       })
-//       res.end("Successful add cuisine");
-//     } else {
-//       res.writeHead(401, {
-//         'Content-Type': 'text/plain'
-//       })
-//       res.end("add cuisine, something went wrong");
-//     }
-//   }
+
+router.post('/writetweet', upload.single('image'), (req, res) => {
+  console.log("Inside Write Tweet Request");
+  console.log("Req Body : ", (req.body));
+
+  var host = req.hostname;
+  if (req.file)
+    var filepath = req.protocol + "://" + host + ':3001/' + req.file.path;
+  else {
+    var filepath = "";
+  }
+
+  kafka.make_request('post_tweet', { data: req.body, filepath: filepath }, function (err, results) {
+    console.log('in result');
+
+    if (err) {
+      res.writeHead(404, {
+        'Content-Type': 'text/plain'
+      })
+      res.end("Error");
+    } else {
+      console.log(results);
+      console.log("result received")
+      //res.status(200).json({ success: req.body.email });
+      res.status(200).end("Successful Tweet");
+    }
+  });
+
 });
 
 module.exports = router
