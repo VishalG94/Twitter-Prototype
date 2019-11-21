@@ -30,7 +30,6 @@ class WriteTweet extends React.Component {
     this.setState({
       text: e.target.value
     })
-    console.log(this.state.text)
   }
 
   submitTweet = (e) => {

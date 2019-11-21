@@ -11,6 +11,7 @@ var login = require('./services/login.js')
 var writetweet = require('./services/writetweet.js')
 var postmessage = require('./services/postmessage.js')
 let messagedetails = require('./services/messagedetails')
+var postsearchbar = require('./services/search/searchbar')
 app.use(passport.initialize())
 
 function handleTopicRequest(topic_name, fname) {
@@ -51,3 +52,4 @@ handleTopicRequest('post_login', login)
 handleTopicRequest('post_tweet', writetweet)
 handleTopicRequest('post_message', postmessage)
 handleTopicRequest('message_details', messagedetails)
+handleTopicRequest('post_searchbar', postsearchbar)
