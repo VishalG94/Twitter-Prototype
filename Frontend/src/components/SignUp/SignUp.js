@@ -20,14 +20,12 @@ class SignUp extends Component {
       lastname: '',
       email: '',
       password: '',
+      username: '',
       authFlag: false,
       authFailed: false
     }
-    // Bind the handlers to this class
-    // this.usernameChangeHandler = this.usernameChangeHandler.bind(this)
   }
 
-  // Call the Will Mount to set the auth Flag to false
   componentWillMount () {
     this.setState({
       authFlag: false,
@@ -35,12 +33,12 @@ class SignUp extends Component {
     })
   }
 
-  // username change handler to update state variable with the text entered by the user
   inputChangeHandler = e => {
     this.setState({
       [e.target.name]: e.target.value
     })
   }
+  
   renderError = ({ error, touched }) => {
     if (touched && error) {
       return (
@@ -51,84 +49,40 @@ class SignUp extends Component {
     }
   }
 
-  renderInput = ({ input, label, meta }) => {
+  renderInput = ({ input, label, meta, type }) => {
     return (
       <div>
         <div htmlFor='email' style={{ color: '#6b6b83' }}>
           {label}
         </div>
-        <input class='form-control' {...input} />
+        <input class='form-control' type={type} {...input} />
         {this.renderError(meta)}
       </div>
     )
   }
   onSubmit = formValues => {
     console.log('OnSubmit' + formValues)
-    
+
     let data = {
       firstname: formValues.firstname,
       lastname: formValues.lastname,
       email: formValues.email,
+      username : formValues.username,
       password: formValues.password
     }
     axios.defaults.withCredentials = true
-    this.props.signupUser(data,(res)=>{
-      if(res.status===200){
-        console.log('Response signup user: ',res.data);
-        this.props.history.push('/login');
-      }else{
-        console.log("Failed")
-        this.setState({authFailed:true})
+    this.props.signupUser(data, res => {
+      if (res.status === 200) {
+        console.log('Response signup user: ', res.data)
+        this.props.history.push('/login')
+      } else {
+        console.log('Failed')
+        this.setState({ authFailed: true })
       }
     })
-
-    // this.props.signupUser(data).then((res)=>{
-    //   if(res.status===200){
-    //     console.log('Response signup user: ',res.data);
-    //     this.props.history.push('/login');
-    //   }else{
-    //     console.log("Failed")
-    //     this.setState({authFailed:true})
-    //   }
-    // }).catch(err=>{
-    //   console.log("Failed")
-    //   this.setState({authFailed:true})
-    // })
   }
-  // submit Login handler to send a request to the node backend
-  // submitSignUp = e => {
-  //   var headers = new Headers()
-  //   // prevent page from refresh
-  //   e.preventDefault()
-  //   const data = {
-  //     firstname: this.state.firstname,
-  //     lastname: this.state.lastname,
-  //     email: this.state.email,
-  //     password: this.state.password
-  //   }
-  //   console.log(data)
-  //   // set the with credentials to true
-  //   axios.defaults.withCredentials = true
-  //   // make a post request with the user data
-  //   axios
-  //     .post('http://localhost:3001/signup', data)
-  //     .then(response => {
-  //       console.log('Status Code : ', response.status)
-  //       if (response.status === 200) {
-  //         console.log(response)
-  //         this.setState({
-  //           authFlag: true
-  //         })
-  //       }
-  //     })
-  //     .catch(err => {
-  //       this.setState({ authFailed: true })
-  //       console.log(err)
-  //     })
-  // }
 
   render () {
-    // redirect based on successful login
     let redirectVar = null
     let invalidtag = null
     if (cookie.load('cookie')) {
@@ -137,12 +91,11 @@ class SignUp extends Component {
 
     if (this.state.authFailed) {
       invalidtag = (
-        <label style={{ color: 'red' }}>*Error occured while signing up please provide valid details!</label>
+        <label style={{ color: 'red' }}>
+          *Error occured while signing up please provide valid details!
+        </label>
       )
     }
-    // else{
-    //   <label style={{ color: 'green' }}>User Create Successfully! Please login!</label>
-    // }
 
     return (
       <form
@@ -158,70 +111,50 @@ class SignUp extends Component {
                   <h2>Create your account</h2>
                   {invalidtag}
                 </div>
-
-                {/* <div class='form-group'>
-                <div class='row'>
-                  <div style={{color:"#6b6b83"}} class='col-sm-6'>First name</div>
-                  <div style={{color:"#6b6b83"}} class='col-sm-6'>Last name</div>
-                </div>
-              </div> */}
                 <div class='form-group'>
                   <div class='row'>
                     <div class='col-sm-6'>
-                      {/* <input
-                      onChange={this.inputChangeHandler}
-                      type='text'
-                      class='form-control'
-                      name='firstname'
-                    /> */}
                       <Field
                         name='firstname'
+                        type='text'
                         component={this.renderInput}
                         label='First name'
                       />
                     </div>
                     <div class='col-sm-6'>
-                      {/* <input
-                      onChange={this.inputChangeHandler}
-                      type='text'
-                      class='form-control'
-                      name='lastname'
-                    /> */}
                       <Field
                         name='lastname'
+                        type='text'
                         component={this.renderInput}
                         label='Last name'
                       />
                     </div>
                   </div>
                 </div>
-
                 <div class='form-group'>
-                  {/* <div htmlFor="email" style={{color:"#6b6b83"}}>Email</div> */}
-                  {/* <input
-                  onChange={this.inputChangeHandler}
-                  type='email'
-                  pattern="/^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/"
-                  class='form-control'
-                  name='email'
-                /> */}
                   <Field
                     name='email'
+                    type='email'
                     component={this.renderInput}
                     label='Email'
                   />
                   <br />
                 </div>
+
                 <div class='form-group'>
-                  {/* <div style={{color:"#6b6b83"}}>Password (8 character minimum)</div> */}
-                  {/* <input
-                  onChange={this.inputChangeHandler}
-                  type='password'
-                  class='form-control'
-                  name='password'
-                /> */}
+                  <Field
+                    name='username'
+                    type='text'
+                    component={this.renderInput}
+                    label='Username'
+                  />
+                  <br />
+                </div>
+                
+                <div class='form-group'>
                   <Field
                     name='password'
+                    type='password'
                     component={this.renderInput}
                     label='Password (8 character minimum)'
                   />
@@ -248,11 +181,7 @@ class SignUp extends Component {
                 </div>
 
                 <div class='form-group'>
-                  <button
-                    type='submit'
-                    // onClick={this.submitSignUp}
-                    class='btn btn-warning'
-                  >
+                  <button type='submit' class='btn btn-warning'>
                     Create an account
                   </button>
                 </div>
@@ -298,22 +227,26 @@ const validate = formValues => {
   if (!formValues.password) {
     error.password = 'Enter a valid Password'
   }
-  if (!formValues.firstname) {
-    error.firstname = 'Enter a valid first name'
+  if (!formValues.password) {
+    error.password = 'Enter a valid Password'
+  }
+  if (!formValues.username) {
+    error.username = 'Enter a valid Username'
   }
   if (!formValues.lastname) {
     error.lastname = 'Enter a valid last name'
   }
   return error
 }
-
-// export Login Component
-// export default SignUp
-const mapStoreToProps=(state)=>{
-  return {user:state.user}
+const mapStoreToProps = state => {
+  return { user: state.user }
 }
-export default connect(mapStoreToProps,{signupUser:signupUser})(reduxForm({
-  form: 'streamSignup',
-  validate: validate
-})(SignUp)
+export default connect(
+  mapStoreToProps,
+  { signupUser: signupUser }
+)(
+  reduxForm({
+    form: 'streamSignup',
+    validate: validate
+  })(SignUp)
 )

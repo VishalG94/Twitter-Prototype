@@ -1,0 +1,152 @@
+.split-left {
+  margin-top: 52px;
+  margin-left: 20px;
+  height: 100%;
+  width: 20%;
+  position: fixed;
+  left: 0;
+  z-index: 1;
+  /* background-color: #111; */
+  top: 0;
+  overflow-x: hidden;
+}
+
+.split-center {
+  margin-top: 52px;
+  height: 100%;
+  width: 30%;
+  position: fixed;
+  left: 20%;
+  /* background-color: blue; */
+  z-index: 1;
+  top: 0;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  overflow-x: hidden;
+}
+
+.split-right {
+  margin-top: 52px;
+  height: 100%;
+  width: 40%;
+  position: fixed;
+  /* background-color: red; */
+  border-right: 1px solid #e0e0e0;
+  z-index: 1;
+  top: 0;
+  right: 10%;
+  overflow-x: hidden;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  background-color: #111;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  background-color: red;
+}
+
+.center {
+  left: 33.3%;
+  background-color: blue;
+}
+/* If you want the content centered horizontally and vertically */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the image inside the centered container, if needed */
+.centered img {
+  width: 150px;
+  border-radius: 50%;
+}
+
+.messageButton {
+  width: 40px;
+  float: right;
+  height: 30px;
+  border: none;
+  margin-top: 17px;
+  text-align: center;
+  color: rgba(29, 161, 242, 1);
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.messageTerm {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  background-color: #e0e0e0;
+  border-right: none;
+  float: left;
+  height: 36px;
+  border-radius: 20px 20px 20px 20px;
+  /* outline-radius: 20px 20px 20px 20px; */
+  /* outline: none; */
+}
+.message {
+  width: 100%;
+  margin-top: 15px;
+  margin-left: 5px;
+  /* position: relative;
+  display: flex; */
+}
+
+#messagebar:hover,
+#messagebar:focus {
+  background-color: white;
+  border: 1px solid rgba(29, 161, 242, 1);
+  /* outline-color: rgba(29, 161, 242, 1); */
+}
+
+/* {
+  background-color: white;
+  outline-color: rgba(29, 161, 242, 1);
+} */
+
+#messagebar:hover,
+#messagebar:focus {
+  background-color: white;
+  outline-color: rgba(29, 161, 242, 1);
+}
+
+.message-reciever {
+  display: inline-block;
+  margin: 5px 5px 5px 5px;
+  border-radius: 20px 20px 20px 0px;
+  float: left;
+  outline: none;
+  padding: 8px 8px 8px 8px;
+  font-size: 15px;
+  background: #e0e0e0;
+}
+
+.message-sender {
+  display: inline-block;
+  margin: 5px 5px 5px 5px;
+  border-radius: 20px 20px 0px 20px;
+  float: right;
+  outline: none;
+  padding: 8px 8px 8px 8px;
+  font-size: 15px;
+  background: rgba(29, 161, 242, 1);
+  color: white;
+}
+
+.wrapper {
+  /* display: table-cell; */
+  vertical-align: bottom;
+  height: 88%;
+}
+.content {
+  max-height: 88%;
+  overflow: auto;
+}

@@ -23,10 +23,7 @@ class Login extends Component {
       authFlag: false,
       authFailed: false
     }
-    // Bind the handlers to this class
-    // this.usernameChangeHandler = this.usernameChangeHandler.bind(this)
-    // this.passwordChangeHandler = this.passwordChangeHandler.bind(this)
-    // this.submitLogin = this.submitLogin.bind(this)
+    
   }
   // Call the Will Mount to set the auth Flag to false
   componentWillMount () {
@@ -87,43 +84,15 @@ class Login extends Component {
         this.setState({
           authFlag: true
         })
-
         const user = jwtDecode(res.data.token)
         console.log(user)
         sessionStorage.setItem('email', user.email)
-
-        const cookies = new Cookies()
-        cookies.set('cookie', res.data.token, {
-          maxAge: 900000,
-          httpOnly: false,
-          path: '/'
-        })
-        console.log(cookies.get('myCat'))
-        // sessionStorage.setItem('JWT_TOKEN', res.data.token)
-        // cookies.save('cookie', res.data.token, {maxAge: 900000, httpOnly: false, path: '/'});
-        // sessionStorage.setItem('username', res.data[0].username)
-        // sessionStorage.setItem('cookie', res.data[0].type)
-        // cookies.save('cookie', res.data[0].type, {maxAge: 900000, httpOnly: false, path: '/'});
-        // cookies.save('userid', res.data[0]._id, {maxAge: 900000, httpOnly: false, path: '/'});
-        // cookies.save('username', res.data[0].username, {maxAge: 900000, httpOnly: false, path: '/'});
         this.props.history.push('/home')
       } else {
         alert('Please enter valid credentials')
       }
     })
 
-    // ,(response)=>{
-    //   console.log('Redux test: ' + this.props.user);
-    //   console.log('Redux response: ' + response);
-    // })
-
-    // console.log(data);
-    // this.props.login(data, (response)=>{
-    //   console.log('Redux test: ' + this.props.user)
-    //   this.setState({
-    //     img: 'data:image/png;base64, ' + response.image
-    //   })
-    // });
   }
 
   inputChangeHandler = e => {
@@ -131,44 +100,9 @@ class Login extends Component {
       [e.target.name]: e.target.value
     })
   }
-  // submit Login handler to send a request to the node backend
-  // submitLogin = e => {
-  //   var headers = new Headers()
-  //   console.log('submit login')
-  //   // prevent page from refresh
-  //   e.preventDefault()
-  //   const data = {
-  //     email: this.state.email,
-  //     password: this.state.password
-  //   }
-  //   // set the with credentials to true
-  //   axios.defaults.withCredentials = true
-  //   console.log(data)
-  //   // make a post request with the user data
-  //   axios
-  //     .post('http://localhost:3001/login', data)
-  //     .then(response => {
-  //       console.log('Status Code : ', response.status)
-  //       if (response.status === 200) {
-  //         sessionStorage.setItem('email', data.email)
-  //         this.setState({
-  //           authFlag: true
-  //         })
-  //       }
-  //     })
-  //     .catch(err => {
-  //       this.setState({ authFailed: true })
-  //     })
-  // }
+
 
   render () {
-    // console.log(this.props.user)
-    // redirect based on successful login
-    // console.log(this.props)
-
-    // renderInput(formProps){
-    //   return (<input onChange={...formProps.input.onChange} value={...formProps.input.value} />)
-    // }
 
     let redirectVar = null
     let invalidtag = null
@@ -218,47 +152,6 @@ class Login extends Component {
                   Login
                 </button>
                 <br />
-                {/* <Button name='submit'/>  */}
-                {/* <div class='form-group'>
-                  <div htmlFor='email' style={{ color: '#6b6b83' }}>
-                    Email
-                  </div>
-                  <input
-                    onChange={this.inputChangeHandler}
-                    type='email'
-                    pattern='[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$'
-                    class='form-control'
-                    name='email'
-                  />
-                </div>
-
-                <div class='form-group'>
-                  <div>Password</div>
-                  <input
-                    onChange={this.inputChangeHandler}
-                    type='password'
-                    class='form-control'
-                    name='password'
-                  />
-                </div>
-                <div class='form-group'>
-                  <button onClick={this.submitLogin} class='btn btn-primary'>
-                    Login
-                  </button>
-                </div> */}
-                {/* <div class='form-group'>
-                  <div style={{ textAlign: 'center' }}>or</div>
-                </div> */}
-                {/* <div class='form-group'>
-                  <button class='btn btn-secondary'>
-                    Continue with Facebook
-                  </button>
-                </div>
-
-                <div class='form-group'>
-                  <button class='btn btn-info'>Continue with Google</button>
-                </div> */}
-
                 <div style={{ textAlign: 'center' }} class='form-group'>
                 <span>New to Twitter? </span><Link to='/signup'>Sign up now >></Link>
                 </div>
@@ -281,13 +174,7 @@ const validate = formValues => {
   }
   return error
 }
-// export Login Component
-// const formWrapped= reduxForm({
-//   form: 'streamLogin',
-//   validate: validate
-// })(Login)
 
-// export default connect(null,{loginuser:loginuser})(formWrapped)
 const mapStateToProps = state => {
   return { user: state.user }
 }
@@ -301,8 +188,3 @@ export default connect(
     validate: validate
   })(Login)
 )
-
-// export default reduxForm({
-//       form: 'streamLogin',
-//       validate: validate
-//     })(Login)
