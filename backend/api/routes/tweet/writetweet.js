@@ -2,6 +2,9 @@ var express = require('express');
 var router = express.Router();
 var path = require('path');
 var kafka = require('../../../kafka/client');
+const Tweet = require('../../models/tweet');
+const User = require('../../models/user');
+const mongoose = require('../../../sql/mongoose')
 
 var multer = require('multer');
 var storage = multer.diskStorage({
@@ -28,21 +31,58 @@ router.post('/writetweet', upload.single('image'), (req, res) => {
     var filepath = "";
   }
 
-  kafka.make_request('post_tweet', { data: req.body, filepath: filepath }, function (err, results) {
-    console.log('in result');
+  const temp = req.body.body;
+  // const data = temp;
+  const data = JSON.parse(temp);
+  console.log(data);
+  console.log(data.email);
 
-    if (err) {
-      res.writeHead(404, {
-        'Content-Type': 'text/plain'
-      })
-      res.end("Error");
-    } else {
-      console.log(results);
-      console.log("result received")
-      //res.status(200).json({ success: req.body.email });
-      res.status(200).end("Successful Tweet");
-    }
-  });
+  User.findOne({ email: data.email })
+    .then(result => {
+      console.log(result);
+      const tweet = new Tweet({
+        text: data.text,
+        image: filepath,
+        owner: result._id
+      });
+
+      tweet.save()
+        .then(result => {
+          console.log(result);
+
+          console.log("result received")
+          //res.status(200).json({ success: req.body.email });
+          res.status(200).end("Successful Tweet");
+
+        })
+        .catch(err => {
+          console.log(err);
+          res.writeHead(400, {
+            'Content-Type': 'text/plain'
+          })
+          res.end("Error");
+        })
+    })
+
+
+
+
+
+  // kafka.make_request('post_tweet', { data: req.body, filepath: filepath }, function (err, results) {
+  //   console.log('in result');
+
+  //   if (err) {
+  //     res.writeHead(404, {
+  //       'Content-Type': 'text/plain'
+  //     })
+  //     res.end("Error");
+  //   } else {
+  //     console.log(results);
+  //     console.log("result received")
+  //     //res.status(200).json({ success: req.body.email });
+  //     res.status(200).end("Successful Tweet");
+  //   }
+  // });
 
 });
 

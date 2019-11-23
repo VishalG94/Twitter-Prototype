@@ -17,7 +17,7 @@ import sampleImg from '../img/GrubhubDetails.jpg'
 // Define a Login Component
 class Home extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -28,7 +28,7 @@ class Home extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
@@ -112,7 +112,7 @@ class Home extends Component {
     })
   }
 
-  render () {
+  render() {
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
@@ -142,7 +142,8 @@ class Home extends Component {
             <div className='col-sm-7'>
               <ul>
                 <WriteTweet />
-                <Tweet tweetsDtls={data} />
+                {/* <Tweet tweetsDtls={data} /> */}
+                <Tweet />
               </ul>
             </div>
             <div className='col-sm-1' />
