@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import '../../App.css'
-import './Messages.css'
+// import '../../App.css'
+// import './Messages.css'
 import axios from 'axios'
 import { loginuser } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
@@ -12,6 +12,8 @@ import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
 import ROOT_URL from '../../constants'
+import RecieverMessage from './RecieverMessage'
+import SenderMessage from './SenderMessage'
 // Define a Login Component
 class Messages extends Component {
   // call the constructor method
@@ -21,6 +23,7 @@ class Messages extends Component {
     this.state = {
       email: '',
       password: '',
+      messagelist: [],
       authFlag: false,
       authFailed: false
     }
@@ -39,14 +42,36 @@ class Messages extends Component {
       receiver_name: reciever
     }
 
+    // axios
+    //   .get(`${ROOT_URL}/messagedetails`, data)
+    //   .then(res => {
+    //     // update the state with the response data
+    //     console.log('Axios get:', res.data)
+    //     if (res.status === 200) {
+    //       console.log('Inside response', res.data)
+    //       window.location.reload()
+    //     } else {
+    //       console.log('Error occured while sending the message!')
+    //     }
+    //   })
+    //   .catch(err => {
+    //     console.log('Error occured while sending the message!' + err)
+    //   })
+
     axios
       .post(`${ROOT_URL}/messagedetails`, data)
       .then(res => {
         // update the state with the response data
-        console.log('Axios get:', res.data)
+        let list = res.data
+
+        console.log('Axios get:', (res.data))
+        this.setState(
+          {
+            messagelist: list
+          })
         if (res.status === 200) {
           console.log('Inside response', res.data)
-          window.location.reload()
+          // window.location.reload()
         } else {
           console.log('Error occured while sending the message!')
         }
@@ -73,40 +98,6 @@ class Messages extends Component {
         {this.renderError(meta)}
       </div>
     )
-  }
-
-  onSubmit = formValues => {
-    console.log('OnSubmit' + formValues)
-    let data = {
-      email: formValues.email,
-      password: formValues.password
-    }
-    axios.defaults.withCredentials = true
-
-    this.props.loginuser(data, res => {
-      if (res.status === 200) {
-        console.log('Inside response', res.data)
-        this.setState({
-          authFlag: true
-        })
-
-        const user = jwtDecode(res.data.token)
-        console.log(user)
-        sessionStorage.setItem('email', user.email)
-
-        const cookies = new Cookies()
-        cookies.set('cookie', res.data.token, {
-          maxAge: 900000,
-          httpOnly: false,
-          path: '/'
-        })
-        console.log(cookies.get('myCat'))
-
-        this.props.history.push('/home')
-      } else {
-        alert('Please enter valid credentials')
-      }
-    })
   }
 
   inputChangeHandler = e => {
@@ -171,6 +162,22 @@ class Messages extends Component {
   render() {
     let redirectVar = null
     let invalidtag = null
+    let messageDisplay = null
+    if (this.state.messagelist) {
+      let mesgs = this.state.messagelist
+      messageDisplay = Object.keys(mesgs).map((msg) => {
+        // alert(mesgs[msg].sender_name)       
+        if (sessionStorage.getItem('email') === mesgs[msg].sender_name) {
+          return (
+            <SenderMessage message={mesgs[msg].text}></SenderMessage>
+          )
+        } else if (sessionStorage.getItem('email') === mesgs[msg].receiver_name) {
+          return (
+            < RecieverMessage message={mesgs[msg].text} ></RecieverMessage >
+          )
+        }
+      })
+    }
     if (this.state.authFailed) {
       invalidtag = (
         <label style={{ color: 'red' }}>*Invalid user name password!</label>
@@ -221,6 +228,18 @@ class Messages extends Component {
               @ Samkit Sheth
             </h3>
             <div style={{ borderBottom: '1px solid #E0E0E0' }} />
+            <div class="wrapper">
+              <div class="content">
+                {messageDisplay}
+
+                {/* <RecieverMessage message='Reciever'></RecieverMessage>
+                <RecieverMessage message='Reciever'></RecieverMessage>
+                <RecieverMessage message='Reciever'></RecieverMessage>
+                <SenderMessage message='Sender'></SenderMessage> */}
+              </div>
+            </div>
+
+
             <div
               style={{
                 position: 'absolute',
@@ -269,7 +288,7 @@ class Messages extends Component {
             </div>
           </div>
         </div>
-      </div>
+      </div >
     )
   }
 }

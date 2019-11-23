@@ -117,3 +117,36 @@
   background-color: white;
   outline-color: rgba(29, 161, 242, 1);
 }
+
+.message-reciever {
+  display: inline-block;
+  margin: 5px 5px 5px 5px;
+  border-radius: 20px 20px 20px 0px;
+  float: left;
+  outline: none;
+  padding: 8px 8px 8px 8px;
+  font-size: 15px;
+  background: #e0e0e0;
+}
+
+.message-sender {
+  display: inline-block;
+  margin: 5px 5px 5px 5px;
+  border-radius: 20px 20px 0px 20px;
+  float: right;
+  outline: none;
+  padding: 8px 8px 8px 8px;
+  font-size: 15px;
+  background: rgba(29, 161, 242, 1);
+  color: white;
+}
+
+.wrapper {
+  /* display: table-cell; */
+  vertical-align: bottom;
+  height: 88%;
+}
+.content {
+  max-height: 88%;
+  overflow: auto;
+}
