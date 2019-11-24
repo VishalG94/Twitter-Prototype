@@ -12,7 +12,7 @@ var hitlike = require('./api/routes/tweet/hitlike')
 var hitreply = require('./api/routes/tweet/hitreply')
 var searchbar = require('./api/routes/search/search')
 var profile = require('./api/routes/profile/profile')
-app.use('/sc', express.static(__dirname + '/images'))
+app.use('/uploads', express.static(__dirname + '/uploads'))
 
 app.use(cookieParser())
 // saltround = 10;
