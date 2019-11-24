@@ -143,7 +143,7 @@ class Search extends Component {
                 <li href='#' class='list-group-item'>
                   <SearchBar />
                 </li>
-                <Tweet tweetsDtls={data} />
+                {/* <Tweet tweetsDtls={data} /> */}
               </ul>
             </div>
             <div className='col-sm-1' />
