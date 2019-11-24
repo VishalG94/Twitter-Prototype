@@ -2,7 +2,7 @@ import axios from 'axios';
 import ROOT_URL from '../constants.js';
 export const LOGIN_USER = "login_user";
 export const SIGNUP_USER = "signup_user";
-
+export const GET_PROFILE ="get_profile";
 //const  EXTRAS= "3.17.191.255:3001";
 // const ROOT_URL = "http://localhost:3001";
 
@@ -49,4 +49,25 @@ export function signupUser(values, callback) {
         })
     }
 
+}
+
+export function getProfile(values, callback) {
+    console.log(values);
+
+    axios.defaults.withCredentials=true;
+
+    const request = axios
+    .get(`${ROOT_URL}/profile`,values);
+
+    return (dispatch) =>{
+        request.then((res)=>{
+            console.log("In get profile response:" + JSON.stringify(res));
+            dispatch({
+                type: GET_PROFILE,
+                payload: res.data
+            });
+            callback(res);
+        })
+    }
+    
 }
