@@ -142,7 +142,7 @@ class Home extends Component {
             <div className='col-sm-7'>
               <ul>
                 <WriteTweet />
-                {/* <Tweet tweetsDtls={data} /> */}
+                { <Tweet tweetsDtls={data} /> }
                 <Tweet />
               </ul>
             </div>
