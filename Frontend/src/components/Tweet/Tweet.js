@@ -91,8 +91,9 @@ class Tweet extends Component {
     // }
 
 
-
-    let details = this.state.tweets.map(tweet => {
+    let data = this.props.tweetsDtls;
+    // alert(data)
+    let details = data.map(tweet => {
       return (
         <div>
           <TweetData key={Math.random} data={tweet}></TweetData>
