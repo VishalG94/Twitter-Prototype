@@ -236,6 +236,7 @@ class Messages extends Component {
     // let followedby = sessionStorage.getItem('followedby')
     let previousChat = this.state.uniqueMessagesList;
     let previousChatList = null;
+    
     if (previousChat !== null) {
       previousChatList = Object.keys(previousChat).map((person) => {
         return (
@@ -244,10 +245,12 @@ class Messages extends Component {
       })
     }
 
+    let user = JSON.parse(sessionStorage.getItem('userDtls'))
     if (searchlist !== null) {
+      
       messagesList = Object.keys(searchlist).map((person) => {
-
-        if (this.state.following.includes(searchlist[person].username) && this.state.followedby.includes(searchlist[person].username)) {
+        
+        if (user.following.includes(searchlist[person]._id) && user.followedBy.includes(searchlist[person]._id)) {
           return (
             <ActiveChat person={searchlist[person].username}></ActiveChat>
           )

@@ -7,6 +7,7 @@ import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import { loginuser } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
+import {getProfile } from '../../actions'
 import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
@@ -35,6 +36,16 @@ class Home extends Component {
       authFlag: false,
       authFailed: false
     })
+
+    let email =sessionStorage.getItem('email');
+    let data = { email: email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          console.log('Response user' + response.data)
+          sessionStorage.setItem('userDtls', JSON.stringify(response.data))
+        });
   }
   renderError = ({ error, touched }) => {
     if (touched && error) {
@@ -78,13 +89,13 @@ class Home extends Component {
     )
   }
 
-  onSubmit = formValues => {
-    console.log('OnSubmit' + formValues)
-    let data = {
-      email: formValues.email,
-      password: formValues.password
-    }
-    axios.defaults.withCredentials = true
+  // onSubmit = formValues => {
+  //   console.log('OnSubmit' + formValues)
+  //   let data = {
+  //     email: formValues.email,
+  //     password: formValues.password
+  //   }
+  //   axios.defaults.withCredentials = true
     // console.log(data)
     // axios
     //   .post('http://localhost:3001/login', data)
@@ -100,31 +111,31 @@ class Home extends Component {
     //   .catch(err => {
     //     this.setState({ authFailed: true })
     //   })
-    this.props.loginuser(data, res => {
-      if (res.status === 200) {
-        console.log('Inside response', res.data)
-        this.setState({
-          authFlag: true
-        })
+  //   this.props.loginuser(data, res => {
+  //     if (res.status === 200) {
+  //       console.log('Inside response', res.data)
+  //       this.setState({
+  //         authFlag: true
+  //       })
 
-        const user = jwtDecode(res.data.token)
-        console.log(user)
-        sessionStorage.setItem('email', user.email)
+  //       const user = jwtDecode(res.data.token)
+  //       console.log(user)
+  //       sessionStorage.setItem('email', user.email)
 
-        const cookies = new Cookies()
-        cookies.set('cookie', res.data.token, {
-          maxAge: 900000,
-          httpOnly: false,
-          path: '/'
-        })
-        console.log(cookies.get('myCat'))
+  //       const cookies = new Cookies()
+  //       cookies.set('cookie', res.data.token, {
+  //         maxAge: 900000,
+  //         httpOnly: false,
+  //         path: '/'
+  //       })
+  //       console.log(cookies.get('myCat'))
 
-        this.props.history.push('/home')
-      } else {
-        alert('Please enter valid credentials')
-      }
-    })
-  }
+  //       this.props.history.push('/home')
+  //     } else {
+  //       alert('Please enter valid credentials')
+  //     }
+  //   })
+  // }
 
   inputChangeHandler = e => {
     this.setState({
@@ -179,7 +190,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginuser }
+  { loginuser ,getProfile}
 )(
   reduxForm({
     form: 'streamLogin',

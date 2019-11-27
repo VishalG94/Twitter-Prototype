@@ -11,8 +11,7 @@ import LeftNavbar from '../LeftNavbar/LeftNavbar'
 //import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
-import TweetData from '../Tweet/TweetData'
-
+import UserList from './UserList'
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
@@ -27,7 +26,11 @@ class Search extends Component {
     // console.log(this.state.tweets)
     // console.log(this.state.user)
 
-    this.userClick = this.userClick.bind(this)
+  componentWillMount() {
+    this.setState({
+      authFlag: false,
+      authFailed: false
+    })
   }
   
   userClick = (info) => {
@@ -48,13 +51,63 @@ class Search extends Component {
       })
     }
 
-    let details2 = null
-    if (this.state.user) {
-       details = this.state.user.map(u => {
+        const user = jwtDecode(res.data.token)
+        console.log(user)
+        sessionStorage.setItem('email', user.email)
+
+        const cookies = new Cookies()
+        cookies.set('cookie', res.data.token, {
+          maxAge: 900000,
+          httpOnly: false,
+          path: '/'
+        })
+        console.log(cookies.get('myCat'))
+
+        this.props.history.push('/home')
+      } else {
+        alert('Please enter valid credentials')
+      }
+    })
+  }
+
+  inputChangeHandler = e => {
+    this.setState({
+      [e.target.name]: e.target.value
+    })
+  }
+
+  render() {
+    let redirectVar = null
+    let invalidtag = null
+    if (this.state.authFailed) {
+      invalidtag = (
+        <label style={{ color: 'red' }}>*Invalid user name password!</label>
+      )
+    }
+
+    let data = {
+      name: 'Vishal',
+      handler: 'Handler',
+      time: 'time',
+      description: 'Description',
+      img: sampleImg,
+      likes: 30,
+      retweets: 20,
+      comments: 10
+    }
+
+    let isSelected = 'searchTerm'
+    let tweetList = null;
+    let UsersList = null;
+    tweetList = JSON.parse(sessionStorage.getItem('Result'))
+    UsersList = JSON.parse(sessionStorage.getItem('UserResult'))
+    let list = null;
+    if (tweetList) {
+      list = <Tweet tweetsDtls={tweetList} />
+    } else if (UsersList) {
+      list = Object.keys(UsersList).map((person) => {
         return (
-          <div>
-       <a href="#" style={{ fontSize: '15.4px', fontWeight: '700', color: 'black', borderRight: 'none', borderRadius: '0px 0px 0px 0px ', borderLeft: 'none' }} class="list-group-item list-group-item-action" id={Math.random} onClick={(e) =>{this.userClick(u)}}>@{u.username}</a>
-          </div>
+          <UserList person={UsersList[person]}></UserList>
         )
       })
     }
@@ -70,11 +123,8 @@ class Search extends Component {
               <ul>
                 <li href='#' class='list-group-item'>
                   <SearchBar />
-                </li>   
-                {details}
-                {details2}
-                {/* <Tweet tweetsDtls={JSON.parse(sessionStorage.getItem("Result"))} /> */}
-                {/* <TweetData key={Math.random} data={sessionStorage.getItem("Result")}></TweetData> */}
+                </li>
+                {list}
               </ul>
             </div>
             <div className='col-sm-1' />
