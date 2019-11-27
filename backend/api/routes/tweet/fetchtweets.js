@@ -16,6 +16,13 @@ router.get("/fetchtweets", function (req, res) {
         console.log(doc);
         Tweet.find({ owner: { $in: doc.following } })
             .populate('owner')
+            .populate('retweetdata')
+            .populate({
+                path: 'retweetdata',
+                populate: {
+                    path: 'owner'
+                }
+            })
             // .populate('first_name')
             .exec()
             .then((result1) => {

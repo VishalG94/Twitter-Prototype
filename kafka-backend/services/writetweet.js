@@ -17,7 +17,8 @@ function handle_request(msg, callback) {
       const tweet = new Tweet({
         text: data.text,
         image: msg.filepath,
-        owner: result._id 
+        owner: result._id,
+
       });
 
       tweet.save()
