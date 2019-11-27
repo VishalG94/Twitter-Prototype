@@ -1,4 +1,4 @@
-//const User = require('../api/models/user')
+const User = require('../../api/models/user')
 // const Messages = require('../api/models/message')
 const messageSchema = require('../../api/models/message')
 
@@ -6,7 +6,7 @@ let mogooseConn = require('../../sql/mongoose')
 var dateforamt = require('dateformat')
 const mongoose = require('mongoose')
 
-
+// console.log(Messages)
 function handle_request(msg, callback) {
   var now = new Date()
   var today = dateforamt(now, 'yyyy-mm-dd HH:MM:ss')

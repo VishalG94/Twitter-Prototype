@@ -1,7 +1,7 @@
 import React from 'react'
 
 class LeftNavbar extends React.Component {
-  render () {
+  render() {
     return (
       // <div class='col-sm-2'>
       <div>
