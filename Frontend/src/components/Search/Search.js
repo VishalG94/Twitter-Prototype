@@ -14,7 +14,7 @@ import SearchBar from '../SearchBar/SearchBar'
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -25,7 +25,7 @@ class Search extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
@@ -109,7 +109,7 @@ class Search extends Component {
     })
   }
 
-  render () {
+  render() {
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
