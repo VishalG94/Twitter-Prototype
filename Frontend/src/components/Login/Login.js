@@ -84,9 +84,15 @@ class Login extends Component {
         this.setState({
           authFlag: true
         })
+        let userp = {
+          email : "arunb1620@gmail.com",
+          id : "5dda82c83325fc2eb7be3d12"
+        }
         const user = jwtDecode(res.data.token)
         console.log(user)
         sessionStorage.setItem('email', user.email)
+        sessionStorage.setItem('user_email',userp.email)
+        sessionStorage.setItem('result',userp.id)
         this.props.history.push('/home')
       } else {
         alert('Please enter valid credentials')

@@ -9,11 +9,14 @@ var mongoose = require('./sql/mongoose')
 var signup = require('./services/signup.js')
 var login = require('./services/login.js')
 var writetweet = require('./services/writetweet.js')
-var postmessage = require('./services/messages/postmessage.js')
+var postmessage = require('./services/messages/postmessage')
 let messagedetails = require('./services/messages/messagedetails')
 var postsearchbar = require('./services/search/searchbar')
 var profile = require('./services/profile.js')
 var follow = require('./services/followupdate.js')
+var profileupdate = require('./services/profileupdate.js');
+var followedBy = require('./services/followedBy.js');
+
 app.use(passport.initialize())
 
 function handleTopicRequest(topic_name, fname) {
@@ -57,3 +60,5 @@ handleTopicRequest('message_details', messagedetails)
 handleTopicRequest('post_searchbar', postsearchbar)
 handleTopicRequest('profile', profile)
 handleTopicRequest('follow', follow)
+handleTopicRequest("profile_update",profileupdate)
+handleTopicRequest("followedBy",followedBy)

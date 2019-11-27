@@ -88,7 +88,7 @@ class TweetData extends Component {
 
     render() {
         let replyBar = null;
-
+        
         if (this.state.replyFlag) {
 
             console.log("Inside set reply flag")
@@ -153,8 +153,15 @@ class TweetData extends Component {
                                         . {this.props.data.time}
                                     </span>
                                 </h4>
-                                <div style={{ color: 'black' }}>{this.props.data.text}</div>
+                                <h4 style={{ color: 'black',marginLeft:"30px" }}><span style={{marginLeft:"30px"}} >{this.props.data.text}</span></h4>
                                 <br />
+                                <img
+                                    src={this.props.data.image}
+                                    class='preview-img'
+                                    width='50'
+                                    height='50'
+                                    alt='profile pic'
+                                />
                                 {/* {hasImageTag} */}
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey' }}>
@@ -202,6 +209,7 @@ class TweetData extends Component {
                                     alt='profile pic'
                                 />
                             </div>
+                            
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
                                 <h4 class='user-name'>
@@ -226,6 +234,15 @@ class TweetData extends Component {
                                 </h4>
                                 <div style={{ color: 'black' }}>{this.props.data.text}</div>
                                 <br />
+                                <img
+                                    src={this.props.data.image}
+                                    class="card-img-top"
+                                    width='500'
+                                    height='300'
+                                    alt='profile pic'
+                                    style = {{marginLeft : "-20px"}}
+                                />
+                                <br></br>
                                 {/* {hasImageTag} */}
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                   <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey' }}>
@@ -261,72 +278,6 @@ class TweetData extends Component {
         }
 
         return (
-            // <a href='#' class='list-group-item' >
-            //     <div class='row'>
-            //         <div class='col-sm-1'>
-            //             <img
-            //                 src={require('../img/Twitternew.png')}
-            //                 class='preview-img'
-            //                 width='50'
-            //                 height='50'
-            //                 alt='profile pic'
-            //             />
-            //         </div>
-            //         {/* <div class='col-sm-1'></div> */}
-            //         <div class='col-sm-11'>
-            //             <h4 class='user-name'>
-            //                 {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
-            //                 <span
-            //                     style={{
-            //                         fontWeight: 'normal',
-            //                         color: 'grey'
-            //                     }}
-            //                 >
-            //                     @{this.props.data.owner.username}
-            //                 </span>
-            //                 <span />
-            //                 <span
-            //                     style={{
-            //                         fontWeight: 'normal',
-            //                         color: 'grey'
-            //                     }}
-            //                 >
-            //                     . {this.props.data.time}
-            //                 </span>
-            //             </h4>
-            //             <div style={{ color: 'black' }}>{this.props.data.text}</div>
-            //             <br />
-            //             {/* {hasImageTag} */}
-            //             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            //       <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey' }}>
-            //                 <span class="far fa-comment fa-2x"></span>
-            //             </button>
-            //             <label style={{ fontSize: "20px" }}> {this.props.data.reply.length}</label>
-
-            //             &nbsp;
-            //             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-            //         <button type="submit" class="btn btn-link" onClick={this.retweetPressed} style={{ color: 'grey' }} >
-            //                 <span class="fas fa-retweet fa-2x"></span>
-            //             </button>
-            //             <label style={{ fontSize: "20px" }}> {this.props.data.retweet.length}</label>
-
-            //             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-            //         <button type="submit" class="btn btn-link" onClick={this.likePressed} style={{ color: 'grey' }} >
-            //                 <span class="far fa-heart fa-2x"></span>
-            //             </button>
-            //             <label style={{ fontSize: "20px" }}> {this.props.data.likes.length}</label>
-
-
-            //             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-            //   <i class='fas fa-arrow-u  p fa-2x' />
-            //         </div>
-            //     </div>
-
-            // </a>
             <Fragment>
                 {newdetails}
                 {replyBar}

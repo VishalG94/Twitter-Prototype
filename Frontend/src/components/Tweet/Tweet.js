@@ -60,6 +60,7 @@ class Tweet extends Component {
 
   componentDidMount() {
     var email = sessionStorage.getItem("email")
+    console.log(email);
     axios.get(ROOT_URL + '/fetchtweets', {
       params: {
         email: email
@@ -73,6 +74,7 @@ class Tweet extends Component {
 
           tweets: this.state.tweets.concat(response.data)
         });
+        console.log(this.state.tweets)
       });
   }
 
@@ -105,9 +107,10 @@ class Tweet extends Component {
       return (
         <div>
           <h1>inside Tweet</h1>
-          <TweetData key={Math.random} data={tweet}></TweetData>
+          
+        <TweetData key={Math.random} data={tweet}></TweetData>
         </div>
-
+        
         // let hasImageTag = null
         // if (tweet.image) {
         //   hasImageTag = (
@@ -131,6 +134,7 @@ class Tweet extends Component {
 
 
     return (
+      
       <Fragment>
 
         {details}
