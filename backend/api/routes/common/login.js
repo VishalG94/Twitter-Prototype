@@ -7,6 +7,7 @@ var config = require('../../config/setting');
 var jwt = require('jsonwebtoken');
 var passport = require('passport');
 var con = require("../../../sql/sqlpool");
+var User = require("../../models/user");
 
 require('../../config/passport')(passport);
 
@@ -28,8 +29,23 @@ router.post('/login', (req, res) => {
           expiresIn: 10080 // in seconds
         });
 
-        res.status(200).json({ username: result.username, token: 'JWT ' + token, email: req.body.email });
-        res.end("Successful Login");
+        User.findOne({ email: result[0].email })
+          .then(result1 => {
+
+            console.log("mongo fetch result " + result1)
+            var obj = {
+              username: result.username,
+              token: 'JWT ' + token,
+              email: req.body.email,
+              id: result1._id,
+              first_name: result1.first_name,
+              last_name: result1.last_name,
+            }
+
+            // res.status(200).json({ username: result.username, token: 'JWT ' + token, email: req.body.email });
+            res.status(200).json(obj);
+            res.end("Successful Login");
+          })
 
       } else {
         console.log("Unsuccessful Login")

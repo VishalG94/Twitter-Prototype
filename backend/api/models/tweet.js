@@ -8,12 +8,13 @@ const tweetSchema = mongoose.Schema({
   text: { type: String, required: true },
   image: String,
   owner: { type: ObjectId, ref: 'User' },
-  retweet: [{ userid: ObjectId, time: Date, description: String }],
+  retweet: [{ type: ObjectId }],
   reply: [{ userid: String, comment: String }],
   likes: [{ type: ObjectId }],
   time: { type: Date, default: Date.now },
   retweetFlag: Boolean,
-  retweetdata: { type: ObjectId, ref: 'Tweet' }
+  bookmarks: [{ type: ObjectId }],
+  retweetdata: { type: ObjectId, ref: 'Tweet' },
 })
 
 module.exports = mongoose.model('Tweet', tweetSchema)

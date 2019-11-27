@@ -13,7 +13,7 @@ import Cookies from 'universal-cookie'
 // Define a Login Component
 class Login extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     // Call the constrictor of Super class i.e The Component
     super(props)
     // maintain the state required for this component
@@ -23,10 +23,10 @@ class Login extends Component {
       authFlag: false,
       authFailed: false
     }
-    
+
   }
   // Call the Will Mount to set the auth Flag to false
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
@@ -87,6 +87,10 @@ class Login extends Component {
         const user = jwtDecode(res.data.token)
         console.log(user)
         sessionStorage.setItem('email', user.email)
+        sessionStorage.setItem('id', res.data.id)
+        sessionStorage.setItem('first_name', res.data.first_name)
+        sessionStorage.setItem('last_name', res.data.last_name)
+
         this.props.history.push('/home')
       } else {
         alert('Please enter valid credentials')
@@ -102,7 +106,7 @@ class Login extends Component {
   }
 
 
-  render () {
+  render() {
 
     let redirectVar = null
     let invalidtag = null
@@ -153,7 +157,7 @@ class Login extends Component {
                 </button>
                 <br />
                 <div style={{ textAlign: 'center' }} class='form-group'>
-                <span>New to Twitter? </span><Link to='/signup'>Sign up now >></Link>
+                  <span>New to Twitter? </span><Link to='/signup'>Sign up now >></Link>
                 </div>
               </div>
             </div>
