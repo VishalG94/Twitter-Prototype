@@ -146,7 +146,7 @@ class TweetData extends Component {
     }
 
     retweetPressed = e => {
-        console.log("Retweet pressed")
+        console.log("Retweet pressed!!")
         this.setState({
             retweetFlag: true
         })
@@ -166,6 +166,7 @@ class TweetData extends Component {
                         height='250%'
                         alt='profile pic' Tweet
                     />
+                    
                     <br />
                     <br />
                 </div>
