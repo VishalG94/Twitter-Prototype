@@ -5,7 +5,7 @@ var kafka = require('../../../kafka/client');
 const Tweet = require('../../models/tweet');
 const User = require('../../models/user');
 //const mongoose = require('../../../sql/mongoose')
-var imagepath="";
+var imagepath = "";
 var multer = require('multer');
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -29,14 +29,14 @@ router.post('/writetweet', upload.single('image'), (req, res) => {
   // var host = req.hostname;
   // if (req.file)
   //   var filepath = req.protocol + "://" + host + ':3001/' + req.file.path;
- 
-  
+
+
   const temp = req.body.body;
   // const data = temp;
   const data = JSON.parse(temp);
   console.log(data);
   console.log(data.email);
-  var filepath = '/uploads/' + imagepath ;
+  var filepath = '/uploads/' + imagepath;
 
   User.findOne({ email: data.email })
     .then(result => {

@@ -14,6 +14,7 @@ import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import WriteTweet from '../WriteTweet/WriteTweet'
 import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
+import ROOT_URL from '../../constants'
 // Define a Login Component
 class Home extends Component {
   // call the constructor method
@@ -24,7 +25,8 @@ class Home extends Component {
       email: '',
       password: '',
       authFlag: false,
-      authFailed: false
+      authFailed: false,
+      tweets: []
     }
   }
 
@@ -42,6 +44,24 @@ class Home extends Component {
         </div>
       )
     }
+  }
+
+  componentDidMount() {
+    var email = sessionStorage.getItem("email")
+    axios.get(ROOT_URL + '/fetchtweets', {
+      params: {
+        email: email
+      }
+    })
+      .then((response) => {
+        console.log("Received response")
+        console.log(response)
+        //update the state with the response data
+        this.setState({
+
+          tweets: this.state.tweets.concat(response.data)
+        });
+      });
   }
 
   renderInput = ({ input, type, label, meta }) => {
@@ -121,17 +141,6 @@ class Home extends Component {
       )
     }
 
-    let data = {
-      name: 'Vishal',
-      handler: 'Handler',
-      time: 'time',
-      description: 'Description',
-      img: sampleImg,
-      likes: 30,
-      retweets: 20,
-      comments: 10
-    }
-
     return (
       <div>
         <div>
@@ -142,8 +151,8 @@ class Home extends Component {
             <div className='col-sm-7'>
               <ul>
                 <WriteTweet />
-                { <Tweet tweetsDtls={data} /> }
-                <Tweet />
+                <Tweet tweetsDtls={this.state.tweets} />
+                {/* <Tweet /> */}
               </ul>
             </div>
             <div className='col-sm-1' />

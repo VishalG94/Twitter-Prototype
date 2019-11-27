@@ -1,0 +1,29 @@
+.container-dashboard
+{
+    background-color: #dbdbdb;
+    margin-top: 150px;
+    width: 100%;
+    position: relative;
+    margin-left: auto !important;
+    align-items: center !important;
+
+}
+
+.tab-content
+{
+    background-color: #ffffff;
+    width: 100%;
+    position: relative;
+    margin-left: auto !important;
+    align-items: center !important;
+}
+
+.affix {
+    top: 150px;
+    width: 100%;
+    z-index: 9999 !important;
+}
+
+.affix + .container-fluid {
+    padding-top: 70px;
+}
