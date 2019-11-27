@@ -8,7 +8,7 @@ import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
-//import Tweet from '../Tweet/Tweet'
+import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
 import UserList from './UserList'
@@ -20,11 +20,11 @@ class Search extends Component {
 
     this.state = {
       email: '',
-      tweets: JSON.parse(sessionStorage.getItem("Result")),
-      user : JSON.parse(sessionStorage.getItem("UserResult"))
+      password: '',
+      authFlag: false,
+      authFailed: false
     }
-    // console.log(this.state.tweets)
-    // console.log(this.state.user)
+  }
 
   componentWillMount() {
     this.setState({
@@ -32,24 +32,58 @@ class Search extends Component {
       authFailed: false
     })
   }
-  
-  userClick = (info) => {
-    console.log(info)
-    sessionStorage.setItem("UserRedirect", JSON.stringify(info))
-}
-
-  render() {
-
-    let details = null
-    if (this.state.tweets) {
-       details = this.state.tweets.map(tweet => {
-        return (
-          <div>
-            <TweetData key={Math.random} data={tweet}></TweetData>
-          </div>
-        )
-      })
+  renderError = ({ error, touched }) => {
+    if (touched && error) {
+      return (
+        <div>
+          <label style={{ color: 'red' }}>{error}</label>
+        </div>
+      )
     }
+  }
+
+  renderInput = ({ input, type, label, meta }) => {
+    return (
+      <div>
+        <div htmlFor='email' style={{ color: '#6b6b83' }}>
+          {label}
+        </div>
+        <div class='form-group'>
+          <input class='form-control' type={type} {...input} />
+          {this.renderError(meta)}
+        </div>
+      </div>
+    )
+  }
+
+  onSubmit = formValues => {
+    console.log('OnSubmit' + formValues)
+    let data = {
+      email: formValues.email,
+      password: formValues.password
+    }
+    axios.defaults.withCredentials = true
+    // console.log(data)
+    // axios
+    //   .post('http://localhost:3001/login', data)
+    //   .then(response => {
+    //     console.log('Status Code : ', response.status)
+    //     if (response.status === 200) {
+    //       sessionStorage.setItem('email', data.email)
+    //       this.setState({
+    //         authFlag: true
+    //       })
+    //     }
+    //   })
+    //   .catch(err => {
+    //     this.setState({ authFailed: true })
+    //   })
+    this.props.loginuser(data, res => {
+      if (res.status === 200) {
+        console.log('Inside response', res.data)
+        this.setState({
+          authFlag: true
+        })
 
         const user = jwtDecode(res.data.token)
         console.log(user)
