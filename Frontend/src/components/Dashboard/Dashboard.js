@@ -15,7 +15,6 @@ import Tweet from '../Tweet/Tweet'
         super(props);
 
         this.state = {
-            //userid : cookies.load('userid')
             userid : this.props.user._id
         }
     }
@@ -25,31 +24,24 @@ import Tweet from '../Tweet/Tweet'
         
             return (
                 <div>
-                    {/* <Navbarhome/> */}
-                    <div className="container-dashboard">
-                        <nav>
-                            <div className="nav nav-tabs" id="nav-tab" role="tablist">
-                                <a className={ "nav-item nav-link " + ((this.props.match.params.page === "inbox") && ("active"))  }><Link to={"/Dashboard/inbox/" + this.props.user._id}>Messages</Link></a>
-                                <a className={ "nav-item nav-link " + ((this.props.match.params.page === "tweets") && ("active"))  }><Link to={"/Dashboard/mytrips/" + this.props.user._id}>My Tweets</Link></a>
-                                <a className={ "nav-item nav-link " + ((this.props.match.params.page === "profile") && ("active"))  }><Link to={"/Dashboard/profile/" + this.props.user._id}>Profile</Link></a>
-                                <a className={ "nav-item nav-link " + ((this.props.match.params.page === "retweets") && ("active"))  }><Link to={"/Dashboard/account/" + this.props.user._id}>Retweets</Link></a>
+                    <nav class="navbar navbar-inverse">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                </div>
+
+                                <ul class="nav navbar-nav">
+
+                                    <li> <a href="/followers" class="list-group-item">Followers</a></li>
+                                    <li> <a href="/userprofile/tweets" class="list-group-item">Tweets</a></li>
+                                    <li> <a href="#" class="list-group-item">Media</a></li>
+                                    <li> <a href="/userprofile/likes" class="list-group-item">Likes</a></li>
+                                    {/* <button class="btn btn-outline-success" onclick={this.editprofilebutton} type="button">Edit Profile</button> */}
+
+                                </ul>
                             </div>
+
                         </nav>
-                        <div className="tab-content" id="nav-tabContent">
-                            { (this.props.match.params.page === "inbox") && (<div className="tab-pane fade show active" id="nav-Inbox" role="tabpanel"
-                                 aria-labelledby="nav-Inbox-tab"><Messages/>
-                            </div>) }
-                            { (this.props.match.params.page === "tweets") && (<div className="tab-pane fade show active" id="nav-trips" role="tabpanel"
-                                 aria-labelledby="nav-trips-tab"><Tweet userid={this.props.user._id} />
-                            </div>)}
-                            { (this.props.match.params.page === "profile") && (<div className="tab-pane fade show active" id="nav-profile" role="tabpanel"
-                                 aria-labelledby="nav-profile-tab"><Profile userid={this.props.user._id}/>
-                            </div>)}
-                            {/* { (this.props.match.params.page === "account") && (<div className="tab-pane fade show active" id="nav-Account"role="tabpanel"
-                                aria-labelledby="nav-profile-tab"><Retw userid={this.props.user._id}/>
-                            </div>)} */}
-                        </div>
-                    </div>
+                    
                 </div>
             )
          }

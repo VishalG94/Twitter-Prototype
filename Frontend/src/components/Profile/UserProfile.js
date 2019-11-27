@@ -30,6 +30,7 @@ class UserProfile extends Component {
             file: '',
             img: '',
             edit: false,
+            userid : '',
 
             // following:false,
             follow: false
@@ -66,7 +67,7 @@ class UserProfile extends Component {
                 // profilepic: img
 
             })
-
+            console.log(this.props)
         });
 
     }
@@ -175,8 +176,6 @@ class UserProfile extends Component {
                 }
             })
     }
-
-
     render() {
         let editprofile = null;
         console.log(this.state.edit);
@@ -279,14 +278,16 @@ class UserProfile extends Component {
                                 {image_new}
                                 {/* <div className='browse-button'>
                                     <i className='fa fa-pencil' /> */}
+                                    <div style={{marginLeft : "200px"}}>
                                 <input
                                     // class='browse-input'
+                                    
                                     type='file'
                                     onChange={this.imageChangeHandler}
                                     name='myImage'
                                     id='myImage'
                                 />
-
+</div>
                             </div>
                         </div>
 
@@ -298,7 +299,6 @@ class UserProfile extends Component {
                         <nav class="navbar navbar-inverse">
                             <div class="container-fluid">
                                 <div class="navbar-header">
-                                    {/* <a class="navbar-brand" href="#">WebSiteName</a> */}
                                 </div>
 
                                 <ul class="nav navbar-nav">
@@ -321,7 +321,6 @@ class UserProfile extends Component {
     }
 
 }
-
 
 function mapStateToProps(state) {
     return {

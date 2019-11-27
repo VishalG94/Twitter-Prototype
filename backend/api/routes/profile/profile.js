@@ -27,60 +27,58 @@ const storage = multer.diskStorage({
   })
 
 
-router.get('/profile', function (req, res) {
-    console.log("In Get Profile Query");
-    console.log(req.query.email);
-    let data = req.query;
-    console.log(data.email);
-    User.find({ email: data.email })
-        .populate('following')
-        .populate('followedBy')
-        .then((result) => {
-            console.log("Profile Query");
-            if (result) {
-                res.writeHead(200, {
-                    'Content-Type': 'text/plain'
-                })
-                // console.log(docs);
-                console.log("Success");
-                // delete result[0]["password"];
-                console.log(JSON.stringify(result[0]));
-                res.end(JSON.stringify(result[0]));
-
-            } else {
-                res.writeHead(400, {
-                    'Content-Type': 'text/plain'
-                })
-                res.end("Unable to get data");
-                console.log("Unable get data");
-            }
-        });
-});
-
 // router.get('/profile', function (req, res) {
+//     console.log("In Get Profile Query");
+//     console.log(req.query.email);
+//     let data = req.query;
+//     console.log(data.email);
+//     User.find({ email: data.email })
+//         // .populate('following')
+//         // .populate('followedBy')
+//         .then((result) => {
+//             console.log("Profile Query");
+//             if (result) {
+//                 res.writeHead(200, {
+//                     'Content-Type': 'text/plain'
+//                 })
+//                 // console.log(docs);
+//                 console.log("Success");
+//                 // delete result[0]["password"];
+//                 console.log(JSON.stringify(result[0]));
+//                 res.end(JSON.stringify(result[0]));
 
-//     console.log("Inside get User profile route" + req.session);
-//     var email = req.query.email;
-//     console.log(email);
-
-//     kafka.make_request("profile", email, function (err, results) {
-//         console.log('Result from Kafka Backend\n', results);
-//         if (err) {
-//             console.log(" ERROR Occurred");
-//             res.json({
-//                 status: "error",
-//                 msg: "System Error, Try Again."
-//             })
-//         } else {
-//             console.log("Profile for user " + " sent to client");
-//             res.writeHead(200, {
-//                 'Content-Type': 'application/json'
-//             })
-//             res.end(JSON.stringify(results[0]));
-//         }
-//     });
-
+//             } else {
+//                 res.writeHead(400, {
+//                     'Content-Type': 'text/plain'
+//                 })
+//                 res.end("Unable to get data");
+//                 console.log("Unable get data");
+//             }
+//         });
 // });
+
+router.get('/profile', function (req, res) {
+    var email = req.query.email;
+    console.log(email);
+
+    kafka.make_request("profile", email, function (err, results) {
+        console.log('Result from Kafka Backend\n', results);
+        if (err) {
+            console.log(" ERROR Occurred");
+            res.json({
+                status: "error",
+                msg: "System Error, Try Again."
+            })
+        } else {
+            console.log("Profile for user " + " sent to client");
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            })
+            res.end(JSON.stringify(results[0]));
+        }
+    });
+
+});
 
 router.post('/followupdate', function (req, res) {
     console.log("Inside Profile Update");

@@ -14,29 +14,8 @@ class Tweet extends Component {
     }
   }
 
-  // componentDidMount() {
-  //   var email = sessionStorage.getItem("email")
-  //   axios.get(ROOT_URL + '/fetchtweets', {
-  //     params: {
-  //       email: email
-  //     }
-  //   })
-  //     .then((response) => {
-  //       console.log("Received response")
-  //       console.log(response)
-  //       //update the state with the response data
-  //       this.setState({
-
-  //         tweets: this.state.tweets.concat(response.data)
-  //       });
-  //     });
-  // }
-
-  // let Tweet = props => {
-
-
   render() {
-
+    
     let details = this.props.tweetsDtls.map(tweet => {
       return (
         <div>
@@ -44,6 +23,7 @@ class Tweet extends Component {
         </div>
       )
     })
+  
 
     return (
       

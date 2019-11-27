@@ -12,7 +12,7 @@ function handle_request(msg, callback) {
     .exec()
     .then(res => {
       console.log(res);
-      callback(null, {res:res});
+      callback(null, res);
     })
     .catch(err => {
       console.log(err);
@@ -25,7 +25,7 @@ function handle_request(msg, callback) {
     .exec()
     .then(res => {
       console.log(res);
-      callback(null, {res:res});
+      callback(null, res);
     })
     .catch(err => {
       console.log(err);

@@ -48,7 +48,10 @@ class Profile extends Component {
         //     email: "arunb1620@gmail.com"
         // };
         // let temp = kiran.email
-        let temp = sessionStorage.getItem('user_email')
+       
+        
+        
+        let temp = sessionStorage.getItem('SelectedUserProfile')
         console.log(temp);
         let data = { email: temp }
         console.log(data.email)
@@ -74,25 +77,18 @@ class Profile extends Component {
 
         let temp1 = sessionStorage.getItem('email')
         console.log(temp1);
-        let data1 = { email: temp1 }
+        let data1 = { email: temp1}
+        // if(this.state.follow)
         console.log(data1.email)
         this.props.getProfile({ params: data1 }, (response) => {
             console.log(this.props.user)
             console.log(response.data);
             this.setState({
-                // email: response.data.email,
-                // // phone: response.data.phone,
-                // password: response.data.password,
-                // first_name: response.data.first_name,
-                // last_name: response.data.last_name,
-                // profilepic: img,
-                // following : sessionStorage.getItem('user_email')
-                // follow : 
-                follow: response.data.following.includes(sessionStorage.getItem('user_email'))
-
+                follow: response.data.following.includes(sessionStorage.getItem('SelectedUserProfileId'))
             })
-
+            // alert(this.state.follow)
         });
+
 
     }
 
@@ -102,7 +98,7 @@ class Profile extends Component {
         // e.preventDefault();
         const data = {
             // following: sessionStorage.getItem('user_email'),
-            following: sessionStorage.getItem('result'),
+            following: sessionStorage.getItem('SelectedUserProfileId'),
             email: sessionStorage.getItem('email'),
             flag: 0
         }
@@ -129,8 +125,8 @@ class Profile extends Component {
 
             const data1 = {
                 // new_email: sessionStorage.getItem('user_email'),
-                new_email: sessionStorage.getItem('result'),
-                followedBy: sessionStorage.getItem('email'),
+                new_email: sessionStorage.getItem('SelectedUserProfile'),
+                followedBy: sessionStorage.getItem('id'),
                 flag: 0
             }
             console.log(data1);
@@ -162,7 +158,7 @@ class Profile extends Component {
         e.preventDefault();
         const data = {
             // following: sessionStorage.getItem('user_email'),
-            following: sessionStorage.getItem('result'),
+            following: sessionStorage.getItem('SelectedUserProfileId'),
             email: sessionStorage.getItem('email'),
             flag: 1
         }
@@ -189,8 +185,8 @@ class Profile extends Component {
 
             const data1 = {
                 // new_email: sessionStorage.getItem('user_email'),
-                new_email: sessionStorage.getItem('result'),
-                followedBy: sessionStorage.getItem('email'),
+                new_email: sessionStorage.getItem('SelectedUserProfile'),
+                followedBy: sessionStorage.getItem('id'),
                 flag: 1
             }
             console.log(data);
@@ -219,8 +215,7 @@ class Profile extends Component {
 
     render() {
         let change = null;
-        console.log(this.props.user);
-        // if (this.props.user.following.includes(sessionStorage.getItem('user_email'))) {
+        
         if (!this.state.follow) {
             change = (
                 <button type="button" style={{fontSize:'15.4px', borderRadius:'30px'}} class="btn btn-danger" onClick={this.followupdate} >Follow</button>
@@ -266,30 +261,37 @@ class Profile extends Component {
                                     width='200'
                                     height='200'
                                 />
-                                <input
-                                    // class='browse-input'
-                                    type='file'
-                                    onChange={this.imageChangeHandler}
-                                    name='myImage'
-                                    id='myImage'
-                                />
-                                <br />
+                                <br/>
+                                <br></br>
                             </div>
                         </div>
                     </form>
                     <div>
+                    <div style={{float :"right"}}>
+                            {change}
+                            </div>
                     <br></br>
 <br></br>   
                         
-                        <ul class="list-inline">
-                            <li> <a href="/profile/tweets" class="list-group-item">Tweets</a></li>
-                            <li> <a href="#" class="list-group-item">Tweets and Replies</a></li>
-                            <li> <a href="#" class="list-group-item">Media</a></li>
-                            <li> <a href="/profile/likes" class="list-group-item">Likes</a></li>
-                            <div style={{float :"right"}}>
-                            {change}
+<div style={{ marginBottom: "100px" }}>
+                        <nav class="navbar navbar-inverse">
+                            <div class="container-fluid">
+                                <div class="navbar-header">
+                                </div>
+
+                                <ul class="nav navbar-nav">
+
+                                    <li > <a href="/profile/tweets" class="list-group-item">Tweets</a></li>
+                                    <li> <a href="#" class="list-group-item">Tweets and Replies</a></li>
+                                    <li> <a href="#" class="list-group-item">Media</a></li>
+                                    <li> <a href="/profile/likes" class="list-group-item">Likes</a></li>
+
+                                </ul>
                             </div>
-                        </ul>
+
+                        </nav>
+                    </div>
+                
                         
                     </div>
 

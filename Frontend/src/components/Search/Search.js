@@ -8,9 +8,10 @@ import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
-import Tweet from '../Tweet/Tweet'
+//import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
+import UserList from './UserList'
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
@@ -19,11 +20,11 @@ class Search extends Component {
 
     this.state = {
       email: '',
-      password: '',
-      authFlag: false,
-      authFailed: false
+      tweets: JSON.parse(sessionStorage.getItem("Result")),
+      user : JSON.parse(sessionStorage.getItem("UserResult"))
     }
-  }
+    // console.log(this.state.tweets)
+    // console.log(this.state.user)
 
   componentWillMount() {
     this.setState({
@@ -31,58 +32,24 @@ class Search extends Component {
       authFailed: false
     })
   }
-  renderError = ({ error, touched }) => {
-    if (touched && error) {
-      return (
-        <div>
-          <label style={{ color: 'red' }}>{error}</label>
-        </div>
-      )
-    }
-  }
+  
+  userClick = (info) => {
+    console.log(info)
+    sessionStorage.setItem("UserRedirect", JSON.stringify(info))
+}
 
-  renderInput = ({ input, type, label, meta }) => {
-    return (
-      <div>
-        <div htmlFor='email' style={{ color: '#6b6b83' }}>
-          {label}
-        </div>
-        <div class='form-group'>
-          <input class='form-control' type={type} {...input} />
-          {this.renderError(meta)}
-        </div>
-      </div>
-    )
-  }
+  render() {
 
-  onSubmit = formValues => {
-    console.log('OnSubmit' + formValues)
-    let data = {
-      email: formValues.email,
-      password: formValues.password
+    let details = null
+    if (this.state.tweets) {
+       details = this.state.tweets.map(tweet => {
+        return (
+          <div>
+            <TweetData key={Math.random} data={tweet}></TweetData>
+          </div>
+        )
+      })
     }
-    axios.defaults.withCredentials = true
-    // console.log(data)
-    // axios
-    //   .post('http://localhost:3001/login', data)
-    //   .then(response => {
-    //     console.log('Status Code : ', response.status)
-    //     if (response.status === 200) {
-    //       sessionStorage.setItem('email', data.email)
-    //       this.setState({
-    //         authFlag: true
-    //       })
-    //     }
-    //   })
-    //   .catch(err => {
-    //     this.setState({ authFailed: true })
-    //   })
-    this.props.loginuser(data, res => {
-      if (res.status === 200) {
-        console.log('Inside response', res.data)
-        this.setState({
-          authFlag: true
-        })
 
         const user = jwtDecode(res.data.token)
         console.log(user)
@@ -130,6 +97,20 @@ class Search extends Component {
     }
 
     let isSelected = 'searchTerm'
+    let tweetList = null;
+    let UsersList = null;
+    tweetList = JSON.parse(sessionStorage.getItem('Result'))
+    UsersList = JSON.parse(sessionStorage.getItem('UserResult'))
+    let list = null;
+    if (tweetList) {
+      list = <Tweet tweetsDtls={tweetList} />
+    } else if (UsersList) {
+      list = Object.keys(UsersList).map((person) => {
+        return (
+          <UserList person={UsersList[person]}></UserList>
+        )
+      })
+    }
 
     return (
       <div>
@@ -143,7 +124,7 @@ class Search extends Component {
                 <li href='#' class='list-group-item'>
                   <SearchBar />
                 </li>
-                <Tweet tweetsDtls={JSON.parse(sessionStorage.getItem("Result"))} />
+                {list}
               </ul>
             </div>
             <div className='col-sm-1' />
