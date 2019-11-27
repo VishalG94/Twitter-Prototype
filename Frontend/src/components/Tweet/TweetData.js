@@ -6,7 +6,7 @@ import Tweet from './Tweet'
 import ROOT_URL from "../../constants"
 import ReplyTweet from "./ReplyTweet";
 import RetweetTweet from "./RetweetTweet";
-
+import dateformat from 'dateformat';
 
 class TweetData extends Component {
     constructor(props) {
@@ -154,6 +154,9 @@ class TweetData extends Component {
 
     render() {
 
+        var dateVar = dateformat(this.props.data.time, 'mmm dd')
+        // var dateVar1 = dateformat(this.props.data.retweetdata.time, 'mmm dd')
+
         let hasImageTag = null
         if (this.props.data.image) {
             hasImageTag = (
@@ -172,6 +175,7 @@ class TweetData extends Component {
                 </div>
             )
         }
+      
 
         let replyBar = null;
         let retweetBar = null;
@@ -258,7 +262,8 @@ class TweetData extends Component {
                                             color: 'grey'
                                         }}
                                     >
-                                        . {this.props.data.time}
+                                        {/* . {this.props.data.time} */}
+                                         . {dateVar}
                                     </span>
                                 </h4>
                                 <h4 style={{ color: 'black',marginLeft:"30px" }}><span style={{marginLeft:"30px"}} >{this.props.data.text}</span></h4>
@@ -298,7 +303,9 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.retweetdata.time}
+                                                {/* . {this.props.data.retweetdata.time} */}
+                                                {/* . {dateVar1} */}
+                                                 . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
@@ -379,7 +386,8 @@ class TweetData extends Component {
                                             color: 'grey'
                                         }}
                                     >
-                                        . {this.props.data.time}
+                                        {/* . {this.props.data.time} */}
+                                         . {dateVar}
                                     </span>
                                 </h4>
                                 <div style={{ color: 'black' }}>{this.props.data.text}</div>
@@ -419,7 +427,9 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.retweetdata.time}
+                                                {/* . {this.props.data.retweetdata.time} */}
+                                                {/* . {dateVar1} */}
+                                                 . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
@@ -503,7 +513,8 @@ class TweetData extends Component {
                                             color: 'grey'
                                         }}
                                     >
-                                        . {this.props.data.time}
+                                        {/* . {this.props.data.time} */}
+                                         . {dateVar}
                                     </span>
                                 </h4>
                                 <div style={{ color: 'black' }}>{this.props.data.text}</div>
@@ -543,7 +554,9 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.retweetdata.time}
+                                                {/* . {this.props.data.retweetdata.time} */}
+                                                {/* . {dateVar1} */}
+                                                 . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
@@ -625,7 +638,8 @@ class TweetData extends Component {
                                             color: 'grey'
                                         }}
                                     >
-                                        . {this.props.data.time}
+                                        {/* . {this.props.data.time} */}
+                                         . {dateVar}
                                     </span>
                                 </h4>
                                 <div style={{ color: 'black' }}>{this.props.data.text}</div>
@@ -665,7 +679,9 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.retweetdata.time}
+                                                {/* . {this.props.data.retweetdata.time} */}
+                                                {/* . {dateVar1} */}
+                                                 . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
@@ -752,7 +768,8 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.time}
+                                                {/* . {this.props.data.time} */}
+                                                . {dateVar}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.text}</div>
@@ -824,7 +841,8 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.time}
+                                                {/* . {this.props.data.time} */}
+                                                 . {dateVar}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.text}</div>
@@ -899,7 +917,8 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.time}
+                                                {/* . {this.props.data.time} */}
+                                                 . {dateVar}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.text}</div>
@@ -972,7 +991,8 @@ class TweetData extends Component {
                                                     color: 'grey'
                                                 }}
                                             >
-                                                . {this.props.data.time}
+                                                {/* . {this.props.data.time} */}
+                                                 . {dateVar}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.text}</div>
