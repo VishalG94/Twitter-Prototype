@@ -8,128 +8,56 @@ import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
-import Tweet from '../Tweet/Tweet'
+//import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
+import TweetData from '../Tweet/TweetData'
+
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
       email: '',
-      password: '',
-      authFlag: false,
-      authFailed: false
+      tweets: JSON.parse(sessionStorage.getItem("Result")),
+      user : JSON.parse(sessionStorage.getItem("UserResult"))
     }
+    // console.log(this.state.tweets)
+    // console.log(this.state.user)
+
+    this.userClick = this.userClick.bind(this)
   }
+  
+  userClick = (info) => {
+    console.log(info)
+    sessionStorage.setItem("UserRedirect", JSON.stringify(info))
+}
 
-  componentWillMount () {
-    this.setState({
-      authFlag: false,
-      authFailed: false
-    })
-  }
-  renderError = ({ error, touched }) => {
-    if (touched && error) {
-      return (
-        <div>
-          <label style={{ color: 'red' }}>{error}</label>
-        </div>
-      )
-    }
-  }
+  render() {
 
-  renderInput = ({ input, type, label, meta }) => {
-    return (
-      <div>
-        <div htmlFor='email' style={{ color: '#6b6b83' }}>
-          {label}
-        </div>
-        <div class='form-group'>
-          <input class='form-control' type={type} {...input} />
-          {this.renderError(meta)}
-        </div>
-      </div>
-    )
-  }
-
-  onSubmit = formValues => {
-    console.log('OnSubmit' + formValues)
-    let data = {
-      email: formValues.email,
-      password: formValues.password
-    }
-    axios.defaults.withCredentials = true
-    // console.log(data)
-    // axios
-    //   .post('http://localhost:3001/login', data)
-    //   .then(response => {
-    //     console.log('Status Code : ', response.status)
-    //     if (response.status === 200) {
-    //       sessionStorage.setItem('email', data.email)
-    //       this.setState({
-    //         authFlag: true
-    //       })
-    //     }
-    //   })
-    //   .catch(err => {
-    //     this.setState({ authFailed: true })
-    //   })
-    this.props.loginuser(data, res => {
-      if (res.status === 200) {
-        console.log('Inside response', res.data)
-        this.setState({
-          authFlag: true
-        })
-
-        const user = jwtDecode(res.data.token)
-        console.log(user)
-        sessionStorage.setItem('email', user.email)
-
-        const cookies = new Cookies()
-        cookies.set('cookie', res.data.token, {
-          maxAge: 900000,
-          httpOnly: false,
-          path: '/'
-        })
-        console.log(cookies.get('myCat'))
-
-        this.props.history.push('/home')
-      } else {
-        alert('Please enter valid credentials')
-      }
-    })
-  }
-
-  inputChangeHandler = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    })
-  }
-
-  render () {
-    let redirectVar = null
-    let invalidtag = null
-    if (this.state.authFailed) {
-      invalidtag = (
-        <label style={{ color: 'red' }}>*Invalid user name password!</label>
-      )
+    let details = null
+    if (this.state.tweets) {
+       details = this.state.tweets.map(tweet => {
+        return (
+          <div>
+            <TweetData key={Math.random} data={tweet}></TweetData>
+          </div>
+        )
+      })
     }
 
-    let data = {
-      name: 'Vishal',
-      handler: 'Handler',
-      time: 'time',
-      description: 'Description',
-      img: sampleImg,
-      likes: 30,
-      retweets: 20,
-      comments: 10
+    let details2 = null
+    if (this.state.user) {
+       details = this.state.user.map(u => {
+        return (
+          <div>
+       <a href="#" style={{ fontSize: '15.4px', fontWeight: '700', color: 'black', borderRight: 'none', borderRadius: '0px 0px 0px 0px ', borderLeft: 'none' }} class="list-group-item list-group-item-action" id={Math.random} onClick={(e) =>{this.userClick(u)}}>@{u.username}</a>
+          </div>
+        )
+      })
     }
-
-    let isSelected = 'searchTerm'
 
     return (
       <div>
@@ -142,8 +70,11 @@ class Search extends Component {
               <ul>
                 <li href='#' class='list-group-item'>
                   <SearchBar />
-                </li>
-                <Tweet tweetsDtls={JSON.parse(sessionStorage.getItem("Result"))} />
+                </li>   
+                {details}
+                {details2}
+                {/* <Tweet tweetsDtls={JSON.parse(sessionStorage.getItem("Result"))} /> */}
+                {/* <TweetData key={Math.random} data={sessionStorage.getItem("Result")}></TweetData> */}
               </ul>
             </div>
             <div className='col-sm-1' />

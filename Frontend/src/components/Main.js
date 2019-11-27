@@ -10,6 +10,7 @@ import Search from './Search/Search'
 import UserProfile from './Profile/UserProfile'
 import PrivateRoute from '../lib/PrivateRoute'
 import Dashboard from './Dashboard/Dashboard'
+import Graph from './Dashboard/graph'
 import UserTweets from './UserTweets/UserTweets'
 import UserLikes from './UserTweets/UserLikes'
 // Create a Main Component
@@ -29,6 +30,7 @@ class Main extends Component {
         <Route path='/dashboard' component={Dashboard} />
         <Route static path='/userprofile/tweets' component={UserTweets} />
         <Route static path='/userprofile/likes' component={UserLikes} />
+        <Route path='/graph' component={Graph} />
       </div>
     )
   }
