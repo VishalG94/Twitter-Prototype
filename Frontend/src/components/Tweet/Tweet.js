@@ -46,6 +46,7 @@ class Tweet extends Component {
     })
 
     return (
+      
       <Fragment>
         {details}
       </Fragment>

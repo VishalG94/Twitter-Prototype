@@ -4,7 +4,7 @@ import axios from 'axios'
 import cookie from 'react-cookies'
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
-import { loginuser } from '../../actions'
+import { loginuser, getProfile } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
@@ -84,13 +84,27 @@ class Login extends Component {
         this.setState({
           authFlag: true
         })
+        let userp = {
+          email : "arunb1620@gmail.com",
+          id : "5dda82c83325fc2eb7be3d12"
+        }
         const user = jwtDecode(res.data.token)
         console.log(user)
+        let data = { email: user.email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          sessionStorage.setItem('userDtls', JSON.stringify(response.data))
+        });
         sessionStorage.setItem('email', user.email)
+
         sessionStorage.setItem('id', res.data.id)
         sessionStorage.setItem('first_name', res.data.first_name)
         sessionStorage.setItem('last_name', res.data.last_name)
 
+        sessionStorage.setItem('user_email',userp.email)
+        sessionStorage.setItem('result',userp.id)
         this.props.history.push('/home')
       } else {
         alert('Please enter valid credentials')
@@ -185,7 +199,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginuser }
+  { loginuser, getProfile }
 )(
   reduxForm({
     form: 'streamLogin',

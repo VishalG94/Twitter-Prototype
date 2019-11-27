@@ -266,7 +266,7 @@ class TweetData extends Component {
                                          . {dateVar}
                                     </span>
                                 </h4>
-                                <div style={{ color: 'black' }}>{this.props.data.text}</div>
+                                <h4 style={{ color: 'black',marginLeft:"30px" }}><span style={{marginLeft:"30px"}} >{this.props.data.text}</span></h4>
                                 <br />
                                 {/* retweet part starts here*/}
                                 <div class='list-group-item'
@@ -618,6 +618,7 @@ class TweetData extends Component {
                                     alt='profile pic'
                                 />
                             </div>
+                            
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
                                 <h4 class='user-name'>

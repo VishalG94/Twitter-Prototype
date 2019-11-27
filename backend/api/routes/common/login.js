@@ -18,10 +18,13 @@ router.post('/login', (req, res) => {
 
 
   let sql = 'SELECT * from user where email="' + req.body.email + '"';
+  console.log(sql);
   con.query(sql, (err, result) => {
     if (err || !result.length) {
-      callback(null, "Invalid Login")
-    } else {
+      // callback(null, "Invalid Login")
+      console.log(err);
+    } 
+    else {
       if (bcrypt.compareSync(req.body.password, result[0].password)) {
         console.log(result[0])
         //dostuff(true, result[0].type);

@@ -1,4 +1,4 @@
-//const User = require('../api/models/user')
+const User = require('../../api/models/user')
 // const Messages = require('../api/models/message')
 const messageSchema = require('../../api/models/message')
 
