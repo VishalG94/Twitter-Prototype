@@ -5,7 +5,7 @@ import axios from 'axios'
 import { loginuser } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
-import { ReactModal } from 'react-modal';
+// import { ReactModal } from 'react-modal';
 import WriteTweet from '../WriteTweet/WriteTweet'
 import Tweet from '../Tweet/Tweet'
 import ROOT_URL from '../../constants'
@@ -31,19 +31,19 @@ class SearchBar extends Component {
     this.submitSearch = this.submitSearch.bind(this);
   }
 
-  handleOpenModal () {
+  handleOpenModal() {
     this.setState({ showModal: true });
   }
-  
-  handleOpenModal2 () {
+
+  handleOpenModal2() {
     this.setState({ showModal2: true });
   }
-  
-  handleCloseModal () {
+
+  handleCloseModal() {
     this.setState({ showModal: false });
   }
-  
-  handleCloseModal2 () {
+
+  handleCloseModal2() {
     this.setState({ showModal2: false });
   }
 
@@ -54,35 +54,35 @@ class SearchBar extends Component {
   }
 
   submitSearch = (e) => {
-    e.preventDefault();    
-      const data = {
-        text: this.state.text
-      }
-      axios.defaults.withCredentials = true;
-      axios.post(`${ROOT_URL}/searchbar`, data)
-        .then(response => {
-            console.log(response.data.res)
-            if(response.data.res[0].text){
-              sessionStorage.setItem("Result",JSON.stringify(response.data.res))
-            }else{
-              sessionStorage.setItem("UserResult",JSON.stringify(response.data.res))
-            }
-             
-            this.setState({
-              result: response.data
-            }) 
-            window.location.reload()        
-        }).catch((error) => {
-          console.log("Gandu kuch hua jol yaha!")
-        });
+    e.preventDefault();
+    const data = {
+      text: this.state.text
     }
-  
+    axios.defaults.withCredentials = true;
+    axios.post(`${ROOT_URL}/searchbar`, data)
+      .then(response => {
+        console.log(response.data.res)
+        if (response.data.res[0].text) {
+          sessionStorage.setItem("Result", JSON.stringify(response.data.res))
+        } else {
+          sessionStorage.setItem("UserResult", JSON.stringify(response.data.res))
+        }
+
+        this.setState({
+          result: response.data
+        })
+        window.location.reload()
+      }).catch((error) => {
+        console.log("Gandu kuch hua jol yaha!")
+      });
+  }
+
 
 
 
 
   render() {
-    
+
     return (
       <div>
         <div class='form-group'>
@@ -98,13 +98,13 @@ class SearchBar extends Component {
               <button id='searchbarbutton' type='submit' class='searchButton' onClick={this.submitSearch} >
                 <i class='fa fa-search' />
               </button>
-              
+
               &nbsp;&nbsp;&nbsp;&nbsp;
-           
+
             </div>
           </div>
         </div>
-        
+
       </div>
 
     )
