@@ -1,7 +1,7 @@
 import React from 'react'
 
 class LeftNavbar extends React.Component {
-  render () {
+  render() {
     return (
       // <div class='col-sm-2'>
       <div>
@@ -60,7 +60,7 @@ class LeftNavbar extends React.Component {
             </a>
           </li>
           <li className='li-profile'>
-            <a href='/d ashboard' className='navLink'>
+            <a href='/dashboard' className='navLink'>
               <i class='fas fa-chart-line' />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Dashboard</span>

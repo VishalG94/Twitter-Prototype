@@ -1,0 +1,76 @@
+/* @import url(https://fonts.googleapis.com/css?family=Open+Sans); */
+
+/* body {
+  background: #f2f2f2;
+  font-family: 'Open Sans', sans-serif;
+} */
+
+.search {
+  width: 100%;
+  position: relative;
+  display: flex;
+}
+#searchbar:hover + #searchbarbutton {
+  background-color: white;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-right: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
+}
+
+#searchbar:focus + #searchbarbutton {
+  background-color: white;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-right: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
+}
+
+.searchTerm {
+  width: 100%;
+  border: 1px solid #e0e0e0;
+  background-color: #e0e0e0;
+  border-right: none;
+  float: left;
+  /* padding: 5px; */
+  height: 36px;
+  border-radius: 20px 0 0 20px;
+  outline: none;
+}
+
+.searchTerm:focus {
+  color: black;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-left: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
+}
+#searchbar:hover,
+#searchbar:focus {
+  background-color: white;
+  border-top: 1px solid rgba(29, 161, 242, 1);
+  border-left: 1px solid rgba(29, 161, 242, 1);
+  border-bottom: 1px solid rgba(29, 161, 242, 1);
+}
+
+.searchButton {
+  width: 40px;
+  float: right;
+  height: 36px;
+  border: 1px solid #e0e0e0;
+  background: #e0e0e0;
+  border-left: none;
+  text-align: center;
+  color: gray;
+  border-radius: 0 20px 20px 0;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/*Resize the wrap to see the search bar change!*/
+.wrap {
+  width: 90%;
+  /* position: absolute; */
+  margin-top: 20px;
+  margin-left: 20px;
+  /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}

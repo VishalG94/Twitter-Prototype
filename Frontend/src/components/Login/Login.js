@@ -4,7 +4,7 @@ import axios from 'axios'
 import cookie from 'react-cookies'
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
-import { loginuser } from '../../actions'
+import { loginuser, getProfile } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
@@ -13,7 +13,7 @@ import Cookies from 'universal-cookie'
 // Define a Login Component
 class Login extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     // Call the constrictor of Super class i.e The Component
     super(props)
     // maintain the state required for this component
@@ -23,10 +23,10 @@ class Login extends Component {
       authFlag: false,
       authFailed: false
     }
-    
+
   }
   // Call the Will Mount to set the auth Flag to false
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
@@ -86,7 +86,15 @@ class Login extends Component {
         })
         const user = jwtDecode(res.data.token)
         console.log(user)
+        let data = { email: user.email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          sessionStorage.setItem('userDtls', JSON.stringify(response.data))
+        });
         sessionStorage.setItem('email', user.email)
+
         this.props.history.push('/home')
       } else {
         alert('Please enter valid credentials')
@@ -102,7 +110,7 @@ class Login extends Component {
   }
 
 
-  render () {
+  render() {
 
     let redirectVar = null
     let invalidtag = null
@@ -153,7 +161,7 @@ class Login extends Component {
                 </button>
                 <br />
                 <div style={{ textAlign: 'center' }} class='form-group'>
-                <span>New to Twitter? </span><Link to='/signup'>Sign up now >></Link>
+                  <span>New to Twitter? </span><Link to='/signup'>Sign up now >></Link>
                 </div>
               </div>
             </div>
@@ -181,7 +189,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginuser }
+  { loginuser, getProfile }
 )(
   reduxForm({
     form: 'streamLogin',

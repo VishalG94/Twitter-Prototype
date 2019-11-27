@@ -1,8 +1,8 @@
-const User = require('../api/models/user')
+const User = require('../../api/models/user')
 // const Messages = require('../api/models/message')
-const messageSchema = require('../api/models/message')
+const messageSchema = require('../../api/models/message')
 
-let mogooseConn = require('../sql/mongoose')
+let mogooseConn = require('../../sql/mongoose')
 var dateforamt = require('dateformat')
 const mongoose = require('mongoose')
 

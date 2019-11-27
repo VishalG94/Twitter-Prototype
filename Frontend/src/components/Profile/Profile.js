@@ -22,25 +22,25 @@ class Profile extends Component {
         // maintain the state required for this component
         this.state = {
             email: '',
-            first_name : '',
-            last_name : '',
-            profilepic :'',
+            first_name: '',
+            last_name: '',
+            profilepic: '',
             password: '',
             file: '',
             img: '',
-            
+
             // following:false,
-            follow :false
+            follow: false
         }
-        
+
     }
 
-    componentWillMount(){
+    componentWillMount() {
         this.setState({
             authFlag: false,
             authFailed: false,
             profilepic: '',
-            
+
         })
 
         let temp = sessionStorage.getItem('email')
@@ -62,7 +62,7 @@ class Profile extends Component {
                 // profilepic: img
 
             })
-            
+
         });
 
     }
@@ -101,7 +101,7 @@ class Profile extends Component {
                 }
                 // this.props.loginuser(data);
             });
-           
+
     }
     imageChangeHandler = e => {
         this.setState({
@@ -133,15 +133,15 @@ class Profile extends Component {
                         profilepic: 'data:image/png;base64, ' + response.data
                     })
                 })
-                
+
             })
             .catch(error => { })
     }
 
-    followupdate = e =>{
+    followupdate = e => {
         e.preventDefault;
         const data = {
-            following : sessionStorage.getItem('email')
+            following: sessionStorage.getItem('email')
         }
         console.log(data);
         //set the with credentials to true
@@ -153,8 +153,8 @@ class Profile extends Component {
                 console.log(response.data);
                 if (response.status === 200) {
                     this.setState({
-                        following : response.data.following,
-                        follow:true
+                        following: response.data.following,
+                        follow: true
                     });
                     alert("Following User Successfully");
                 } else {
@@ -172,7 +172,7 @@ class Profile extends Component {
         })
     }
 
-    
+
     onSubmit = (e) => {
         console.log("in submit profile");
         const data = {
@@ -181,7 +181,7 @@ class Profile extends Component {
             email: this.state.email,
             password: this.state.password,
             phone: this.state.phone,
-            path :this.state.path
+            path: this.state.path
         }
         console.log("in submit profile  data:" + data);
         this.props.getProfile(data
@@ -189,8 +189,6 @@ class Profile extends Component {
                 console.log("update profile", res.data);
                 if (res.status === 200) {
                     console.log(res.data[0]);
-                    // sessionStorage.setItem('Email', res.data[0].Email);
-                    // this.props.history.push('/login');
                 }
             })
     }
@@ -198,72 +196,72 @@ class Profile extends Component {
 
     render() {
         let userprofile = null;
-        let user=true;
-        if(user){
+        let user = true;
+        if (user) {
             userprofile = (
                 <div>
-                <div className="editname">
-                                        <h3>Edit account</h3><br></br>
-                                        </div>
-                                        <div className="form-group">
-                                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>First name: {this.props.user.first_name}</div>
-                                            <div className="boxwidth-change">
-                                                <input onChange={this.inputChangeHandler} type="text" class="form-control" name="first_name" placeholder='Edit first name' />
-                                            </div>
-                                        </div>
+                    <div className="editname">
+                        <h3>Edit account</h3><br></br>
+                    </div>
+                    <div className="form-group">
+                        <div style={{ fontWeight: 'bold', fontSize: '18px' }}>First name: {this.props.user.first_name}</div>
+                        <div className="boxwidth-change">
+                            <input onChange={this.inputChangeHandler} type="text" class="form-control" name="first_name" placeholder='Edit first name' />
+                        </div>
+                    </div>
 
-                                        <div class="form-group">
-                                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Last name: {this.props.user.last_name} </div>
-                                            <div className="boxwidth-change">
-                                                <input onChange={this.inputChangeHandler} type="text" class="form-control" autoFocus name="last_name" placeholder='Edit Last name' />
-                                            </div>
-                                        </div>
+                    <div class="form-group">
+                        <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Last name: {this.props.user.last_name} </div>
+                        <div className="boxwidth-change">
+                            <input onChange={this.inputChangeHandler} type="text" class="form-control" autoFocus name="last_name" placeholder='Edit Last name' />
+                        </div>
+                    </div>
 
-                                        <div class="form-group">
-                                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Current password : ***** </div>
-                                            <div className="boxwidth-change">
-                                                <input
-                                                    onChange={this.inputChangeHandler}
-                                                    type="password"
-                                                    placeholder="Edit Password"
-                                                    class="form-control"
-                                                    name="password" />
-                                            </div>
-                                        </div>
+                    <div class="form-group">
+                        <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Current password : ***** </div>
+                        <div className="boxwidth-change">
+                            <input
+                                onChange={this.inputChangeHandler}
+                                type="password"
+                                placeholder="Edit Password"
+                                class="form-control"
+                                name="password" />
+                        </div>
+                    </div>
 
 
-                                        <div className="wrapperbutton">
-                                            <button type="submit" className="btn btn-info" onClick={this.update}>Edit Profile</button>
-                                        </div>
-                                        </div>
-                                        
+                    <div className="wrapperbutton">
+                        <button type="submit" className="btn btn-info" onClick={this.update}>Edit Profile</button>
+                    </div>
+                </div>
+
             )
         }
-          
-          let change = null;
-          if(!this.state.follow){
-              change = (
-                <button class="btn-danger" onClick={this.followupdate} style={{float : "right"}}>Follow</button>
-              )
-          }
-          else{
-            change = (
-                <button class="btn-danger" style={{float : "right"}} >Following</button>
-                )
-          }
-          let updatePic = null
 
-          if (this.state.file !== '') {
+        let change = null;
+        if (!this.state.follow) {
+            change = (
+                <button class="btn-danger" onClick={this.followupdate} style={{ float: "right" }}>Follow</button>
+            )
+        }
+        else {
+            change = (
+                <button class="btn-danger" style={{ float: "right" }} >Following</button>
+            )
+        }
+        let updatePic = null
+
+        if (this.state.file !== '') {
             updatePic = (
-              <button
-                style={{ marginLeft: '537px' }}
-                className='btn btn-link'
-                type='submit'
-              >
-                Update
+                <button
+                    style={{ marginLeft: '537px' }}
+                    className='btn btn-link'
+                    type='submit'
+                >
+                    Update
               </button>
             )
-          }
+        }
         return (
             <div>
 
@@ -285,8 +283,8 @@ class Profile extends Component {
                                             <div style={{ fontWeight: 'bold', fontSize: '18px' }}>{this.props.user.username}</div>
                                             {/* <div style={{ fontWeight: 'bold', fontSize: '18px' }}>{this.props.user}</div> */}
                                         </a>
-                                        
-                                        <a href='#' className='list-group-item' style={{backgroundColor : "#d3d3d3"}}>
+
+                                        <a href='#' className='list-group-item' style={{ backgroundColor: "#d3d3d3" }}>
 
                                             <form onSubmit={this.uploadImage} enctype='multipart/form-data'>
                                                 <div class='preview text-center' >
@@ -331,7 +329,7 @@ class Profile extends Component {
                                         {/* <div className="wrapperbutton"> */}
                                         {/* <button type="submit" className="button-edit" onClick={this.followupdate}>Follow</button>
                                     </div> */}
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -342,7 +340,7 @@ class Profile extends Component {
 
 
         )
-        }
+    }
 
 }
 

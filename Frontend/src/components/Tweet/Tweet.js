@@ -59,7 +59,9 @@ class Tweet extends Component {
   }
 
   componentDidMount() {
+
     var email = sessionStorage.getItem("email")
+    // alert(email)
     axios.get(ROOT_URL + '/fetchtweets', {
       params: {
         email: email

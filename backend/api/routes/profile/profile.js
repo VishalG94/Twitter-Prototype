@@ -1,46 +1,71 @@
 var express = require('express');
 var router = express.Router();
 var kafka = require('../../../kafka/client');
-const user = require('../../../../kafka-backend/api/models/user')
-const User = require('../../../../kafka-backend/api/models/user')
+const User = require('../../models/user');
 const mongoose = require('mongoose')
 var upload = require('../../../multer');
 
 
-// router.get('/profile',function(req,res){
-//     console.log("In Get Profile Query");
-//     console.log(req.query.email);
-//     let data = req.query;
-//     console.log(data.email);
-//     user.find({email : data.email}).then((result)=>{
-//       console.log("Profile Query");
-//       if (result) {
-//                   res.writeHead(200, {
-//                       'Content-Type': 'text/plain'
-//                   })
-//                   // console.log(docs);
-//                   console.log("Success");
-//                   console.log(JSON.stringify(result[0]));
-//                   res.end(JSON.stringify(result[0]));
-
-//               } else {
-//                   res.writeHead(400, {
-//                       'Content-Type': 'text/plain'
-//                   })
-//                   res.end("Unable to get data");
-//                   console.log("Unable get data");
-//               }
-//   });
-//   });
-
 router.get('/profile', function (req, res) {
+    console.log("In Get Profile Query");
+    console.log(req.query.email);
+    let data = req.query;
+    console.log(data.email);
+    User.find({ email: data.email })
+        .populate('following')
+        .populate('followedBy')
+        .then((result) => {
+            console.log("Profile Query");
+            if (result) {
+                res.writeHead(200, {
+                    'Content-Type': 'text/plain'
+                })
+                // console.log(docs);
+                console.log("Success");
+                // delete result[0]["password"];
+                console.log(JSON.stringify(result[0]));
+                res.end(JSON.stringify(result[0]));
 
-    console.log("Inside get User profile route" + req.session);
-    var email = req.query.email;
-    console.log(email);
+            } else {
+                res.writeHead(400, {
+                    'Content-Type': 'text/plain'
+                })
+                res.end("Unable to get data");
+                console.log("Unable get data");
+            }
+        });
+});
 
-    kafka.make_request("profile", email, function (err, results) {
-        console.log('Result from Kafka Backend\n', results);
+// router.get('/profile', function (req, res) {
+
+//     console.log("Inside get User profile route" + req.session);
+//     var email = req.query.email;
+//     console.log(email);
+
+//     kafka.make_request("profile", email, function (err, results) {
+//         console.log('Result from Kafka Backend\n', results);
+//         if (err) {
+//             console.log(" ERROR Occurred");
+//             res.json({
+//                 status: "error",
+//                 msg: "System Error, Try Again."
+//             })
+//         } else {
+//             console.log("Profile for user " + " sent to client");
+//             res.writeHead(200, {
+//                 'Content-Type': 'application/json'
+//             })
+//             res.end(JSON.stringify(results[0]));
+//         }
+//     });
+
+// });
+
+router.post('/followupdate', function (req, res) {
+    console.log("Inside Profile Update");
+    console.log(req.body);
+
+    kafka.make_request("follow", req.body, function (err, results) {
         if (err) {
             console.log(" ERROR Occurred");
             res.json({
@@ -48,37 +73,15 @@ router.get('/profile', function (req, res) {
                 msg: "System Error, Try Again."
             })
         } else {
-            console.log("Profile for user " + " sent to client");
+            console.log("\nProfile for user sent to client");
             res.writeHead(200, {
                 'Content-Type': 'application/json'
             })
-            res.end(JSON.stringify(results[0]));
+            res.end(JSON.stringify(results));
         }
-    });
-
-});
-
-router.post('/followupdate', function (req, res) {
-    console.log("Inside Profile Update");
-    console.log(req.body);
-  
-    kafka.make_request("follow",req.body,function(err,results){
-      if (err){
-        console.log( " ERROR Occurred");
-        res.json({
-            status:"error",
-            msg:"System Error, Try Again."
-        })
-    }else{
-      console.log("\nProfile for user sent to client");
-      res.writeHead(200,{
-          'Content-Type' : 'application/json'
-          })
-          res.end(JSON.stringify(results));
-      }
     })
-  
-  })
+
+})
 
 
 

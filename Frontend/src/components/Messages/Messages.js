@@ -10,10 +10,12 @@ import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
-import SearchBar from '../SearchBar/SearchBar'
+import MessageSearchBar from '../MessagesSearchBar/MessagesSearchBar'
 import ROOT_URL from '../../constants'
 import RecieverMessage from './RecieverMessage'
 import SenderMessage from './SenderMessage'
+import ActiveChat from '../MessagesSearchBar/ActiveChat'
+import DisabledChat from '../MessagesSearchBar/DisabledChat'
 // Define a Login Component
 class Messages extends Component {
   // call the constructor method
@@ -23,6 +25,13 @@ class Messages extends Component {
     this.state = {
       email: '',
       password: '',
+      following: [],
+      followedby: [],
+      recievers: [],
+      uniqueMessagesList: [],
+      senders: [],
+      fullList: [],
+      recieverName: 'New Message',
       messagelist: [],
       authFlag: false,
       authFailed: false
@@ -34,12 +43,26 @@ class Messages extends Component {
       authFlag: false,
       authFailed: false
     })
-    sessionStorage.setItem('reciever', 'Nishit')
-    let sender = sessionStorage.getItem('email')
+
+    let user = JSON.parse(sessionStorage.getItem('userDtls'))
+    let sender = JSON.parse(sessionStorage.getItem('userDtls')).username
     let reciever = sessionStorage.getItem('reciever')
     let data = {
       sender_name: sender,
       receiver_name: reciever
+    }
+    // sessionStorage.setItem('following', ['samkit', 'abc143', 'arunb1620'])
+    // sessionStorage.setItem('followedby', ['kiranbijjala94', 'abc143', 'samkit'])
+    let followingArray = (user.following).map((item) => { return item["username"]; });
+    this.setState({ following: followingArray })
+    let followedbyArray = (user.followedBy).map((list) => { return list.username; });
+    this.setState({ followedby: followedbyArray })
+
+    if (sessionStorage.getItem('reciever') !== null) {
+      let temp = sessionStorage.getItem('reciever');
+      this.setState({ 'recieverName': temp })
+    } else {
+      this.setState({ 'recieverName': 'New Message' })
     }
 
     // axios
@@ -63,7 +86,6 @@ class Messages extends Component {
       .then(res => {
         // update the state with the response data
         let list = res.data
-
         console.log('Axios get:', (res.data))
         this.setState(
           {
@@ -79,6 +101,43 @@ class Messages extends Component {
       .catch(err => {
         console.log('Error occured while sending the message!' + err)
       })
+
+    axios
+      .post(`${ROOT_URL}/receivermessageslist`, data)
+      .then(res => {
+        // update the state with the response data
+        let list = res.data
+        console.log('Axios get reciever list:', (res.data))
+        let y = [...this.state.fullList, ...res.data]
+        // alert(y)
+        this.setState({ fullList: y }, () => {
+          let unique = [...new Set(this.state.fullList)];
+          this.setState({ uniqueMessagesList: unique })
+        })
+      })
+      .catch(err => {
+        console.log('Error occured while sending the message!' + err)
+      })
+
+    axios
+      .post(`${ROOT_URL}/sendermessageslist`, data)
+      .then(res => {
+        // update the state with the response data
+        let list = res.data
+        console.log('Axios get sender list:', (res.data))
+        let x = [...this.state.fullList, ...res.data]
+        // alert(y)
+        this.setState({ fullList: x }, () => {
+          let unique = [...new Set(this.state.fullList)];
+          this.setState({ uniqueMessagesList: unique }
+            // , () => { alert(this.state.uniqueMessagesList) }
+          )
+        })
+      })
+      .catch(err => {
+        console.log('Error occured while sending the message!' + err)
+      })
+    // allMessagers = [...senders, ...recievers]
 
   }
   renderError = ({ error, touched }) => {
@@ -108,9 +167,13 @@ class Messages extends Component {
 
   onSubmit = formValues => {
     let reciever = sessionStorage.getItem('reciever')
-    let email = sessionStorage.getItem('email')
+    // let email = sessionStorage.getItem('email')
+
+    let user = JSON.parse(sessionStorage.getItem('userDtls'))
+    let sender = user.username
+
     let data = {
-      sender_name: email,
+      sender_name: sender,
       receiver_name: reciever,
       text: formValues.mesg
     }
@@ -163,18 +226,53 @@ class Messages extends Component {
     let redirectVar = null
     let invalidtag = null
     let messageDisplay = null
+    let messagesList = null
+
+    let searchlist = null;
+    let dispalyList = null;
+
+    searchlist = JSON.parse(sessionStorage.getItem('messagesearchresult'));
+    // let following = sessionStorage.getItem('following')
+    // let followedby = sessionStorage.getItem('followedby')
+    let previousChat = this.state.uniqueMessagesList;
+    let previousChatList = null;
+    if (previousChat !== null) {
+      previousChatList = Object.keys(previousChat).map((person) => {
+        return (
+          <ActiveChat person={previousChat[person]}></ActiveChat>
+        )
+      })
+    }
+
+    if (searchlist !== null) {
+      messagesList = Object.keys(searchlist).map((person) => {
+
+        if (this.state.following.includes(searchlist[person].username) && this.state.followedby.includes(searchlist[person].username)) {
+          return (
+            <ActiveChat person={searchlist[person].username}></ActiveChat>
+          )
+        } else {
+          return (
+            <DisabledChat person={searchlist[person].username}></DisabledChat>
+          )
+        }
+      })
+    }
+
     if (this.state.messagelist) {
       let mesgs = this.state.messagelist
       messageDisplay = Object.keys(mesgs).map((msg) => {
-        // alert(mesgs[msg].sender_name)       
-        if (sessionStorage.getItem('email') === mesgs[msg].sender_name) {
+        let user = JSON.parse(sessionStorage.getItem('userDtls'))
+        if (user.username === mesgs[msg].sender_name) {
           return (
             <SenderMessage message={mesgs[msg].text}></SenderMessage>
           )
-        } else if (sessionStorage.getItem('email') === mesgs[msg].receiver_name) {
+        } else if (user.username === mesgs[msg].receiver_name) {
           return (
-            < RecieverMessage message={mesgs[msg].text} ></RecieverMessage >
+            <RecieverMessage message={mesgs[msg].text} ></RecieverMessage >
           )
+        } else {
+          alert('Nothing found')
         }
       })
     }
@@ -196,6 +294,16 @@ class Messages extends Component {
     }
 
     let isSelected = 'searchTerm'
+    // let recieverName = null
+    // this.setState({'recieverName' , (typeof sessionStorage.getItem('reciever') === 'undefined' ? sessionStorage.getItem('reciever') : "New Message"})
+    // alert(recieverName)
+    // alert(this.state.recieverName)
+
+    if (sessionStorage.getItem('messagesearchresult')) {
+      dispalyList = messagesList
+    } else {
+      dispalyList = previousChatList
+    }
 
     return (
       <div>
@@ -215,17 +323,24 @@ class Messages extends Component {
               Messages
             </h3>
             <div style={{ borderBottom: '1px solid #E0E0E0' }} />
-            <SearchBar />
+            <MessageSearchBar />
+            <div>
+              <div class="list-group">
+                {dispalyList}
+              </div>
+            </div>
           </div>
           <div class='split-right'>
             <h3
               style={{
                 marginLeft: '20px',
                 fontWeight: '800',
-                fontSize: '19px'
+                fontSize: '19px',
+                color: 'black'
               }}
             >
-              @ Samkit Sheth
+
+              {this.state.recieverName}
             </h3>
             <div style={{ borderBottom: '1px solid #E0E0E0' }} />
             <div class="wrapper">
