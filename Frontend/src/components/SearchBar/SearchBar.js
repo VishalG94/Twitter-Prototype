@@ -23,28 +23,8 @@ class SearchBar extends Component {
       result: ""
     }
 
-    this.handleOpenModal = this.handleOpenModal.bind(this);
-    this.handleOpenModal2 = this.handleOpenModal2.bind(this);
-    this.handleCloseModal = this.handleCloseModal.bind(this);
-    this.handleCloseModal2 = this.handleCloseModal2.bind(this);
     this.textChangeHandler = this.textChangeHandler.bind(this)
     this.submitSearch = this.submitSearch.bind(this);
-  }
-
-  handleOpenModal() {
-    this.setState({ showModal: true });
-  }
-
-  handleOpenModal2() {
-    this.setState({ showModal2: true });
-  }
-
-  handleCloseModal() {
-    this.setState({ showModal: false });
-  }
-
-  handleCloseModal2() {
-    this.setState({ showModal2: false });
   }
 
   textChangeHandler = (e) => {
@@ -64,10 +44,11 @@ class SearchBar extends Component {
         console.log(response.data.res)
         if (response.data.res[0].text) {
           sessionStorage.setItem("Result", JSON.stringify(response.data.res))
+          sessionStorage.removeItem('UserResult');
         } else {
           sessionStorage.setItem("UserResult", JSON.stringify(response.data.res))
+          sessionStorage.removeItem('Result');
         }
-
         this.setState({
           result: response.data
         })
