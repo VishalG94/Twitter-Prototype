@@ -12,10 +12,17 @@ router.get("/fetchtweets", function (req, res) {
 
     User.findOne({ email: email }).then((doc) => {
 
-        console.log(doc + " Name" + doc.first_name + "fetchtweets success!" + doc.following[0])
-
+        // console.log(doc + " Name" + doc.first_name + "fetchtweets success!" + doc.following[0])
+        console.log(doc);
         Tweet.find({ owner: { $in: doc.following } })
             .populate('owner')
+            .populate('retweetdata')
+            .populate({
+                path: 'retweetdata',
+                populate: {
+                    path: 'owner'
+                }
+            })
             // .populate('first_name')
             .exec()
             .then((result1) => {

@@ -22,6 +22,8 @@ const userSchema = mongoose.Schema({
   modified: { type: Date, default: today },
   bookmarks: [{ type : ObjectId, ref: "Tweet" }],
   following : [{type:ObjectId,ref:"User"}],
+  // following : {type: Array, unique:true},
+  // followedBy : {type: Array, unique:true}
   followedBy : [{type:ObjectId,ref:"User"}],
   
 })
