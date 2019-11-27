@@ -12,7 +12,10 @@ import PrivateRoute from '../lib/PrivateRoute'
 import Dashboard from './Dashboard/Dashboard'
 import UserTweets from './UserTweets/UserTweets'
 import UserLikes from './UserTweets/UserLikes'
+import SearchProfileTweets from './UserTweets/SearchProfileTweets'
+import Followers from './Dashboard/Followers'
 // Create a Main Component
+
 class Main extends Component {
   render () {
     return (
@@ -25,10 +28,12 @@ class Main extends Component {
         <Route path='/home' component={Home} />
         <Route path='/messages' component={Messages} />
         <Route path='/profile' component={Profile} />
-        <Route static path='/userprofile' component={UserProfile} />
+        <Route  path='/userprofile' component={UserProfile} />
         <Route path='/dashboard' component={Dashboard} />
-        <Route static path='/userprofile/tweets' component={UserTweets} />
-        <Route static path='/userprofile/likes' component={UserLikes} />
+        <Route  path='/userprofile/tweets' component={UserTweets} />
+        <Route path='/profile/tweets' component={SearchProfileTweets} />
+        <Route  path='/userprofile/likes' component={UserLikes} />
+        <Route path='/followers' component={Followers} />
       </div>
     )
   }

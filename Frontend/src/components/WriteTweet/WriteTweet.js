@@ -2,7 +2,9 @@ import React from 'react'
 import { nominalTypeHack } from 'prop-types'
 import './WriteTweet.css'
 import axios from 'axios';
-
+import {getProfile} from '../../actions'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 class WriteTweet extends React.Component {
 
   constructor(props) {
@@ -10,12 +12,33 @@ class WriteTweet extends React.Component {
     this.state = {
       text: "",
       file: null,
-      url: null
-    }
+      url: null,
+      profilepic:''
+        }
 
     this.imagehandleChange = this.imagehandleChange.bind(this)
     this.textChangeHandler = this.textChangeHandler.bind(this)
     this.submitTweet = this.submitTweet.bind(this);
+  }
+
+  componentWillMount()
+  {
+    let email =sessionStorage.getItem('email')
+    let data = { email : email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          console.log(this.props.user)
+            console.log(response.data);
+            let img = '/images/profile/' + response.data.image
+            
+            this.setState({
+              
+              profilepic: img
+      });
+            
+        })
   }
 
   imagehandleChange(event) {
@@ -52,13 +75,14 @@ class WriteTweet extends React.Component {
     axios.defaults.withCredentials = true;
     axios.post('http://localhost:3001/writetweet', dataadd, config)
       .then(response => {
-        console.log(response);
+        console.log(response.dataadd);
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
           console.log('successfully entered user data')
           this.setState({
             edit: false
           })
+         
           window.location.reload();
         }
       }).catch((error) => {
@@ -85,7 +109,7 @@ class WriteTweet extends React.Component {
         <div class='row'>
           <div class='col-sm-1'>
             <img
-              src={require('../img/Twitternew.png')}
+              src={this.state.profilepic}
               class='preview-img'
               width='50'
               height='50'
@@ -143,4 +167,17 @@ class WriteTweet extends React.Component {
   }
 }
 
-export default WriteTweet
+// export default WriteTweet
+
+const mapStateToProps = state => {
+  return { user: state.user }
+}
+
+export default connect(
+  mapStateToProps,
+  { getProfile }
+)(
+  reduxForm({
+    form: 'streamLogin',
+  })(WriteTweet)
+)

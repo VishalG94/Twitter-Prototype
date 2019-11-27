@@ -11,10 +11,11 @@ import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import Tweet from '../Tweet/Tweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
+import UserList from './UserList'
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -25,7 +26,7 @@ class Search extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
@@ -109,7 +110,7 @@ class Search extends Component {
     })
   }
 
-  render () {
+  render() {
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
@@ -130,6 +131,20 @@ class Search extends Component {
     }
 
     let isSelected = 'searchTerm'
+    let tweetList = null;
+    let UsersList = null;
+    tweetList = JSON.parse(sessionStorage.getItem('Result'))
+    UsersList = JSON.parse(sessionStorage.getItem('UserResult'))
+    let list = null;
+    if (tweetList) {
+      list = <Tweet tweetsDtls={tweetList} />
+    } else if (UsersList) {
+      list = Object.keys(UsersList).map((person) => {
+        return (
+          <UserList person={UsersList[person]}></UserList>
+        )
+      })
+    }
 
     return (
       <div>
@@ -143,7 +158,7 @@ class Search extends Component {
                 <li href='#' class='list-group-item'>
                   <SearchBar />
                 </li>
-                <Tweet tweetsDtls={JSON.parse(sessionStorage.getItem("Result"))} />
+                {list}
               </ul>
             </div>
             <div className='col-sm-1' />
