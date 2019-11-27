@@ -8,6 +8,7 @@ import { connect } from 'react-redux'
 import { ReactModal } from 'react-modal';
 import WriteTweet from '../WriteTweet/WriteTweet'
 import Tweet from '../Tweet/Tweet'
+import ROOT_URL from '../../constants'
 
 //ReactModal.defaultStyles.overlay.backgroundColor = 'cornsilk';
 
@@ -58,10 +59,15 @@ class SearchBar extends Component {
         text: this.state.text
       }
       axios.defaults.withCredentials = true;
-      axios.post('http://localhost:3001/searchbar', data)
+      axios.post(`${ROOT_URL}/searchbar`, data)
         .then(response => {
             console.log(response.data.res)
-            sessionStorage.setItem("Result",JSON.stringify(response.data.res)) 
+            if(response.data.res[0].text){
+              sessionStorage.setItem("Result",JSON.stringify(response.data.res))
+            }else{
+              sessionStorage.setItem("UserResult",JSON.stringify(response.data.res))
+            }
+             
             this.setState({
               result: response.data
             }) 
