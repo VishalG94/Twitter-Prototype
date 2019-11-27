@@ -14,6 +14,9 @@ let messagedetails = require('./services/messages/messagedetails')
 var postsearchbar = require('./services/search/searchbar')
 var profile = require('./services/profile.js')
 var follow = require('./services/followupdate.js')
+var profileupdate = require('./services/profileupdate.js');
+var followedBy = require('./services/followedBy.js');
+
 var messagessearchbar = require('./services/messages/messagessearchbar')
 app.use(passport.initialize())
 
@@ -58,4 +61,6 @@ handleTopicRequest('message_details', messagedetails)
 handleTopicRequest('post_searchbar', postsearchbar)
 handleTopicRequest('profile', profile)
 handleTopicRequest('follow', follow)
+handleTopicRequest("profile_update",profileupdate)
+handleTopicRequest("followedBy",followedBy)
 handleTopicRequest('post_messagessearchbar', messagessearchbar)

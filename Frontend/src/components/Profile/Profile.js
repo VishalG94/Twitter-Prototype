@@ -6,7 +6,6 @@ import cookie from 'react-cookies'
 import { Redirect } from 'react-router'
 import { Link } from 'react-router-dom'
 import { getProfile } from '../../actions'
-
 import { connect } from 'react-redux'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import dotenv from 'dotenv'
@@ -25,6 +24,7 @@ class Profile extends Component {
             first_name: '',
             last_name: '',
             profilepic: '',
+            coverpic: '',
             password: '',
             file: '',
             img: '',
@@ -36,30 +36,59 @@ class Profile extends Component {
     }
 
     componentWillMount() {
+
         this.setState({
             authFlag: false,
             authFailed: false,
             profilepic: '',
-
+            // follow: false
         })
 
-        let temp = sessionStorage.getItem('email')
+        // let kiran = {
+        //     email: "arunb1620@gmail.com"
+        // };
+        // let temp = kiran.email
+        let temp = sessionStorage.getItem('user_email')
         console.log(temp);
         let data = { email: temp }
         console.log(data.email)
+
         this.props.getProfile({ params: data }, (response) => {
             console.log(this.props.user)
-            // let img = '/Users/kirankumarbijjala/Documents/Lab2/grubhub/Backend/public/profile/'+response.data.image
-            // console.log(img);
             console.log(response.data);
+            let img = '/images/profile/' + response.data.image
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
                 password: response.data.password,
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
-                // profilepic:data.data.image,
-                // profilepic: img
+                profilepic: img,
+                username: response.data.username,
+
+
+            })
+            console.log(this.state.follow)
+
+        });
+
+        let temp1 = sessionStorage.getItem('email')
+        console.log(temp1);
+        let data1 = { email: temp1 }
+        console.log(data1.email)
+        this.props.getProfile({ params: data1 }, (response) => {
+            console.log(this.props.user)
+            console.log(response.data);
+            this.setState({
+                // email: response.data.email,
+                // // phone: response.data.phone,
+                // password: response.data.password,
+                // first_name: response.data.first_name,
+                // last_name: response.data.last_name,
+                // profilepic: img,
+                // following : sessionStorage.getItem('user_email')
+                // follow : 
+                follow: response.data.following.includes(sessionStorage.getItem('user_email'))
 
             })
 
@@ -67,81 +96,15 @@ class Profile extends Component {
 
     }
 
-    update = (e) => {
-        const data = {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: sessionStorage.getItem('email'),
-            phone: this.state.phone,
-            password: this.state.password,
-            // path:this.state.path
-        }
-        console.log(data);
-        //set the with credentials to true
-        axios.defaults.withCredentials = true;
-        //make a post request with the user data
-        axios.post(`${ROOT_URL}/update`, data)
-            .then(response => {
-                console.log("Status Code  is : ", response.status);
-                console.log(response.data);
-                if (response.status === 200) {
-                    this.setState({
-                        first_name: response.data.first_name,
-                        last_name: response.data.last_name,
-                        password: response.data.password,
-                        // email: response.data[0].email,
-                        phone: response.data.phone
 
-
-                    });
-                    alert("Profile Update Succefully");
-                } else {
-                    console.log('Change failed !!! ');
-
-                }
-                // this.props.loginuser(data);
-            });
-
-    }
-    imageChangeHandler = e => {
-        this.setState({
-            file: e.target.files[0]
-        })
-    }
-
-    uploadImage = e => {
-        e.preventDefault()
-        console.log(this.state.file);
-        const formData = new FormData()
-
-        let email = sessionStorage.getItem('email')
-        console.log(email);
-        formData.append('myImage', this.state.file, email)
-        console.log(formData);
-        const config = {
-            headers: {
-                'content-type': 'multipart/form-data'
-            }
-        }
-        axios
-            .post('/profile', formData, config)
-            .then(response => {
-                let data = { 'email': email }
-                axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-                    console.log('Axios get:', response.data)
-                    this.setState({
-                        profilepic: 'data:image/png;base64, ' + response.data
-                    })
-                })
-
-            })
-            .catch(error => { })
-    }
 
     followupdate = e => {
-        e.preventDefault;
+        // e.preventDefault();
         const data = {
-            following: sessionStorage.getItem('email')
+            // following: sessionStorage.getItem('user_email'),
+            following: sessionStorage.getItem('result'),
+            email: sessionStorage.getItem('email'),
+            flag: 0
         }
         console.log(data);
         //set the with credentials to true
@@ -164,179 +127,177 @@ class Profile extends Component {
 
             });
 
+            const data1 = {
+                // new_email: sessionStorage.getItem('user_email'),
+                new_email: sessionStorage.getItem('result'),
+                followedBy: sessionStorage.getItem('email'),
+                flag: 0
+            }
+            console.log(data1);
+            //set the with credentials to true
+            axios.defaults.withCredentials = true;
+            //make a post request with the user data
+            axios.post(`${ROOT_URL}/followedupdate`, data1)
+                .then(response => {
+                    console.log("Status Code  is : ", response.status);
+                    console.log(response.data1);
+                    if (response.status === 200) {
+                        this.setState({
+                            followedBy: data1.followedBy,
+                            // follow: true
+                        });
+                        alert("Followed By User Successfully");
+                    } else {
+                        console.log('Change failed !!! ');
+    
+                    }
+    
+                });
+
     }
 
-    inputChangeHandler = (e) => {
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
+    
 
-
-    onSubmit = (e) => {
-        console.log("in submit profile");
+    unfollow = e => {
+        e.preventDefault();
         const data = {
-            first_name: this.state.first_name,
-            last_name: this.state.last_name,
-            email: this.state.email,
-            password: this.state.password,
-            phone: this.state.phone,
-            path: this.state.path
+            // following: sessionStorage.getItem('user_email'),
+            following: sessionStorage.getItem('result'),
+            email: sessionStorage.getItem('email'),
+            flag: 1
         }
-        console.log("in submit profile  data:" + data);
-        this.props.getProfile(data
-            , (res) => {
-                console.log("update profile", res.data);
-                if (res.status === 200) {
-                    console.log(res.data[0]);
+        console.log(data);
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(`${ROOT_URL}/followupdate`, data)
+            .then(response => {
+                console.log("Status Code  is : ", response.status);
+                console.log(response.data);
+                if (response.status === 200) {
+                    this.setState({
+                        following: response.data.following,
+                        follow: false
+                    });
+                    alert("Unfollowing User Successfully");
+                } else {
+                    console.log('Change failed !!! ');
+
                 }
-            })
+
+            });
+
+            const data1 = {
+                // new_email: sessionStorage.getItem('user_email'),
+                new_email: sessionStorage.getItem('result'),
+                followedBy: sessionStorage.getItem('email'),
+                flag: 1
+            }
+            console.log(data);
+            //set the with credentials to true
+            axios.defaults.withCredentials = true;
+            //make a post request with the user data
+            axios.post(`${ROOT_URL}/followedupdate`, data1)
+                .then(response => {
+                    console.log("Status Code  is : ", response.status);
+                    console.log(data1);
+                    if (response.status === 200) {
+                        this.setState({
+                            followedBy: data1.followedBy,
+                            // follow: true
+                        });
+                        alert("UnFollowing User Successfully");
+                    } else {
+                        console.log('Change failed !!! ');
+    
+                    }
+    
+                });
+
     }
 
 
     render() {
-        let userprofile = null;
-        let user = true;
-        if (user) {
-            userprofile = (
-                <div>
-                    <div className="editname">
-                        <h3>Edit account</h3><br></br>
-                    </div>
-                    <div className="form-group">
-                        <div style={{ fontWeight: 'bold', fontSize: '18px' }}>First name: {this.props.user.first_name}</div>
-                        <div className="boxwidth-change">
-                            <input onChange={this.inputChangeHandler} type="text" class="form-control" name="first_name" placeholder='Edit first name' />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Last name: {this.props.user.last_name} </div>
-                        <div className="boxwidth-change">
-                            <input onChange={this.inputChangeHandler} type="text" class="form-control" autoFocus name="last_name" placeholder='Edit Last name' />
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Current password : ***** </div>
-                        <div className="boxwidth-change">
-                            <input
-                                onChange={this.inputChangeHandler}
-                                type="password"
-                                placeholder="Edit Password"
-                                class="form-control"
-                                name="password" />
-                        </div>
-                    </div>
-
-
-                    <div className="wrapperbutton">
-                        <button type="submit" className="btn btn-info" onClick={this.update}>Edit Profile</button>
-                    </div>
-                </div>
-
-            )
-        }
-
         let change = null;
+        console.log(this.props.user);
+        // if (this.props.user.following.includes(sessionStorage.getItem('user_email'))) {
         if (!this.state.follow) {
             change = (
-                <button class="btn-danger" onClick={this.followupdate} style={{ float: "right" }}>Follow</button>
+                <button type="button" style={{fontSize:'15.4px', borderRadius:'30px'}} class="btn btn-danger" onClick={this.followupdate} >Follow</button>
             )
         }
         else {
             change = (
-                <button class="btn-danger" style={{ float: "right" }} >Following</button>
+                <button type="button" style={{fontSize:'15.4px', borderRadius:'30px'}} class="btn btn-danger" onClick={this.unfollow} >Following</button>
             )
         }
-        let updatePic = null
 
-        if (this.state.file !== '') {
-            updatePic = (
-                <button
-                    style={{ marginLeft: '537px' }}
-                    className='btn btn-link'
-                    type='submit'
-                >
-                    Update
-              </button>
-            )
-        }
         return (
             <div>
-
-                <div class="container-fluid">
-                    <div class="sidebar"></div>
-                    <div className="row">
-                        <div className="col-sm-2">
-                            <LeftNavbar />
-                        </div>
-                        <div className="col-sm-10">
-
-                            <div class="container">
-                                <div class="login-form">
-                                    <div className="column-change">
-                                        {/* <div class="main-div"> */}
-
-                                        <a href='#' className='list-group-item'>
-
-                                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>{this.props.user.username}</div>
-                                            {/* <div style={{ fontWeight: 'bold', fontSize: '18px' }}>{this.props.user}</div> */}
-                                        </a>
-
-                                        <a href='#' className='list-group-item' style={{ backgroundColor: "#d3d3d3" }}>
-
-                                            <form onSubmit={this.uploadImage} enctype='multipart/form-data'>
-                                                <div class='preview text-center' >
-                                                    <div>
-                                                        <img
-                                                            class="img-circle"
-                                                            style={{ backgroundColor: "black" }}
-                                                            src={this.state.profilepic}
-                                                            width='200'
-                                                            height='200'
-                                                        />
-                                                        <div className='browse-button'>
-                                                            <i className='fa fa-pencil' />
-                                                            <input
-                                                                class='browse-input'
-                                                                type='file'
-                                                                onChange={this.imageChangeHandler}
-                                                                name='myImage'
-                                                                id='myImage'
-                                                            />
-                                                            <br />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                {updatePic}
-                                            </form>
-                                        </a>
-
-                                        {/* <div style={{ fontWeight: 'bold', fontSize: '18px' }}>{data.name}</div>
-                                        <div style={{ fontWeight: 'bold', fontSize: '18px' }}>{data.username}</div> */}
+                <div className="col-sm-2">
+                    <LeftNavbar />
+                </div>
+                <div class='split-center_new'>
+                    <h3
+                        style={{
+                            marginLeft: '20px',
+                            fontWeight: '800',
+                            fontSize: '19px'
+                        }}
+                    >
+                        {this.state.username}
+                    </h3>
 
 
-                                        <br></br>
-                                        <ul class="list-inline">
-                                            <li> <a href="/profile/tweets" class="list-group-item">Tweets</a></li>
-                                            <li> <a href="#" class="list-group-item">Tweets and Replies</a></li>
-                                            <li> <a href="#" class="list-group-item">Media</a></li>
-                                            <li> <a href="/profile/likes" class="list-group-item">Likes</a></li>
-                                            {change}
-                                        </ul>
-                                        {userprofile}
-                                        {/* <div className="wrapperbutton"> */}
-                                        {/* <button type="submit" className="button-edit" onClick={this.followupdate}>Follow</button>
-                                    </div> */}
+                    <form onSubmit={this.uploadImage} enctype='multipart/form-data'>
+                        <div class='preview text-center' >
+                            <div>
+                                <img class="product-holder "
+                                    style={{ backgroundColo: "black" }}
+                                    src={this.state.profilepic}
+                                    width='1000'
+                                    height='300'>
 
-                                    </div>
-                                </div>
+                                </img>
+                                <img
+                                    class="plus-image img-circle "
+                                    style={{ backgroundColor: "black", border: "black" }}
+                                    src={this.state.profilepic}
+                                    width='200'
+                                    height='200'
+                                />
+                                <input
+                                    // class='browse-input'
+                                    type='file'
+                                    onChange={this.imageChangeHandler}
+                                    name='myImage'
+                                    id='myImage'
+                                />
+                                <br />
                             </div>
                         </div>
-                    </div >
-                </div >
+                    </form>
+                    <div>
+                    <br></br>
+<br></br>   
+                        
+                        <ul class="list-inline">
+                            <li> <a href="/profile/tweets" class="list-group-item">Tweets</a></li>
+                            <li> <a href="#" class="list-group-item">Tweets and Replies</a></li>
+                            <li> <a href="#" class="list-group-item">Media</a></li>
+                            <li> <a href="/profile/likes" class="list-group-item">Likes</a></li>
+                            <div style={{float :"right"}}>
+                            {change}
+                            </div>
+                        </ul>
+                        
+                    </div>
+
+                </div>
             </div>
+
+
+
 
 
         )

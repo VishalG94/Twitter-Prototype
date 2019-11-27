@@ -8,7 +8,7 @@ function handle_request(msg, callback) {
 
   if(search_term[0]==='#')
   {
-    Tweet.find({text: { $regex: '.*' + search_term.substr(1) + '.*' , $options: 'i' } })
+    Tweet.find({text: { $regex: '.*' + search_term.substr(1) + '.*' , $options: 'i' } }).populate('owner')
     .exec()
     .then(res => {
       console.log(res);
