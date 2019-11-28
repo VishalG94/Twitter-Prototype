@@ -110,7 +110,7 @@ class graph extends Component {
         console.log(this.state.tweets)
         let check =[]
         this.state.tweets.forEach(info =>{
-            check.push({ name: info.text, value: info.likes.length+1 })
+            check.push({ name: info.likes.length, value: info.likes.length })
         })
         console.log(check)
         this.setState({
