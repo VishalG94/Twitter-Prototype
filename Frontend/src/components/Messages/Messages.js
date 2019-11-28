@@ -168,32 +168,33 @@ class Messages extends Component {
   onSubmit = formValues => {
     let reciever = sessionStorage.getItem('reciever')
     // let email = sessionStorage.getItem('email')
+    if (formValues.mesg !== '' && typeof formValues.mesg !== 'undefined') {
+      let user = JSON.parse(sessionStorage.getItem('userDtls'))
+      let sender = user.username
 
-    let user = JSON.parse(sessionStorage.getItem('userDtls'))
-    let sender = user.username
-
-    let data = {
-      sender_name: sender,
-      receiver_name: reciever,
-      text: formValues.mesg
+      let data = {
+        sender_name: sender,
+        receiver_name: reciever,
+        text: formValues.mesg
+      }
+      axios.defaults.withCredentials = true
+      console.log(data)
+      axios
+        .post(`${ROOT_URL}/postmessage`, data)
+        .then(res => {
+          // update the state with the response data
+          console.log('Axios get:', res.data)
+          if (res.status === 200) {
+            console.log('Inside response', res.data)
+            window.location.reload()
+          } else {
+            console.log('Error occured while sending the message!')
+          }
+        })
+        .catch(err => {
+          console.log('Error occured while sending the message!' + err)
+        })
     }
-    axios.defaults.withCredentials = true
-    console.log(data)
-    axios
-      .post(`${ROOT_URL}/postmessage`, data)
-      .then(res => {
-        // update the state with the response data
-        console.log('Axios get:', res.data)
-        if (res.status === 200) {
-          console.log('Inside response', res.data)
-          window.location.reload()
-        } else {
-          console.log('Error occured while sending the message!')
-        }
-      })
-      .catch(err => {
-        console.log('Error occured while sending the message!' + err)
-      })
   }
 
   renderError = ({ error, touched }) => {
@@ -236,6 +237,7 @@ class Messages extends Component {
     // let followedby = sessionStorage.getItem('followedby')
     let previousChat = this.state.uniqueMessagesList;
     let previousChatList = null;
+    
     if (previousChat !== null) {
       previousChatList = Object.keys(previousChat).map((person) => {
         return (
@@ -244,10 +246,12 @@ class Messages extends Component {
       })
     }
 
+    let user = JSON.parse(sessionStorage.getItem('userDtls'))
     if (searchlist !== null) {
+      
       messagesList = Object.keys(searchlist).map((person) => {
-
-        if (this.state.following.includes(searchlist[person].username) && this.state.followedby.includes(searchlist[person].username)) {
+        
+        if (user.following.includes(searchlist[person]._id) && user.followedBy.includes(searchlist[person]._id)) {
           return (
             <ActiveChat person={searchlist[person].username}></ActiveChat>
           )

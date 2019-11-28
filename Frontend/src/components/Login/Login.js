@@ -63,49 +63,24 @@ class Login extends Component {
       password: formValues.password
     }
     axios.defaults.withCredentials = true
-    // console.log(data)
-    // axios
-    //   .post('http://localhost:3001/login', data)
-    //   .then(response => {
-    //     console.log('Status Code : ', response.status)
-    //     if (response.status === 200) {
-    //       sessionStorage.setItem('email', data.email)
-    //       this.setState({
-    //         authFlag: true
-    //       })
-    //     }
-    //   })
-    //   .catch(err => {
-    //     this.setState({ authFailed: true })
-    //   })
     this.props.loginuser(data, res => {
       if (res.status === 200) {
         console.log('Inside response', res.data)
         this.setState({
           authFlag: true
         })
-        let userp = {
-          email : "arunb1620@gmail.com",
-          id : "5dda82c83325fc2eb7be3d12"
-        }
+        
         const user = jwtDecode(res.data.token)
         console.log(user)
-        let data = { email: user.email }
-        // alert(data.email)
-        this.props.getProfile({ params: data }, (response) => {
-          // console.log(this.props.user)
-          // alert(response.data);
-          sessionStorage.setItem('userDtls', JSON.stringify(response.data))
-        });
+        
         sessionStorage.setItem('email', user.email)
 
         sessionStorage.setItem('id', res.data.id)
         sessionStorage.setItem('first_name', res.data.first_name)
         sessionStorage.setItem('last_name', res.data.last_name)
 
-        sessionStorage.setItem('user_email',userp.email)
-        sessionStorage.setItem('result',userp.id)
         this.props.history.push('/home')
+        window.location.reload()
       } else {
         alert('Please enter valid credentials')
       }

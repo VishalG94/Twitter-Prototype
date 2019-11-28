@@ -41,13 +41,13 @@ class SearchBar extends Component {
     axios.defaults.withCredentials = true;
     axios.post(`${ROOT_URL}/searchbar`, data)
       .then(response => {
-        console.log(response.data.res)
-        if (response.data.res[0].text) {
-          sessionStorage.setItem("Result", JSON.stringify(response.data.res))
-          sessionStorage.removeItem('UserResult');
+        // alert(JSON.stringify(response.data[0]))
+        sessionStorage.removeItem('Result')
+        sessionStorage.removeItem('UserResult')
+        if (response.data[0].text) {
+          sessionStorage.setItem("Result", JSON.stringify(response.data))
         } else {
-          sessionStorage.setItem("UserResult", JSON.stringify(response.data.res))
-          sessionStorage.removeItem('Result');
+          sessionStorage.setItem("UserResult", JSON.stringify(response.data))
         }
         this.setState({
           result: response.data
