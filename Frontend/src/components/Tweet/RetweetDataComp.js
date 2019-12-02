@@ -22,6 +22,7 @@ class TweetDataComp extends React.Component {
         this.bookmarkPressed = this.bookmarkPressed.bind(this)
         this.unbookmarkPressed = this.unbookmarkPressed.bind(this)
         this.retweetPressed = this.retweetPressed.bind(this)
+        this.viewTweetCalled = this.viewTweetCalled.bind(this)
     }
 
     likePressed = e => {
@@ -154,13 +155,43 @@ class TweetDataComp extends React.Component {
         })
     }
 
+    viewTweetCalled = e => {
+
+        var headers = new Headers();
+        //prevent page from refresh
+        e.preventDefault();
+        const data = {
+            tweetid: this.props.data._id,
+            views: this.props.data.views
+        };
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(ROOT_URL + "/increamentview", data).then(response => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+                window.location.replace(`/viewtweet/` + this.props.data._id)
+                this.setState({
+                    authFlag: true
+                });
+
+            } else {
+                this.setState({
+                    authFlag: false
+                });
+            }
+        });
+    };
+
 
     render() {
 
         var dateVar = dateformat(this.props.data.time, 'mmm dd')
 
+
         let hasImageTag = null
-        if (this.props.data.retweetdata.image) {
+        // if(this.props.data.retweetdata!=null){
+        if (this.props.data.retweetdata.image && this.props.data.retweetdata.image !== "/uploads/") {
             hasImageTag = (
                 <div>
                     <img
@@ -174,6 +205,7 @@ class TweetDataComp extends React.Component {
                 </div>
             )
         }
+        // }
 
         let replyBar = null;
         if (this.state.replyFlag) {
@@ -249,7 +281,7 @@ class TweetDataComp extends React.Component {
             <div>
                 <div class="tweet">
                     <div class="list-group-item">
-                    <a href={`/viewtweet/` + this.props.data._id} >
+                    <a href={`/viewtweet/` + this.props.data._id} onClick={this.viewTweetCalled} >
                         <div class='row'>
                             <div class='col-sm-1'>
                                 <img
@@ -374,9 +406,9 @@ class TweetDataComp extends React.Component {
                     </div>
                     {replyBar}
                     {retweetBar}
-                </div >
-                )
-            }
-        }
-        
+            </div >
+        )
+    }
+}
+
 export default TweetDataComp

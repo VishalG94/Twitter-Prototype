@@ -159,21 +159,24 @@ class TweetData extends Component {
 
         let hasImageTag = null
         if (this.props.data.image) {
-            hasImageTag = (
-                <div>
-                    <img
-                        class='rounded-circle'
-                        style={{ borderRadius: '10px' }}
-                        src={this.props.data.image}
-                        width='500px'
-                        height='250%'
-                        alt='profile pic' Tweet
-                    />
-                    
-                    <br />
-                    <br />
-                </div>
-            )
+            if(this.props.data.image!=="/uploads/"){
+                hasImageTag = (
+                    <div>
+                        <img
+                            class='rounded-circle'
+                            style={{ borderRadius: '10px' }}
+                            src={this.props.data.image}
+                            width='500px'
+                            height='250%'
+                            alt='profile pic' Tweet
+                        />
+                        
+                        <br />
+                        <br />
+                    </div>
+                )
+            }
+            
         }
       
 

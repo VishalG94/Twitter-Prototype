@@ -23,6 +23,7 @@ class TweetDataComp extends React.Component {
         this.unbookmarkPressed = this.unbookmarkPressed.bind(this)
         this.retweetPressed = this.retweetPressed.bind(this)
         this.viewTweetCalled = this.viewTweetCalled.bind(this)
+        this.deletePressed = this.deletePressed.bind(this)
     }
 
     likePressed = e => {
@@ -184,12 +185,46 @@ class TweetDataComp extends React.Component {
     };
 
 
+    deletePressed = e => {
+        var headers = new Headers();
+        //prevent page from refresh
+        e.preventDefault();
+        const data = {
+            tweetid: this.props.data._id,
+        };
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(ROOT_URL + "/deletetweet", data).then(response => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+
+                this.setState({
+                    authFlag: true
+                });
+                window.location.reload();
+            } else {
+                this.setState({
+                    authFlag: false
+                });
+            }
+        });
+    };
+
     render() {
         console.log("Views " + this.props.data.views)
         var dateVar = dateformat(this.props.data.time, 'mmm dd')
 
+        let deleteFlag = null;
+        if (this.props.data.owner === sessionStorage.getItem('id')) {
+            deleteFlag =
+                <button type="submit" class="btn btn-link" onClick={this.deletePressed} style={{ color: 'grey' }}>
+                    <span class="glyphicon glyphicon-trash fa-2x"></span>
+                </button>
+        }
+
         let hasImageTag = null
-        if (this.props.data.image) {
+        if (this.props.data.image && this.props.data.image !== "/uploads/") {
             hasImageTag = (
                 <div>
                     <img
@@ -315,7 +350,11 @@ class TweetDataComp extends React.Component {
 
                                             . {dateVar}
                                         </span>
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        {deleteFlag}
+
                                     </h4>
+
                                     <div style={{ color: 'black' }}>{this.props.data.text}</div>
                                     <br />
                                     {hasImageTag}
