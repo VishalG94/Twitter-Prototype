@@ -11,11 +11,12 @@ import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import Tweet from '../Tweet/Tweet'
 import WriteTweet from '../WriteTweet/WriteTweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
-
+import SearchBar from '../SearchBar/SearchBar'
+import UserList from './UserList'
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -26,7 +27,7 @@ class Search extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
@@ -111,7 +112,7 @@ class Search extends Component {
   }
   
 
-  render () {
+  render() {
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
@@ -129,7 +130,22 @@ class Search extends Component {
       likes: 30,
       retweets: 20,
       comments: 10
+    }  
 
+    let isSelected = 'searchTerm'
+    let tweetList = null;
+    let UsersList = null;
+    tweetList = JSON.parse(sessionStorage.getItem('Result'))
+    UsersList = JSON.parse(sessionStorage.getItem('UserResult'))
+    let list = null;
+    if (tweetList) {
+      list = <Tweet tweetsDtls={tweetList} />
+    } else if (UsersList) {
+      list = Object.keys(UsersList).map((person) => {
+        return (
+          <UserList person={UsersList[person]}></UserList>
+        )
+      })
     }
 
     return (
@@ -142,41 +158,9 @@ class Search extends Component {
             <div className='col-sm-7'>
               <ul>
                 <li href='#' class='list-group-item'>
-                  <div class='form-group'>
-                    {/* <input class='form-control' /> */}
-                    <div tabIndex='0' class='wrap'>
-                      <div class='search'>
-                        <input
-                          id='searchbar'
-                          type='text'
-                          class='searchTerm'
-                          placeholder='What are you looking for?'
-                        />
-                        <button
-                          id='searchbarbutton'
-                          type='submit'
-                          class='searchButton'
-                        >
-                          <i class='fa fa-search' />
-                        </button>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        {/* <button
-                          type='button'
-                          style={{
-                            borderRadius: '20px 20px 20px 20px',
-                            backgroundColor: 'white',
-                            color: 'rgb(0, 112, 235)',
-                            outlineColor: 'rgb(0, 112, 235)'
-                          }}
-                          class='btn btn-primary'
-                        >
-                          Search
-                        </button> */}
-                      </div>
-                    </div>
-                  </div>
+                  <SearchBar />
                 </li>
-                <Tweet tweetsDtls={data} />
+                {list}
               </ul>
             </div>
             <div className='col-sm-1' />

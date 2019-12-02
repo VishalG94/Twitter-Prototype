@@ -1,12 +1,17 @@
 import React from 'react'
 
 class LeftNavbar extends React.Component {
-  render () {
+  render() {
     return (
+      // <div class='col-sm-2'>
       <div>
         <h2>
           <span
-            style={{ marginLeft: '10px', color: '#0070eb', alighText: 'right' }}
+            style={{
+              marginLeft: '10px',
+              color: '#0070eb',
+              alighText: 'right'
+            }}
           >
             Your account
           </span>
@@ -21,7 +26,7 @@ class LeftNavbar extends React.Component {
           </li>
           <li className='li-profile'>
             <a href='/search' className='navLink'>
-              <i class='fas fa-hashtag' />{' '}
+              <i class='fas fa-hashtag' />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Explore</span>
             </a>
@@ -48,14 +53,14 @@ class LeftNavbar extends React.Component {
             </a>
           </li>
           <li className='li-profile'>
-            <a href='/profile' className='navLink'>
+            <a href='/userprofile' className='navLink'>
               <i class='far fa-user' />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Profile</span>
             </a>
           </li>
           <li className='li-profile'>
-            <a href='/d ashboard' className='navLink'>
+            <a href='/dashboard' className='navLink'>
               <i class='fas fa-chart-line' />
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <span className='tab'>Dashboard</span>
@@ -63,6 +68,7 @@ class LeftNavbar extends React.Component {
           </li>
         </ul>
       </div>
+      // </div>
     )
   }
 }

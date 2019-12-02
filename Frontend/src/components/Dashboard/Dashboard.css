@@ -1,0 +1,44 @@
+.container-dashboard
+{
+    background-color: #dbdbdb;
+    margin-top: 150px;
+    width: 100%;
+    position: relative;
+    margin-left: auto !important;
+    align-items: center !important;
+
+}
+
+.tab-content
+{
+    background-color: #ffffff;
+    width: 100%;
+    position: relative;
+    margin-left: auto !important;
+    align-items: center !important;
+}
+
+.affix {
+    top: 150px;
+    width: 100%;
+    z-index: 9999 !important;
+}
+
+.affix + .container-fluid {
+    padding-top: 70px;
+}
+
+
+.split-center-dashboard {
+    margin-top: 52px;
+    height: 100%;
+    width: 85%;
+    position: fixed;
+    left: 15%;
+    /* background-color: blue; */
+    z-index: 1;
+    top: 0;
+    border-left: 1px solid #e0e0e0;
+    border-right: 1px solid #e0e0e0;
+    overflow-x: hidden;
+  }

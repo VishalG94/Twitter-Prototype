@@ -24,11 +24,9 @@
   background-color: #e0e0e0;
   border-right: none;
   float: left;
-  /* padding: 5px; */
   height: 36px;
   border-radius: 20px 0 0 20px;
   outline: none;
-  color: #9dbfaf;
 }
 
 .searchTerm:focus {
@@ -52,15 +50,11 @@
   font-size: 20px;
 }
 
-/*Resize the wrap to see the search bar change!*/
 .wrap {
   width: 90%;
-  /* position: absolute; */
+
   margin-top: 20px;
   margin-left: 20px;
-  /* top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%); */
 }
 
 .col-sm-2 {
@@ -91,7 +85,7 @@
   width: 200px;
   height: 200px;
   border-radius: 100%;
-  position: absolute; /* Tweak the position property if the element seems to be unfit */
+  position: absolute;
   top: 50px;
   left: 541px;
   background: linear-gradient(180deg, transparent, black);

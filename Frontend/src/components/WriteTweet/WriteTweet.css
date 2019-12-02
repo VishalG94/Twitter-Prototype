@@ -25,3 +25,26 @@ textarea {
   font-size: medium;
   outline: none;
 }
+
+.browse-button {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  position: absolute; /* Tweak the position property if the element seems to be unfit */
+  top: 50px;
+  left: 541px;
+  background: linear-gradient(180deg, transparent, black);
+  opacity: 0;
+  transition: 0.3s ease;
+}
+
+.browse-button:hover {
+  opacity: 1;
+}
+.browse-input {
+  width: 200px;
+  height: 200px;
+  border-radius: 100%;
+  transform: translate(-1px, -26px);
+  opacity: 0;
+}

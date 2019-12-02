@@ -6,7 +6,7 @@ import { Redirect } from 'react-router'
 
 // create the Navbar Component
 class Navbar extends Component {
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.handleLogout = this.handleLogout.bind(this)
   }
@@ -14,10 +14,10 @@ class Navbar extends Component {
   handleLogout = () => {
     sessionStorage.clear()
   }
-  render () {
+  render() {
     // if Cookie is set render Logout Button
     let navLogin = null
-    if ( sessionStorage.getItem('email') ) {
+    if (sessionStorage.getItem('email')) {
       console.log('Able to read Session')
       navLogin = (
         <ul class='nav navbar-nav navbar-right'>
@@ -62,12 +62,19 @@ class Navbar extends Component {
         >
           <div class='container-fluid'>
             <div class='navbar-header'>
-              <img
+              <a href='/home'>
+                <i style={{
+                  marginLeft: '30px',
+                  color: 'rgb(29, 161, 242)',
+                  // alighText: 'right'
+                }} class="fab fa-twitter fa-3x"></i>
+              </a>
+              {/* <img
                 src={require('../img/Twitternew.png')}
                 alt='Preview Image'
                 width='50'
                 height='50'
-              />
+              /> */}
             </div>
             {navLogin}
           </div>

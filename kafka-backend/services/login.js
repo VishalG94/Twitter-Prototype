@@ -7,8 +7,6 @@ var con = require("../sql/sqlpool");
 
 require('../config/passport')(passport);
 
-
-
 function handle_request(msg, callback) {
     console.log("in login kafka");
     console.log(msg);
