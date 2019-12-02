@@ -6,16 +6,16 @@ var passport = require('passport')
 var mongoose = require('./sql/mongoose')
 
 // topics files
-var signup = require('./services/signup.js')
-var login = require('./services/login.js')
-var writetweet = require('./services/writetweet.js')
+var signup = require('./services/signup')
+var login = require('./services/login')
+var writetweet = require('./services/writetweet')
 var postmessage = require('./services/messages/postmessage')
 let messagedetails = require('./services/messages/messagedetails')
 var postsearchbar = require('./services/search/searchbar')
-var profile = require('./services/profile.js')
-var follow = require('./services/followupdate.js')
-var profileupdate = require('./services/profileupdate.js');
-var followedBy = require('./services/followedBy.js');
+var profile = require('./services/profile')
+var follow = require('./services/followupdate')
+var profileupdate = require('./services/profileupdate');
+var followedBy = require('./services/followedBy');
 
 var messagessearchbar = require('./services/messages/messagessearchbar')
 app.use(passport.initialize())
