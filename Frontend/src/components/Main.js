@@ -12,9 +12,10 @@ import PrivateRoute from '../lib/PrivateRoute'
 import Dashboard from './Dashboard/Dashboard'
 import UserTweets from './UserTweets/UserTweets'
 import UserLikes from './UserTweets/UserLikes'
+import ViewTweet from './Tweet/ViewTweet'
 // Create a Main Component
 class Main extends Component {
-  render () {
+  render() {
     return (
       <div>
         {/* Render Different Component based on Route */}
@@ -29,6 +30,7 @@ class Main extends Component {
         <Route path='/dashboard' component={Dashboard} />
         <Route static path='/userprofile/tweets' component={UserTweets} />
         <Route static path='/userprofile/likes' component={UserLikes} />
+        <Route static path='/viewtweet/:id' component={ViewTweet} />
       </div>
     )
   }

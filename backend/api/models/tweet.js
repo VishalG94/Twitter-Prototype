@@ -15,6 +15,7 @@ const tweetSchema = mongoose.Schema({
   retweetFlag: Boolean,
   bookmarks: [{ type: ObjectId }],
   retweetdata: { type: ObjectId, ref: 'Tweet' },
+  views: { type: Array }
 })
 
 module.exports = mongoose.model('Tweet', tweetSchema)

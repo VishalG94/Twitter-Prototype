@@ -14,7 +14,7 @@ import SearchBar from '../SearchBar/SearchBar'
 // Define a Login Component
 class Search extends Component {
   // call the constructor method
-  constructor (props) {
+  constructor(props) {
     super(props)
 
     this.state = {
@@ -25,7 +25,7 @@ class Search extends Component {
     }
   }
 
-  componentWillMount () {
+  componentWillMount() {
     this.setState({
       authFlag: false,
       authFailed: false
@@ -109,7 +109,7 @@ class Search extends Component {
     })
   }
 
-  render () {
+  render() {
     let redirectVar = null
     let invalidtag = null
     if (this.state.authFailed) {
@@ -143,7 +143,7 @@ class Search extends Component {
                 <li href='#' class='list-group-item'>
                   <SearchBar />
                 </li>
-                <Tweet tweetsDtls={JSON.parse(sessionStorage.getItem("Result"))} />
+                {/* <Tweet tweetsDtls={JSON.parse(sessionStorage.getItem("Result"))} /> */}
               </ul>
             </div>
             <div className='col-sm-1' />

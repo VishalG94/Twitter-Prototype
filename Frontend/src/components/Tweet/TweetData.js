@@ -309,6 +309,7 @@ class TweetData extends Component {
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
+                                        
                                     </div>
                                 </div>
 
