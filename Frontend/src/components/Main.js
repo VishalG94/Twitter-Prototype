@@ -15,6 +15,7 @@ import UserTweets from './UserTweets/UserTweets'
 import UserLikes from './UserTweets/UserLikes'
 import SearchProfileTweets from './UserTweets/SearchProfileTweets'
 import Followers from './Dashboard/Followers'
+import BookMarkedTweets from './UserTweets/BookMarkedTweets'
 // Create a Main Component
 
 class Main extends Component {
@@ -34,8 +35,10 @@ class Main extends Component {
         <Route path='/graph' component={Graph} />
         <Route  path='/userprofile/tweets' component={UserTweets} />
         <Route path='/profile/tweets' component={SearchProfileTweets} />
+        <Route path='/profile/likes' component={SearchProfileTweets} />
         <Route  path='/userprofile/likes' component={UserLikes} />
         <Route path='/followers' component={Followers} />
+        <Route path='/bookmarks' component={BookMarkedTweets} />
       </div>
     )
   }

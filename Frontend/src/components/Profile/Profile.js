@@ -48,9 +48,9 @@ class Profile extends Component {
         //     email: "arunb1620@gmail.com"
         // };
         // let temp = kiran.email
-       
-        
-        
+
+
+
         let temp = sessionStorage.getItem('SelectedUserProfile')
         console.log(temp);
         let data = { email: temp }
@@ -77,7 +77,7 @@ class Profile extends Component {
 
         let temp1 = sessionStorage.getItem('email')
         console.log(temp1);
-        let data1 = { email: temp1}
+        let data1 = { email: temp1 }
         // if(this.state.follow)
         console.log(data1.email)
         this.props.getProfile({ params: data1 }, (response) => {
@@ -123,36 +123,36 @@ class Profile extends Component {
 
             });
 
-            const data1 = {
-                // new_email: sessionStorage.getItem('user_email'),
-                new_email: sessionStorage.getItem('SelectedUserProfile'),
-                followedBy: sessionStorage.getItem('id'),
-                flag: 0
-            }
-            console.log(data1);
-            //set the with credentials to true
-            axios.defaults.withCredentials = true;
-            //make a post request with the user data
-            axios.post(`${ROOT_URL}/followedupdate`, data1)
-                .then(response => {
-                    console.log("Status Code  is : ", response.status);
-                    console.log(response.data1);
-                    if (response.status === 200) {
-                        this.setState({
-                            followedBy: data1.followedBy,
-                            // follow: true
-                        });
-                        alert("Followed By User Successfully");
-                    } else {
-                        console.log('Change failed !!! ');
-    
-                    }
-    
-                });
+        const data1 = {
+            // new_email: sessionStorage.getItem('user_email'),
+            new_email: sessionStorage.getItem('SelectedUserProfile'),
+            followedBy: sessionStorage.getItem('id'),
+            flag: 0
+        }
+        console.log(data1);
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(`${ROOT_URL}/followedupdate`, data1)
+            .then(response => {
+                console.log("Status Code  is : ", response.status);
+                console.log(response.data1);
+                if (response.status === 200) {
+                    this.setState({
+                        followedBy: data1.followedBy,
+                        // follow: true
+                    });
+                    alert("Followed By User Successfully");
+                } else {
+                    console.log('Change failed !!! ');
+
+                }
+
+            });
 
     }
 
-    
+
 
     unfollow = e => {
         e.preventDefault();
@@ -183,47 +183,47 @@ class Profile extends Component {
 
             });
 
-            const data1 = {
-                // new_email: sessionStorage.getItem('user_email'),
-                new_email: sessionStorage.getItem('SelectedUserProfile'),
-                followedBy: sessionStorage.getItem('id'),
-                flag: 1
-            }
-            console.log(data);
-            //set the with credentials to true
-            axios.defaults.withCredentials = true;
-            //make a post request with the user data
-            axios.post(`${ROOT_URL}/followedupdate`, data1)
-                .then(response => {
-                    console.log("Status Code  is : ", response.status);
-                    console.log(data1);
-                    if (response.status === 200) {
-                        this.setState({
-                            followedBy: data1.followedBy,
-                            // follow: true
-                        });
-                        alert("UnFollowing User Successfully");
-                    } else {
-                        console.log('Change failed !!! ');
-    
-                    }
-    
-                });
+        const data1 = {
+            // new_email: sessionStorage.getItem('user_email'),
+            new_email: sessionStorage.getItem('SelectedUserProfile'),
+            followedBy: sessionStorage.getItem('id'),
+            flag: 1
+        }
+        console.log(data);
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(`${ROOT_URL}/followedupdate`, data1)
+            .then(response => {
+                console.log("Status Code  is : ", response.status);
+                console.log(data1);
+                if (response.status === 200) {
+                    this.setState({
+                        followedBy: data1.followedBy,
+                        // follow: true
+                    });
+                    alert("UnFollowing User Successfully");
+                } else {
+                    console.log('Change failed !!! ');
+
+                }
+
+            });
 
     }
 
 
     render() {
         let change = null;
-        
+
         if (!this.state.follow) {
             change = (
-                <button type="button" style={{fontSize:'15.4px', borderRadius:'30px'}} class="btn btn-danger" onClick={this.followupdate} >Follow</button>
+                <button type="button" style={{ fontSize: '15.4px', borderRadius: '30px' }} class="btn btn-danger" onClick={this.followupdate} >Follow</button>
             )
         }
         else {
             change = (
-                <button type="button" style={{fontSize:'15.4px', borderRadius:'30px'}} class="btn btn-danger" onClick={this.unfollow} >Following</button>
+                <button type="button" style={{ fontSize: '15.4px', borderRadius: '30px' }} class="btn btn-danger" onClick={this.unfollow} >Following</button>
             )
         }
 
@@ -261,38 +261,37 @@ class Profile extends Component {
                                     width='200'
                                     height='200'
                                 />
-                                <br/>
+                                <br />
                                 <br></br>
                             </div>
                         </div>
                     </form>
                     <div>
-                    <div style={{float :"right"}}>
+                        <div style={{ float: "right" }}>
                             {change}
-                            </div>
-                    <br></br>
-<br></br>   
-                        
-<div style={{ marginBottom: "100px" }}>
-                        <nav class="navbar navbar-inverse">
-                            <div class="container-fluid">
+                        </div>
+                        <br></br>
+                        <br></br>
+
+                        <div style={{ marginBottom: "100px" }}>
+                            <nav class="navbar navbar">
+
                                 <div class="navbar-header">
                                 </div>
 
-                                <ul class="nav navbar-nav">
+                                <ul style={{ width: "100%" }} class="nav navbar-nav">
 
-                                    <li > <a href="/profile/tweets" class="list-group-item">Tweets</a></li>
-                                    <li> <a href="#" class="list-group-item">Tweets and Replies</a></li>
-                                    <li> <a href="#" class="list-group-item">Media</a></li>
-                                    <li> <a href="/profile/likes" class="list-group-item">Likes</a></li>
+                                    <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="/profile/tweets" class="list-group-item">Tweets</a></li>
+                                    <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets and Replies</a></li>
+                                    <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Media</a></li>
+                                    <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/profile/likes" class="list-group-item">Likes</a></li>
 
                                 </ul>
-                            </div>
 
-                        </nav>
-                    </div>
-                
-                        
+                            </nav>
+                        </div>
+
+
                     </div>
 
                 </div>
