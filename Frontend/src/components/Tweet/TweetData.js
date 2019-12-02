@@ -7,20 +7,40 @@ import ROOT_URL from "../../constants"
 import ReplyTweet from "./ReplyTweet";
 import RetweetTweet from "./RetweetTweet";
 import dateformat from 'dateformat';
+import {getProfile} from '../../actions'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
 class TweetData extends Component {
     constructor(props) {
         super(props);
         this.state = {
             replyFlag: false,
-            retweetFlag: false
+            retweetFlag: false,
+            pic:''
         }
-        this.likePressed = this.likePressed.bind(this)
-        this.unlikePressed = this.unlikePressed.bind(this)
-        this.bookmarkPressed = this.bookmarkPressed.bind(this)
-        this.unbookmarkPressed = this.unbookmarkPressed.bind(this)
-        this.retweetPressed = this.retweetPressed.bind(this)
     }
+
+    componentWillMount()
+  {
+    let email =this.props.data.owner.email;
+    console.log(this.props.data.owner.email);
+    let data = { email : email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          console.log(this.props.user)
+            console.log(response.data.image);
+            let img = '/images/profile/' + response.data.image
+            
+            this.setState({
+              
+              pic: img
+      });
+            
+        })
+  }
 
     likePressed = e => {
         var headers = new Headers();
@@ -152,10 +172,15 @@ class TweetData extends Component {
         })
     }
 
-    render() {
+    Search = (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('SelectedUserProfileId')
+        sessionStorage.removeItem('SelectedUserProfile')
 
-        var dateVar = dateformat(this.props.data.time, 'mmm dd')
-        // var dateVar1 = dateformat(this.props.data.retweetdata.time, 'mmm dd')
+        sessionStorage.setItem('SelectedUserProfileId', e.target.id)
+        sessionStorage.setItem('SelectedUserProfile', e.target.name)
+        window.location.replace('/profile');
+    }
 
         let hasImageTag = null
         if (this.props.data.image) {
@@ -239,7 +264,7 @@ class TweetData extends Component {
                         <div class='row'>
                             <div class='col-sm-1'>
                                 <img
-                                    src={require('../img/Twitternew.png')}
+                                    src={this.state.pic}
                                     class='preview-img'
                                     width='50'
                                     height='50'
@@ -249,7 +274,9 @@ class TweetData extends Component {
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
                                 <h4 class='user-name'>
-                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                    <a href='/profile'
+                                    id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                     <span
                                         style={{
                                             fontWeight: 'normal',
@@ -280,7 +307,7 @@ class TweetData extends Component {
                                 <div class='row'>
                                     <div class='col-sm-1'>
                                         <img
-                                            src={require('../img/Twitternew.png')}
+                                            src={this.state.pic}
                                             class='preview-img'
                                             width='25'
                                             height='25'
@@ -290,14 +317,15 @@ class TweetData extends Component {
                                     {/* <div class='col-sm-1'></div> */}
                                     <div class='col-sm-11'>
                                         <h4 class='user-name'>
-                                            {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name}
+                                            {/* <a href = '/profile' id={this.props.data.retweetdata.owner._id} name={this.props.data.retweetdata.owner.email} onClick={this.Search}> */}
+                                            {/* {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name}</a>  */}
                                             <span
                                                 style={{
                                                     fontWeight: 'normal',
                                                     color: 'grey'
                                                 }}
                                             >
-                                                @{this.props.data.retweetdata.owner.username}
+                                                {/* @{this.props.data.retweetdata.owner.username} */}
                                             </span>
                                             <span />
                                             <span
@@ -308,7 +336,7 @@ class TweetData extends Component {
                                             >
                                                 {/* . {this.props.data.retweetdata.time} */}
                                                 {/* . {dateVar1} */}
-                                                 . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
+                                                 {/* . {dateformat(this.props.data.retweetdata.time, 'mmm dd')} */}
                                             </span>
                                         </h4>
                                         <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
@@ -347,140 +375,104 @@ class TweetData extends Component {
 
 
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-link" onClick={this.unbookmarkPressed} style={{ color: 'grey' }} >
+                                    
+
+                        </div>
+                </div>
+
+                    </a >
+                </div >
+
+                )
+
+        console.log(this.props.data)
+        var dateVar = dateformat(this.props.data.time, 'mmm dd')
+        // var dateVar1 = dateformat(this.props.data.retweetdata.time, 'mmm dd')
+
+        let hasImageTag = null
+        if (this.props.data.image) {
+            hasImageTag = (
+                <div>
+                    <img
+                        class='rounded-circle'
+                        style={{ borderRadius: '10px' }}
+                        src={this.props.data.image}
+                        width='500px'
+                        height='250%'
+                        alt='profile pic' Tweet
+                    />
+                    
+                    <br />
+                    <br />
+                </div>
+            )
+        }
+      
+
+        let replyBar = null;
+        let retweetBar = null;
+
+        if (this.state.replyFlag) {
+            console.log("Inside set reply flag")
+            // this.setState({
+            //     replyFlag: false
+            // })
+            replyBar =
+                <div>
+                    <ReplyTweet data={this.props.data} />
+                </div>
+        }
+
+        if (this.state.retweetFlag) {
+            console.log("Inside set reply flag")
+            retweetBar =
+                <div>
+                    <RetweetTweet data={this.props.data} />
+                </div>
+        }
+        let id = sessionStorage.getItem('id')
+        let changeFlag = false
+        console.log("inside tweetdata" + this.props.data);
+        for (let i = 0; i < this.props.data.likes.length; i++) {
+            if (this.props.data.likes[i] == id  ) {
+                //add object id retrieved from session storage
+                console.log("already liked")
+                changeFlag = true;
+                break;
+            } else {
+                console.log("not liked yet")
+            }
+        }
+
+        let bookmarkFlag = false
+        for (let i = 0; i < this.props.data.bookmarks.length; i++) {
+            if (this.props.data.bookmarks[i] == id) {
+                //add object id retrieved from session storage
+                console.log("already bookmarked")
+                bookmarkFlag = true;
+                break;
+            } else {
+                console.log("not bookmarked yet")
+            }
+        }
+        // var newdetails = null;
+        var retweetdeta = null;
+        if (this.props.data.retweetFlag) {
+            console.log("Inside retweet!!")
+            if(changeFlag){
+                changeFlag = false;
+                if(bookmarkFlag){
+                    {newdetails}
+                    <button type="submit" class="btn btn-link" onClick={this.unbookmarkPressed} style={{ color: 'grey' }} >
                                 <span class="fas fa-bookmark fa-2x"></span>
                             </button>
 
-                        </div>
-                </div>
-
-                    </a >
-                </div >
-
                 } else {
-                    newdetails =
-                <div>
-                    <a href='#' class='list-group-item' >
-                        <div class='row'>
-                            <div class='col-sm-1'>
-                                <img
-                                    src={require('../img/Twitternew.png')}
-                                    class='preview-img'
-                                    width='50'
-                                    height='50'
-                                    alt='profile pic'
-                                />
-                            </div>
-                            {/* <div class='col-sm-1'></div> */}
-                            <div class='col-sm-11'>
-                                <h4 class='user-name'>
-                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
-                                    <span
-                                        style={{
-                                            fontWeight: 'normal',
-                                            color: 'grey'
-                                        }}
-                                    >
-                                        @{this.props.data.owner.username}
-                                    </span>
-                                    <span />
-                                    <span
-                                        style={{
-                                            fontWeight: 'normal',
-                                            color: 'grey'
-                                        }}
-                                    >
-                                        {/* . {this.props.data.time} */}
-                                         . {dateVar}
-                                    </span>
-                                </h4>
-                                <div style={{ color: 'black' }}>{this.props.data.text}</div>
-                                <br />
-                                {/* retweet part starts here*/}
-                                <div class='list-group-item'
-                                    style={{ borderRadius: '10px', borderStyle: "solid" , borderWidth:"2px", borderColor:"ededed"}}
-                                    width='500px'
-                                    height='250%' >
 
-                                <div class='row'>
-                                    <div class='col-sm-1'>
-                                        <img
-                                            src={require('../img/Twitternew.png')}
-                                            class='preview-img'
-                                            width='25'
-                                            height='25'
-                                            alt='profile pic'
-                                        />
-                                    </div>
-                                    {/* <div class='col-sm-1'></div> */}
-                                    <div class='col-sm-11'>
-                                        <h4 class='user-name'>
-                                            {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name}
-                                            <span
-                                                style={{
-                                                    fontWeight: 'normal',
-                                                    color: 'grey'
-                                                }}
-                                            >
-                                                @{this.props.data.retweetdata.owner.username}
-                                            </span>
-                                            <span />
-                                            <span
-                                                style={{
-                                                    fontWeight: 'normal',
-                                                    color: 'grey'
-                                                }}
-                                            >
-                                                {/* . {this.props.data.retweetdata.time} */}
-                                                {/* . {dateVar1} */}
-                                                 . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
-                                            </span>
-                                        </h4>
-                                        <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
-                                    </div>
-                                </div>
-
-
-                                {/* retweet part ends here */}
-
-
-                                <br />
-                                <br />
-                            </div>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey' }}>
-                                <span class="far fa-comment fa-2x"></span>
-                            </button>
-                            <label style={{ fontSize: "20px" }}> {this.props.data.reply.length}</label>
-
-                            &nbsp;
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    
-    
-                        <button type="submit" class="btn btn-link" onClick={this.retweetPressed} style={{ color: 'grey' }} >
-                                <span class="fas fa-retweet fa-2x"></span>
-                            </button>
-                            <label style={{ fontSize: "20px" }}> {this.props.data.retweet.length}</label>
-
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    
-                        <button type="submit" class="btn btn-link" onClick={this.unlikePressed} style={{ color: 'grey' }} >
-                                <span class="fas fa-heart fa-2x"></span>
-                            </button>
-                            <label style={{ fontSize: "20px" }}> {this.props.data.likes.length}</label>
-
-
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                    <button type="submit" class="btn btn-link" onClick={this.bookmarkPressed} style={{ color: 'grey' }} >
-                                <span class="far fa-bookmark fa-2x"></span>
-                            </button>
-
-                        </div>
-                </div>
-
-                    </a >
-                </div >
-
+                    {newdetails}
+                    <button type="submit" class="btn btn-link" onClick={this.bookmarkPressed} style={{ color: 'grey' }} >
+                        <span class="far fa-bookmark fa-2x"></span>
+                    </button>
                 }
 
             } else {
@@ -491,7 +483,7 @@ class TweetData extends Component {
                         <div class='row'>
                             <div class='col-sm-1'>
                                 <img
-                                    src={require('../img/Twitternew.png')}
+                                    src={this.state.pic}
                                     class='preview-img'
                                     width='50'
                                     height='50'
@@ -501,7 +493,8 @@ class TweetData extends Component {
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
                                 <h4 class='user-name'>
-                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                <a href='/profile' id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                     <span
                                         style={{
                                             fontWeight: 'normal',
@@ -532,7 +525,7 @@ class TweetData extends Component {
                                 <div class='row'>
                                     <div class='col-sm-1'>
                                         <img
-                                            src={require('../img/Twitternew.png')}
+                                            src={this.state.pic}
                                             class='preview-img'
                                             width='25'
                                             height='25'
@@ -542,7 +535,8 @@ class TweetData extends Component {
                                     {/* <div class='col-sm-1'></div> */}
                                     <div class='col-sm-11'>
                                         <h4 class='user-name'>
-                                            {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name}
+                                            <a href='/profile' id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                            {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name}</a>
                                             <span
                                                 style={{
                                                     fontWeight: 'normal',
@@ -615,7 +609,7 @@ class TweetData extends Component {
                         <div class='row'>
                             <div class='col-sm-1'>
                                 <img
-                                    src={require('../img/Twitternew.png')}
+                                    src={this.state.pic}
                                     class='preview-img'
                                     width='50'
                                     height='50'
@@ -626,7 +620,8 @@ class TweetData extends Component {
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
                                 <h4 class='user-name'>
-                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                <a href='/profile' id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                     <span
                                         style={{
                                             fontWeight: 'normal',
@@ -657,7 +652,7 @@ class TweetData extends Component {
                                 <div class='row'>
                                     <div class='col-sm-1'>
                                         <img
-                                            src={require('../img/Twitternew.png')}
+                                            src={this.state.pic}
                                             class='preview-img'
                                             width='25'
                                             height='25'
@@ -666,15 +661,17 @@ class TweetData extends Component {
                                     </div>
                                     {/* <div class='col-sm-1'></div> */}
                                     <div class='col-sm-11'>
-                                        <h4 class='user-name'>
-                                            {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name}
+                                        
+                                       <h4 class='user-name'>
+                                       {/* <a href='/profile' id={this.props.data.retweetdata.owner._id} name={this.props.data.retweetdata.owner.email} onClick={this.Search}> */}
+                                            {/* {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name} */}
                                             <span
                                                 style={{
                                                     fontWeight: 'normal',
                                                     color: 'grey'
                                                 }}
                                             >
-                                                @{this.props.data.retweetdata.owner.username}
+                                                {/* @{this.props.data.retweetdata.owner.username} */}
                                             </span>
                                             <span />
                                             <span
@@ -685,10 +682,11 @@ class TweetData extends Component {
                                             >
                                                 {/* . {this.props.data.retweetdata.time} */}
                                                 {/* . {dateVar1} */}
-                                                 . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
+                                                 {/* . {dateformat(this.props.data.retweetdata.time, 'mmm dd')} */}
                                             </span>
-                                        </h4>
-                                        <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
+                                            </h4>
+                                            
+                                        {/* <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div> */}
                                     </div>
                                 </div>
 
@@ -746,7 +744,7 @@ class TweetData extends Component {
                                 <div class='row'>
                                     <div class='col-sm-1'>
                                         <img
-                                            src={require('../img/Twitternew.png')}
+                                            src={this.state.pic}
                                             class='preview-img'
                                             width='50'
                                             height='50'
@@ -756,7 +754,8 @@ class TweetData extends Component {
                                     {/* <div class='col-sm-1'></div> */}
                                     <div class='col-sm-11'>
                                         <h4 class='user-name'>
-                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                        <a href='/profile' id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                             <span
                                                 style={{
                                                     fontWeight: 'normal',
@@ -819,7 +818,7 @@ class TweetData extends Component {
                                 <div class='row'>
                                     <div class='col-sm-1'>
                                         <img
-                                            src={require('../img/Twitternew.png')}
+                                            src={this.state.pic}
                                             class='preview-img'
                                             width='50'
                                             height='50'
@@ -829,7 +828,8 @@ class TweetData extends Component {
                                     {/* <div class='col-sm-1'></div> */}
                                     <div class='col-sm-11'>
                                         <h4 class='user-name'>
-                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                        <a href='/profile' id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                             <span
                                                 style={{
                                                     fontWeight: 'normal',
@@ -895,7 +895,7 @@ class TweetData extends Component {
                                 <div class='row'>
                                     <div class='col-sm-1'>
                                         <img
-                                            src={require('../img/Twitternew.png')}
+                                            src={this.state.pic}
                                             class='preview-img'
                                             width='50'
                                             height='50'
@@ -905,7 +905,8 @@ class TweetData extends Component {
                                     {/* <div class='col-sm-1'></div> */}
                                     <div class='col-sm-11'>
                                         <h4 class='user-name'>
-                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                        <a href='/profile' id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                             <span
                                                 style={{
                                                     fontWeight: 'normal',
@@ -969,7 +970,7 @@ class TweetData extends Component {
                                 <div class='row'>
                                     <div class='col-sm-1'>
                                         <img
-                                            src={require('../img/Twitternew.png')}
+                                            src={this.state.pic}
                                             class='preview-img'
                                             width='50'
                                             height='50'
@@ -979,7 +980,8 @@ class TweetData extends Component {
                                     {/* <div class='col-sm-1'></div> */}
                                     <div class='col-sm-11'>
                                         <h4 class='user-name'>
-                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                        <a href='/profile' id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                             <span
                                                 style={{
                                                     fontWeight: 'normal',
@@ -1049,4 +1051,17 @@ class TweetData extends Component {
     }
 }
 
-export default TweetData;
+// export default TweetData;
+
+const mapStateToProps = state => {
+    return { user: state.user }
+  }
+  
+  export default connect(
+    mapStateToProps,
+    { getProfile }
+  )(
+    reduxForm({
+      form: 'streamLogin',
+    })(TweetData)
+  )

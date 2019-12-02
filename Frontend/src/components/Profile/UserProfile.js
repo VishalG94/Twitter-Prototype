@@ -14,6 +14,7 @@ import { Field, reduxForm } from 'redux-form';
 import ROOT_URL from '../../constants.js'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import UserTweets from '../UserTweets/UserTweets'
+import UserLikes from '../UserTweets/UserLikes'
 
 class UserProfile extends Component {
     // call the constructor method
@@ -30,9 +31,11 @@ class UserProfile extends Component {
             file: '',
             img: '',
             edit: false,
+            userid : '',
 
             // following:false,
-            follow: false
+            follow: false,
+            component:'Tweets'
         }
 
     }
@@ -66,7 +69,7 @@ class UserProfile extends Component {
                 // profilepic: img
 
             })
-
+            console.log(this.props)
         });
 
     }
@@ -153,6 +156,17 @@ class UserProfile extends Component {
         })
     }
 
+    // selectComponent = e => {
+    //     e.preventDefault();
+    //     this.setState({
+    //         component : e.target.id
+    //     }
+    //     // ,()=>{
+    //     //     alert(this.state.component)
+    //     // }
+    //     )
+        
+    // }
 
     onSubmit = (e) => {
         console.log("in submit profile");
@@ -175,9 +189,15 @@ class UserProfile extends Component {
                 }
             })
     }
-
-
     render() {
+        // let selectedComp = null;
+
+        // if(this.state.component==='Tweets'){
+        //     selectedComp = (<UserTweets></UserTweets>)
+        // }else if(this.state.component === 'Likes'){
+        //     selectedComp = (<UserTweets></UserTweets>)
+        // }
+
         let editprofile = null;
         console.log(this.state.edit);
         if (!this.state.edit) {
@@ -279,14 +299,16 @@ class UserProfile extends Component {
                                 {image_new}
                                 {/* <div className='browse-button'>
                                     <i className='fa fa-pencil' /> */}
+                                    <div style={{marginLeft : "200px"}}>
                                 <input
                                     // class='browse-input'
+                                    
                                     type='file'
                                     onChange={this.imageChangeHandler}
                                     name='myImage'
                                     id='myImage'
                                 />
-
+</div>
                             </div>
                         </div>
 
@@ -295,22 +317,19 @@ class UserProfile extends Component {
                     <br></br>
                     <br></br>
                     <div style={{ marginBottom: "100px" }}>
-                        <nav class="navbar navbar-inverse">
-                            <div class="container-fluid">
+                        <nav class="navbar navbar">
+                            
                                 <div class="navbar-header">
-                                    {/* <a class="navbar-brand" href="#">WebSiteName</a> */}
                                 </div>
 
-                                <ul class="nav navbar-nav">
+                                <ul style={{width:"100%" }} class="nav navbar-nav">
 
-                                    <li > <a href="/userprofile/tweets" class="list-group-item">Tweets</a></li>
-                                    <li> <a href="#" class="list-group-item">Tweets and Replies</a></li>
-                                    <li> <a href="#" class="list-group-item">Media</a></li>
-                                    <li> <a href="/userprofile/likes" class="list-group-item">Likes</a></li>
-                                    {/* <button class="btn btn-outline-success" onclick={this.editprofilebutton} type="button">Edit Profile</button> */}
-
+                                    <li style={{width:"25%"}}> <a id="Tweets" onClick={this.selectComponent} style={{textAlign:"center",borderRadius:"0px", borderRight:'none',color : "black"}} href="/userprofile/tweets" class="list-group-item">Tweets</a></li>
+                                    <li style={{width:"25%"}}> <a style={{textAlign:"center", borderRadius:"0px",borderRight:'none', color : "black"}} href="#" class="list-group-item">Tweets and Replies</a></li>
+                                    <li style={{width:"25%"}}> <a style={{textAlign:"center", borderRadius:"0px",borderRight:'none', color : "black"}} href="#" class="list-group-item">Media</a></li>
+                                    <li style={{width:"25%"}}> <a id="Likes" onClick={this.selectComponent} style={{textAlign:"center", borderRadius:"0px", color : "black"}} href="/userprofile/likes" class="list-group-item">Likes</a></li>
+                                    
                                 </ul>
-                            </div>
 
                         </nav>
                     </div>
@@ -321,7 +340,6 @@ class UserProfile extends Component {
     }
 
 }
-
 
 function mapStateToProps(state) {
     return {

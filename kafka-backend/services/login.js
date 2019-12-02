@@ -7,8 +7,6 @@ var con = require("../sql/sqlpool");
 
 require('../config/passport')(passport);
 
-
-
 function handle_request(msg, callback) {
     console.log("in login kafka");
     console.log(msg);
@@ -23,6 +21,7 @@ function handle_request(msg, callback) {
                     expiresIn: 10080 // in seconds
                 });
                 callback(null, { success: true, token: token , username: result[0].username });
+            
             } else {
                 callback(null, "Invalid Login")
             }

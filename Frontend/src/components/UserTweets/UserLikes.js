@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import axios from 'axios';
 import WriteTweet from '../WriteTweet/WriteTweet'
 import ROOT_URL from '../../constants'
-import TweetData from '../Tweet/TweetData'
+import Tweet from '../Tweet/Tweet'
 import './UserTweets.css'
 import UserProfile from '../Profile/UserProfile';
 
@@ -15,21 +15,8 @@ class UserLikes extends Component {
       replyToggle: false
     }
 
-    this.replyPressed = this.replyPressed.bind(this);
-    this.retweetPressed = this.retweetPressed.bind(this);
   }
 
-
-  replyPressed(e) {
-    console.log("replyPressed")
-    this.setState({
-      replyToggle: true
-    })
-  }
-
-  retweetPressed(e) {
-    console.log("retweetPressed")
-  }
 
   componentWillMount() {
     var email = sessionStorage.getItem("email")
@@ -54,48 +41,8 @@ class UserLikes extends Component {
 
 
   render() {  
-    let details = this.state.tweets.map(tweet => {
-      return (
-        <div>
-          <TweetData key={Math.random} data={tweet}></TweetData>
-        </div>
-      )
-    })
-
-    
-
-    let details1 = this.state.tweets.map(tweet => {
-        return (
-          <div>
-            <h1>inside Tweet</h1>
-            
-          <TweetData key={Math.random} data={tweet}></TweetData>
-          </div>
-          
-          // let hasImageTag = null
-          // if (tweet.image) {
-          //   hasImageTag = (
-          //     <div>
-          //       <img
-          //         class='rounded-circle'
-          //         style={{ borderRadius: '10px' }}
-          //         src={tweet.image}
-          //         width='500px'
-          //         height='250%'
-          //         alt='profile pic'Tweet
-          //       />
-          //       <br />
-          //       <br />
-          //     </div>
-          //   )
-          // }
-        )
-      })
-
-
     return (
         
-      <Fragment>
           <div class='split-center_newdata'>
           <div style={{
             marginLeft: '20px',
@@ -103,12 +50,10 @@ class UserLikes extends Component {
             fontWeight: '800',
             fontSize: '19px'
         }}></div>
-        {details}
+        <Tweet tweetsDtls = {this.state.tweets}></Tweet>
         
         </div>
-      </Fragment>
     
-
     )
   }
 }

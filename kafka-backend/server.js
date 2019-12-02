@@ -6,19 +6,22 @@ var passport = require('passport')
 var mongoose = require('./sql/mongoose')
 
 // topics files
-var signup = require('./services/signup.js')
-var login = require('./services/login.js')
-var writetweet = require('./services/writetweet.js')
+var signup = require('./services/signup')
+var login = require('./services/login')
+var writetweet = require('./services/writetweet')
 var postmessage = require('./services/messages/postmessage')
 let messagedetails = require('./services/messages/messagedetails')
 var postsearchbar = require('./services/search/searchbar')
-var profile = require('./services/profile.js')
-var follow = require('./services/followupdate.js')
-var profileupdate = require('./services/profileupdate.js');
-var followedBy = require('./services/followedBy.js');
 // var fetchtweets = require('./services/tweet/fetchtweets');
 // var viewtweet = require('./services/tweet/viewtweet');
-
+var profile = require('./services/profile')
+var follow = require('./services/followupdate')
+var profileupdate = require('./services/profileupdate');
+var followedBy = require('./services/followedBy');
+var fetchlist = require('./services/lists/fetchlist');
+var createlist = require('./services/lists/createlist');
+var fetchsubscribedlist = require('./services/lists/fetchsubscribedlist');
+var fetchlisttweets = require('./services/lists/fetchlisttweets');
 var messagessearchbar = require('./services/messages/messagessearchbar')
 app.use(passport.initialize())
 
@@ -68,3 +71,7 @@ handleTopicRequest("followedBy", followedBy)
 handleTopicRequest('post_messagessearchbar', messagessearchbar)
 // handleTopicRequest('fetchtweets', fetchtweets)
 // handleTopicRequest('viewtweet', viewtweet)
+handleTopicRequest('fetchlist', fetchlist)
+handleTopicRequest('createlist', createlist)
+handleTopicRequest('fetchlisttweets', fetchlisttweets)
+handleTopicRequest('fetchsubscribedlist', fetchsubscribedlist)
