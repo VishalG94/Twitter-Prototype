@@ -10,6 +10,20 @@ router.get("/fetchtweets", function (req, res) {
     var email = req.query.email
     console.log(email)
 
+    // kafka.make_request('fetchtweets', req.query, function (err, results) {
+    //     console.log('in result');
+    //     console.log(results);
+    //     if (err || results === "error") {
+    //         res.writeHead(400, {
+    //             'Content-Type': 'text/plain'
+    //         })
+    //         res.end("get fetchtweets fail");
+    //     } else {
+    //         res.status(200).json(results);
+    //         res.end("done!");
+    //     }
+    // });
+
     User.findOne({ email: email }).then((doc) => {
 
         // console.log(doc + " Name" + doc.first_name + "fetchtweets success!" + doc.following[0])
@@ -46,27 +60,5 @@ router.get("/fetchtweets", function (req, res) {
         res.end("get fetchtweets fail");
     })
 });
-
-// router.get("/fetchtweets", function (req, res) {
-//     console.log("Inside fetchtweets profile");
-//     var email = req.query.email
-//     console.log(email)
-
-
-//     Tweet.find({ text: email }).then((result1) => {
-//         console.log("Tweet res " + result1)
-//         res.writeHead(200, {
-//             "Content-Type": "text/plain"
-//         });
-//         res.end(JSON.stringify(result1));
-//     }).catch((err) => {
-//         console.log(err)
-//         res.writeHead(400, {
-//             "Content-Type": "text/plain"
-//         });
-//         //console.log(JSON.stringify(resultObject))
-//         res.end("get fetchtweets fail");
-//     })
-// })
 
 module.exports = router

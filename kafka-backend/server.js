@@ -16,6 +16,8 @@ var profile = require('./services/profile.js')
 var follow = require('./services/followupdate.js')
 var profileupdate = require('./services/profileupdate.js');
 var followedBy = require('./services/followedBy.js');
+// var fetchtweets = require('./services/tweet/fetchtweets');
+// var viewtweet = require('./services/tweet/viewtweet');
 
 var messagessearchbar = require('./services/messages/messagessearchbar')
 app.use(passport.initialize())
@@ -61,6 +63,8 @@ handleTopicRequest('message_details', messagedetails)
 handleTopicRequest('post_searchbar', postsearchbar)
 handleTopicRequest('profile', profile)
 handleTopicRequest('follow', follow)
-handleTopicRequest("profile_update",profileupdate)
-handleTopicRequest("followedBy",followedBy)
+handleTopicRequest("profile_update", profileupdate)
+handleTopicRequest("followedBy", followedBy)
 handleTopicRequest('post_messagessearchbar', messagessearchbar)
+// handleTopicRequest('fetchtweets', fetchtweets)
+// handleTopicRequest('viewtweet', viewtweet)
