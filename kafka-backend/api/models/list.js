@@ -9,8 +9,10 @@ var listSchema = mongoose.Schema({
   
   name : { type: String },
   description : { type: String },
-  owner_id: { type: ObjectId, ref:"User" },
+  owner: { type: ObjectId, ref:"User" },
   members:  [{type:ObjectId,ref:"User"}],
+  subscribers : [{type:ObjectId,ref:"User"}],
+  created_date : { type: Date, default: today },
 
 })
 
