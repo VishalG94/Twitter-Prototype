@@ -10,7 +10,9 @@ import Search from './Search/Search'
 import UserProfile from './Profile/UserProfile'
 import PrivateRoute from '../lib/PrivateRoute'
 import Dashboard from './Dashboard/Dashboard'
-import Graph from './Dashboard/graph'
+import GraphLikes from './Dashboard/GraphLikes'
+import GraphRe from './Dashboard/GraphRetweet'
+import Barday from './Dashboard/Barday'
 import UserTweets from './UserTweets/UserTweets'
 import UserLikes from './UserTweets/UserLikes'
 import SearchProfileTweets from './UserTweets/SearchProfileTweets'
@@ -31,7 +33,9 @@ class Main extends Component {
         <Route path='/profile' component={Profile} />
         <Route  path='/userprofile' component={UserProfile} />
         <Route path='/dashboard' component={Dashboard} />
-        <Route path='/graph' component={Graph} />
+        <Route path='/graphlike' component={GraphLikes} />
+        <Route path='/graphre' component={GraphRe} />
+        <Route path='/barday' component={Barday} />
         <Route  path='/userprofile/tweets' component={UserTweets} />
         <Route path='/profile/tweets' component={SearchProfileTweets} />
         <Route  path='/userprofile/likes' component={UserLikes} />
