@@ -18,6 +18,10 @@ import UserLikes from './UserTweets/UserLikes'
 import SearchProfileTweets from './UserTweets/SearchProfileTweets'
 import Followers from './Dashboard/Followers'
 import BookMarkedTweets from './UserTweets/BookMarkedTweets'
+import Lists from './Lists/Lists'
+import ListDetails from './ListDetails/ListDetails'
+import SubscribedList from './Lists/SubscribedList'
+
 // Create a Main Component
 
 class Main extends Component {
@@ -43,6 +47,10 @@ class Main extends Component {
         <Route  path='/userprofile/likes' component={UserLikes} />
         <Route path='/followers' component={Followers} />
         <Route path='/bookmarks' component={BookMarkedTweets} />
+        <Route path='/lists' component={Lists} />
+        <Route path='/listdetails' component={ListDetails} />
+        <Route path='/subscribedlist' component={SubscribedList} />
+       
       </div>
     )
   }
