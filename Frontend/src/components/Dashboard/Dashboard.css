@@ -28,12 +28,13 @@
     padding-top: 70px;
 }
 
-.split-center_new_dash {
+
+.split-center-dashboard {
     margin-top: 52px;
     height: 100%;
-    width: 80%;
+    width: 85%;
     position: fixed;
-    left: 20%;
+    left: 15%;
     /* background-color: blue; */
     z-index: 1;
     top: 0;
