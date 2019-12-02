@@ -22,9 +22,10 @@ import GraphRetweet from './GraphRetweet'
         }
     }
 
+   
+
     render()
     {
-        
             return (
 
                 <div>

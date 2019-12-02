@@ -2,11 +2,12 @@ import React, { Component, Fragment } from 'react'
 import axios from 'axios';
 import WriteTweet from '../WriteTweet/WriteTweet'
 import ROOT_URL from '../../constants'
+import TweetData from '../Tweet/TweetData'
 import Tweet from '../Tweet/Tweet'
 import './UserTweets.css'
-import UserProfile from '../Profile/UserProfile';
+import Profile from '../Profile/Profile';
 
-class UserLikes extends Component {
+class SearchProfileTweets extends Component {
 
   constructor(props) {
     super(props);
@@ -16,7 +17,6 @@ class UserLikes extends Component {
     }
 
   }
-
 
   componentWillMount() {
     var email = sessionStorage.getItem("email")
@@ -39,23 +39,26 @@ class UserLikes extends Component {
   }
 
 
-
   render() {  
+
     return (
         
+      <Fragment>
           <div class='split-center_newdata'>
           <div style={{
             marginLeft: '20px',
             marginBottom : '500px',
             fontWeight: '800',
-            fontSize: '19px'
+            fontSize: '19px'  
         }}></div>
         <Tweet tweetsDtls = {this.state.tweets}></Tweet>
         
         </div>
+      </Fragment>
     
+
     )
   }
 }
 
-export default UserLikes
+export default SearchProfileTweets
