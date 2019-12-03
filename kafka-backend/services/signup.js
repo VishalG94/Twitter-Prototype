@@ -16,7 +16,7 @@ function handle_request(msg, callback) {
         password: hash,
         email: msg.email,
         lastname: msg.lastname,
-        username: msg.username
+        username: msg.username,
       }
       con.query(sql, post, (err, result) => {
         if (err) {
@@ -29,7 +29,7 @@ function handle_request(msg, callback) {
             last_name: msg.lastname,
             email: msg.email,
             password: hash,
-            username: msg.username
+            username: msg.username,
           })
 
           user

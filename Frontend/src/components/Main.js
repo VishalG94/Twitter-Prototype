@@ -15,6 +15,7 @@ import GraphRe from './Dashboard/GraphRetweet'
 import Barday from './Dashboard/Barday'
 import UserTweets from './UserTweets/UserTweets'
 import UserLikes from './UserTweets/UserLikes'
+import ViewTweet from './Tweet/ViewTweet'
 import SearchProfileTweets from './UserTweets/SearchProfileTweets'
 import Followers from './Dashboard/Followers'
 import BookMarkedTweets from './UserTweets/BookMarkedTweets'
@@ -23,10 +24,11 @@ import ListDetails from './ListDetails/ListDetails'
 import SubscribedList from './Lists/SubscribedList'
 import UserLists from './UserLists/UserLists'
 
+import UserRetweets from './UserTweets/UserRetweets'
 // Create a Main Component
 
 class Main extends Component {
-  render () {
+  render() {
     return (
       <div>
         {/* Render Different Component based on Route */}
@@ -42,10 +44,10 @@ class Main extends Component {
         <Route path='/graphlike' component={GraphLikes} />
         <Route path='/graphre' component={GraphRe} />
         <Route path='/barday' component={Barday} />
-        <Route  path='/userprofile/tweets' component={UserTweets} />
-        <Route path='/profile/tweets' component={SearchProfileTweets} />
-        <Route path='/profile/likes' component={SearchProfileTweets} />
-        <Route  path='/userprofile/likes' component={UserLikes} />
+        <Route  path='/usertweets' component={UserTweets} />
+        <Route path='/tweets' component={SearchProfileTweets} />
+        <Route path='/likes' component={SearchProfileTweets} />
+        <Route  path='/userlikes' component={UserLikes} />
         <Route path='/followers' component={Followers} />
         <Route path='/bookmarks' component={BookMarkedTweets} />
         <Route path='/lists' component={Lists} />
@@ -54,6 +56,8 @@ class Main extends Component {
         <Route path='/userlists' component={UserLists} />
         
        
+        <Route static path='/viewtweet/:id' component={ViewTweet} />
+        <Route  path='/userretweets' component={UserRetweets} />
       </div>
     )
   }

@@ -12,6 +12,9 @@ import dotenv from 'dotenv'
 import { Field, reduxForm } from 'redux-form';
 import ROOT_URL from '../../constants.js'
 import sampleImg from '../img/GrubhubDetails.jpg'
+import SearchProfileTweets from '../UserTweets/SearchProfileTweets'
+import SearchProfileLikes from '../UserTweets/SearchProfileLikes'
+
 
 class Profile extends Component {
     // call the constructor method
@@ -28,7 +31,8 @@ class Profile extends Component {
             password: '',
             file: '',
             img: '',
-
+            
+            component: 'Tweets',
             // following:false,
             follow: false
         }
@@ -55,11 +59,14 @@ class Profile extends Component {
         console.log(temp);
         let data = { email: temp }
         console.log(data.email)
-
+        axios.defaults.withCredentials = true;
         this.props.getProfile({ params: data }, (response) => {
+            
             console.log(this.props.user)
             console.log(response.data);
             let img = '/images/profile/' + response.data.image
+            axios.post(`${ROOT_URL}/profileview`, data)
+            .then(response => {
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
@@ -72,7 +79,7 @@ class Profile extends Component {
 
             })
             console.log(this.state.follow)
-
+        })
         });
 
         let temp1 = sessionStorage.getItem('email')
@@ -92,7 +99,17 @@ class Profile extends Component {
 
     }
 
+    selectComponent = e => {
+        e.preventDefault();
+        this.setState({
+            component : e.target.id
+        }
+        ,()=>{
+            alert(this.state.component)
+        }
+        )
 
+    }
 
     followupdate = e => {
         // e.preventDefault();
@@ -214,6 +231,14 @@ class Profile extends Component {
 
 
     render() {
+
+        let selectedComp = null;
+        if(this.state.component==='Tweets'){
+            selectedComp = (<SearchProfileTweets></SearchProfileTweets>)
+        }else if(this.state.component === 'Likes'){
+            selectedComp = (<SearchProfileLikes></SearchProfileLikes>)
+        }
+
         let change = null;
 
         if (!this.state.follow) {
@@ -289,9 +314,10 @@ class Profile extends Component {
                                 </ul>
 
                             </nav>
+                            {selectedComp}
                         </div>
 
-
+                       
                     </div>
 
                 </div>
