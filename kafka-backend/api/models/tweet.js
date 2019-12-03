@@ -13,7 +13,8 @@ const tweetSchema = mongoose.Schema({
   likes: [{ type: ObjectId }],
   time: { type: Date, default: Date.now },
   retweetFlag: Boolean,
-  retweetdata: { type: ObjectId, ref: 'Tweet' }
+  retweetdata: { type: ObjectId, ref: 'Tweet' },
+  bookmarks: [{ type: ObjectId }]
 })
 
 module.exports = mongoose.model('Tweet', tweetSchema)

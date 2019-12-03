@@ -6,7 +6,7 @@ import TweetData from '../Tweet/TweetData'
 import Tweet from '../Tweet/Tweet'
 import './UserTweets.css'
 import UserProfile from '../Profile/UserProfile';
-
+import LeftNavbar from '../LeftNavbar/LeftNavbar'
 class UserTweet extends Component {
 
   constructor(props) {
@@ -44,18 +44,17 @@ class UserTweet extends Component {
   render() {  
 
     return (
-  
-          <div class='split-center_newdata'>
-          <div style={{
-            marginLeft: '20px',
-            marginBottom : '500px',
-            fontWeight: '800',
-            fontSize: '19px'  
-        }}></div>
+      <div>
+       {/* <div className='col-sm-7'>  */}
         <Tweet tweetsDtls = {this.state.tweets}></Tweet>
-        
         </div>
-      
+        
+        // <div className='col-sm-1' />
+        // <br></br>
+        // </div>
+      // </div>
+
+     
     )
   }
 }
