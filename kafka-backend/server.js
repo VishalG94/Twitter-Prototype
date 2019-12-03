@@ -12,11 +12,16 @@ var writetweet = require('./services/writetweet')
 var postmessage = require('./services/messages/postmessage')
 let messagedetails = require('./services/messages/messagedetails')
 var postsearchbar = require('./services/search/searchbar')
+// var fetchtweets = require('./services/tweet/fetchtweets');
+// var viewtweet = require('./services/tweet/viewtweet');
 var profile = require('./services/profile')
 var follow = require('./services/followupdate')
 var profileupdate = require('./services/profileupdate');
 var followedBy = require('./services/followedBy');
-
+var fetchlist = require('./services/lists/fetchlist');
+var createlist = require('./services/lists/createlist');
+var fetchsubscribedlist = require('./services/lists/fetchsubscribedlist');
+var fetchlisttweets = require('./services/lists/fetchlisttweets');
 var messagessearchbar = require('./services/messages/messagessearchbar')
 app.use(passport.initialize())
 
@@ -61,6 +66,12 @@ handleTopicRequest('message_details', messagedetails)
 handleTopicRequest('post_searchbar', postsearchbar)
 handleTopicRequest('profile', profile)
 handleTopicRequest('follow', follow)
-handleTopicRequest("profile_update",profileupdate)
-handleTopicRequest("followedBy",followedBy)
+handleTopicRequest("profile_update", profileupdate)
+handleTopicRequest("followedBy", followedBy)
 handleTopicRequest('post_messagessearchbar', messagessearchbar)
+// handleTopicRequest('fetchtweets', fetchtweets)
+// handleTopicRequest('viewtweet', viewtweet)
+handleTopicRequest('fetchlist', fetchlist)
+handleTopicRequest('createlist', createlist)
+handleTopicRequest('fetchlisttweets', fetchlisttweets)
+handleTopicRequest('fetchsubscribedlist', fetchsubscribedlist)

@@ -43,18 +43,10 @@ class SearchProfileTweets extends Component {
 
     return (
         
-      <Fragment>
-          <div class='split-center_newdata'>
-          <div style={{
-            marginLeft: '20px',
-            marginBottom : '500px',
-            fontWeight: '800',
-            fontSize: '19px'  
-        }}></div>
-        <Tweet tweetsDtls = {this.state.tweets}></Tweet>
-        
-        </div>
-      </Fragment>
+      <div>
+      {/* <div className='col-sm-7'>  */}
+       <Tweet tweetsDtls = {this.state.tweets}></Tweet>
+       </div>
     
 
     )

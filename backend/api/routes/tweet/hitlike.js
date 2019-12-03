@@ -9,8 +9,26 @@ router.post("/hitlike", function (req, res) {
 
     var tweetid = req.body.tweetid;
     var email = req.body.email;
-
     console.log("Data " + tweetid + email)
+
+    // kafka.make_request('hitlike', req.body, function (err, results) {
+    //     console.log('in result');
+
+    //     if (err || results === "error") {
+    //         console.log("Inside err");
+    //         res.writeHead(400, {
+    //             "Content-Type": "text/plain"
+    //         });
+    //         res.end("Unsuccessful hitlike");
+    //     } else {
+    //         console.log("Inside else");
+    //         res.writeHead(200, {
+    //             "Content-Type": "text/plain"
+    //         });
+    //         res.end("Successful hitlike");
+    //     }
+    // });
+
 
     User.findOne({ email: email })
         .then(result => {

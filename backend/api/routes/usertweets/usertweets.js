@@ -17,7 +17,7 @@ router.get("/fetchusertweets", function (req, res) {
         Tweet.find({ owner: doc._id } )
             .populate('owner')
             // .populate('first_name')
-            .exec()
+            .exec()     
             .then((result1) => {
                 console.log("Tweet res " + result1)
                 res.writeHead(200, {
