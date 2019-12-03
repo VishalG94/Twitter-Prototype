@@ -980,14 +980,16 @@ class TweetData extends Component {
 // export default TweetData;
 
 const mapStateToProps = state => {
-    return { user: state.user }
-  }
-  
-  export default connect(
-    mapStateToProps,
-    { getProfile }
-  )(
-    reduxForm({
-      form: 'streamLogin',
-    })(TweetData)
-  )
+ return { user: state.user }
+ }
+ 
+ export default connect(
+ mapStateToProps,
+ { getProfile }
+ )(
+ reduxForm({
+ form: 'streamLogin',
+ })(TweetData)
+ )
+
+

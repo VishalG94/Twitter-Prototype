@@ -15,14 +15,19 @@ import GraphRe from './Dashboard/GraphRetweet'
 import Barday from './Dashboard/Barday'
 import UserTweets from './UserTweets/UserTweets'
 import UserLikes from './UserTweets/UserLikes'
+import ViewTweet from './Tweet/ViewTweet'
 import SearchProfileTweets from './UserTweets/SearchProfileTweets'
 import Followers from './Dashboard/Followers'
 import BookMarkedTweets from './UserTweets/BookMarkedTweets'
+import Lists from './Lists/Lists'
+import ListDetails from './ListDetails/ListDetails'
+import SubscribedList from './Lists/SubscribedList'
+
 import UserRetweets from './UserTweets/UserRetweets'
 // Create a Main Component
 
 class Main extends Component {
-  render () {
+  render() {
     return (
       <div>
         {/* Render Different Component based on Route */}
@@ -44,6 +49,11 @@ class Main extends Component {
         <Route  path='/userlikes' component={UserLikes} />
         <Route path='/followers' component={Followers} />
         <Route path='/bookmarks' component={BookMarkedTweets} />
+        <Route path='/lists' component={Lists} />
+        <Route path='/listdetails' component={ListDetails} />
+        <Route path='/subscribedlist' component={SubscribedList} />
+       
+        <Route static path='/viewtweet/:id' component={ViewTweet} />
         <Route  path='/userretweets' component={UserRetweets} />
       </div>
     )
