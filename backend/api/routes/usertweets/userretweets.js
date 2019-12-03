@@ -5,7 +5,7 @@ var express = require('express');
 var router = express.Router();
 
 
-router.get("/fetchusertweets", function (req, res) {
+router.get("/fetchuserretweets", function (req, res) {
     console.log("Inside user Tweets");
     var email = req.query.email
     console.log(email)
@@ -14,10 +14,10 @@ router.get("/fetchusertweets", function (req, res) {
 
         // console.log(doc + " Name" + doc.first_name + "fetchtweets success!" + doc.following[0])
         console.log(doc);
-        Tweet.find({ owner: doc._id } )
+        Tweet.find({ owner: doc._id ,retweetFlag : true} )
             .populate('owner')
             // .populate('first_name')
-            .exec()     
+            .exec()
             .then((result1) => {
                 console.log("Tweet res " + result1)
                 res.writeHead(200, {

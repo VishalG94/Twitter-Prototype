@@ -18,9 +18,12 @@ var usertweets = require('./api/routes/usertweets/usertweets')
 var userlikes = require('./api/routes/usertweets/userlikes')
 var followers = require('./api/routes/followers/followers')
 var bookmarkedtweets = require('./api/routes/bookmarkedtweets/bookmarkedtweets')
+var profileviews = require('./api/routes/profile/profileviews')
+var deleteprofile = require('./api/routes/profile/deleteprofile')
+var userretweets = require('./api/routes/usertweets/userretweets')
+
 app.use('/uploads', express.static(__dirname + '/uploads'))
 app.use('/images', express.static('public'))
-
 app.use(cookieParser())
 // saltround = 10;
 
@@ -67,9 +70,11 @@ app.use(hitreply)
 app.use(hitbookmark)
 app.use(writeretweet)
 app.use(usertweets)
+app.use(userretweets)
 app.use(userlikes)
 app.use(followers)
 app.use(bookmarkedtweets)
-
+app.use(profileviews)
+app.use(deleteprofile)
 app.listen(3001)
 console.log('Server Listening on port 3001')
