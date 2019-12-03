@@ -157,15 +157,6 @@ router.post('/receivermessageslist', function (req, res) {
   let msg = req.body;
   messages.distinct(
     "receiver_name", { sender_name: msg.sender_name })
-    // {
-    //   $or: [(
-    //     "receiver_name", { sender_name: msg.receiver_name }
-    //   ), (
-    //     "sender_name", { receiver_name: msg.receiver_name }
-    //     // sender_name: msg.receiver_name,
-    //     //   receiver_name: msg.sender_name
-    //   )]
-    // })
     .then(results => {
       console.log('Successfully fetched data from DB')
       console.log(JSON.stringify(results))
@@ -208,15 +199,6 @@ router.post('/sendermessageslist', function (req, res) {
   console.log(msg.receiver_name)
   messages.distinct(
     "sender_name", { receiver_name: msg.sender_name })
-    // {
-    //   $or: [(
-    //     "receiver_name", { sender_name: msg.receiver_name }
-    //   ), (
-    //     "sender_name", { receiver_name: msg.receiver_name }
-    //     // sender_name: msg.receiver_name,
-    //     //   receiver_name: msg.sender_name
-    //   )]
-    // })
     .then(results => {
       console.log('Successfully fetched data from DB')
       console.log(JSON.stringify(results))

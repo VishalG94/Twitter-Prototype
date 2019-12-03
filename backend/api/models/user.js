@@ -23,6 +23,7 @@ const userSchema = mongoose.Schema({
   bookmarks: [{ type : ObjectId, ref: "Tweet" }],
   following : [{type:ObjectId,ref:"User"}],
   followedBy : [{type:ObjectId,ref:"User"}],
+  profileviews : {type:Array}
   
 })
 
