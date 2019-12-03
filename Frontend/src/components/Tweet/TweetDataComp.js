@@ -214,9 +214,9 @@ class TweetDataComp extends React.Component {
     render() {
         console.log("Views " + this.props.data.views)
         var dateVar = dateformat(this.props.data.time, 'mmm dd')
-
+        // alert(JSON.stringify(this.props.data.owner))
         let deleteFlag = null;
-        if (this.props.data.owner === sessionStorage.getItem('id')) {
+        if (this.props.data.owner._id === sessionStorage.getItem('id')) {
             deleteFlag =
                 <button type="submit" class="btn btn-link" onClick={this.deletePressed} style={{ color: 'grey' }}>
                     <span class="glyphicon glyphicon-trash fa-2x"></span>
