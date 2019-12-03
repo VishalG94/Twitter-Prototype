@@ -15,7 +15,16 @@ class UserList extends React.Component {
         sessionStorage.removeItem('SelectedUserProfile')
         sessionStorage.setItem('SelectedUserProfileId', e.target.id)
         sessionStorage.setItem('SelectedUserProfile', e.target.name)
+
+        let x= sessionStorage.getItem('email')
+        let y = sessionStorage.getItem('SelectedUserProfile')
+        if(x!=y){
+        console.log(x);
         window.location.replace('/profile');
+        }
+        else{
+            window.location.replace('/userprofile')
+        }
     }
 
 

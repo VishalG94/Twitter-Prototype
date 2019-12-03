@@ -31,7 +31,7 @@ class UserLikes extends Component {
         console.log(response.data)
         //update the state with the response data
         this.setState({
-
+          
           tweets: this.state.tweets.concat(response.data)
         });
         console.log(this.state.tweets)
@@ -43,20 +43,22 @@ class UserLikes extends Component {
   render() {  
     return (
         
-      <Fragment>
-          <div class='split-center_newdata'>
-          <div style={{
-            marginLeft: '20px',
-            marginBottom : '500px',
-            fontWeight: '800',
-            fontSize: '19px'
-        }}></div>
-        <Tweet tweetsDtls = {this.state.tweets}></Tweet>
+        //   <div class='split-center_newdata'>
+        //   <div style={{
+        //     marginLeft: '20px',
+        //     marginBottom : '500px',
+        //     fontWeight: '800',
+        //     fontSize: '19px'
+        // }}></div>
+        // <Tweet tweetsDtls = {this.state.tweets}></Tweet>
         
-        </div>
-      </Fragment>
-    
+        // </div>
 
+        <div>
+       {/* <div className='col-sm-7'>  */}
+        <Tweet tweetsDtls = {this.state.tweets}></Tweet>
+        </div>
+    
     )
   }
 }

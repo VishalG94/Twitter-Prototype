@@ -9,6 +9,7 @@ import jwtDecode from 'jwt-decode'
 import Cookies from 'universal-cookie'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import Tweet from '../Tweet/Tweet'
+import WriteTweet from '../WriteTweet/WriteTweet'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import SearchBar from '../SearchBar/SearchBar'
 import UserList from './UserList'
@@ -109,6 +110,7 @@ class Search extends Component {
       [e.target.name]: e.target.value
     })
   }
+  
 
   render() {
     let redirectVar = null
@@ -124,11 +126,11 @@ class Search extends Component {
       handler: 'Handler',
       time: 'time',
       description: 'Description',
-      img: sampleImg,
+      img:  sampleImg,
       likes: 30,
       retweets: 20,
       comments: 10
-    }
+    }  
 
     let isSelected = 'searchTerm'
     let tweetList = null;

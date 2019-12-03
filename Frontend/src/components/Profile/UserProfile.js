@@ -14,6 +14,7 @@ import { Field, reduxForm } from 'redux-form';
 import ROOT_URL from '../../constants.js'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import UserTweets from '../UserTweets/UserTweets'
+import UserLikes from '../UserTweets/UserLikes'
 
 class UserProfile extends Component {
     // call the constructor method
@@ -30,10 +31,11 @@ class UserProfile extends Component {
             file: '',
             img: '',
             edit: false,
-            userid : '',
+            userid: '',
 
             // following:false,
-            follow: false
+            follow: false,
+            component: 'Tweets'
         }
 
     }
@@ -154,6 +156,44 @@ class UserProfile extends Component {
         })
     }
 
+    deleteprofile = e => {
+        const data = {
+            // following: sessionStorage.getItem('user_email'),
+            id: sessionStorage.getItem('id'),
+            email: sessionStorage.getItem('email'),
+
+        }
+        console.log(data);
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(`${ROOT_URL}/deleteprofile`, data)
+            .then(response => {
+                console.log("Status Code  is : ", response.status);
+                console.log(response.data);
+                if (response.status === 200) {
+                    alert("Deleted User Successfully");
+                    sessionStorage.clear();
+                    window.location.replace('/login')
+                } else {
+                    console.log('Change failed !!! ');
+                }
+
+            });
+
+    }
+
+    selectComponent = e => {
+        e.preventDefault();
+        this.setState({
+            component : e.target.id
+        }
+        ,()=>{
+            alert(this.state.component)
+        }
+        )
+
+    }
 
     onSubmit = (e) => {
         console.log("in submit profile");
@@ -177,23 +217,30 @@ class UserProfile extends Component {
             })
     }
     render() {
+        let selectedComp = null;
+        if(this.state.component==='Tweets'){
+            selectedComp = (<UserTweets></UserTweets>)
+        }else if(this.state.component === 'Likes'){
+            selectedComp = (<UserLikes></UserLikes>)
+        }
+
         let editprofile = null;
         console.log(this.state.edit);
-        if (!this.state.edit) {
+        if (this.state.component === 'Edit Profile') {
 
             editprofile = (
                 <div class='split-right_new'>
                     <div style={{ marginLeft: "10px" }}>
                         <h3>Edit Profile</h3>
                         <div className="form-group">
-                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}><span class="font">First name: {this.props.user.first_name}</span></div>
+                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}><span class="font">First name: {this.state.first_name}</span></div>
                             <div className="boxwidth-change">
                                 <input onChange={this.inputChangeHandler} type="text" class="form-control" name="first_name" placeholder='Edit first name' />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Last name: {this.props.user.last_name} </div>
+                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Last name: {this.state.last_name} </div>
                             <div className="boxwidth-change">
                                 <input onChange={this.inputChangeHandler} type="text" class="form-control" autoFocus name="last_name" placeholder='Edit Last name' />
                             </div>
@@ -261,7 +308,7 @@ class UserProfile extends Component {
                             fontSize: '19px'
                         }}
                     >
-                        {this.props.user.username}
+                        {this.state.first_name}
                     </h3>
 
 
@@ -278,42 +325,45 @@ class UserProfile extends Component {
                                 {image_new}
                                 {/* <div className='browse-button'>
                                     <i className='fa fa-pencil' /> */}
-                                    <div style={{marginLeft : "200px"}}>
-                                <input
-                                    // class='browse-input'
-                                    
-                                    type='file'
-                                    onChange={this.imageChangeHandler}
-                                    name='myImage'
-                                    id='myImage'
-                                />
-</div>
+                                <div style={{ marginLeft: "200px" }}>
+                                    <input
+                                        // class='browse-input'
+
+                                        type='file'
+                                        onChange={this.imageChangeHandler}
+                                        name='myImage'
+                                        id='myImage'
+                                    />
+                                </div>
                             </div>
                         </div>
 
                         {updatePic}
                     </form>
+
+                    <button type="button" style={{ float: "right", fontSize: '15.4px', borderRadius: '30px' }} class="btn btn-danger" onClick={this.deleteprofile} >Delete Profile</button>
                     <br></br>
                     <br></br>
+
                     <div style={{ marginBottom: "100px" }}>
-                        <nav class="navbar navbar-inverse">
-                            <div class="container-fluid">
-                                <div class="navbar-header">
-                                </div>
+                        <nav class="navbar navbar">
 
-                                <ul class="nav navbar-nav">
-
-                                    <li > <a href="/userprofile/tweets" class="list-group-item">Tweets</a></li>
-                                    <li> <a href="#" class="list-group-item">Tweets and Replies</a></li>
-                                    <li> <a href="#" class="list-group-item">Media</a></li>
-                                    <li> <a href="/userprofile/likes" class="list-group-item">Likes</a></li>
-                                    {/* <button class="btn btn-outline-success" onclick={this.editprofilebutton} type="button">Edit Profile</button> */}
-
-                                </ul>
+                            <div class="navbar-header">
                             </div>
 
+                            <ul style={{ width: "100%" }} class="nav navbar-nav">
+
+                                <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets</a></li>
+                                <li style={{ width: "25%" }}> <a id ="Edit Profile" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Edit Profile</a></li>
+                                <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Media</a></li>
+                                <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/#" class="list-group-item">Likes</a></li>
+
+                            </ul>
+                            
                         </nav>
+                        {selectedComp}
                     </div>
+                    
                 </div>
                 {editprofile}
             </div>

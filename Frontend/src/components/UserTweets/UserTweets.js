@@ -6,7 +6,7 @@ import TweetData from '../Tweet/TweetData'
 import Tweet from '../Tweet/Tweet'
 import './UserTweets.css'
 import UserProfile from '../Profile/UserProfile';
-
+import LeftNavbar from '../LeftNavbar/LeftNavbar'
 class UserTweet extends Component {
 
   constructor(props) {
@@ -41,42 +41,20 @@ class UserTweet extends Component {
       
   }
 
-
-
   render() {  
-    // let details = this.state.tweets.map(tweet => {
-    //   return (
-    //     <div>
-    //       <TweetData key={Math.random} data={tweet}></TweetData>
-    //     </div>
-    //   )
-    // })
-    // let details1 = this.state.tweets.map(tweet => {
-    //     return (
-    //       <div>
-    //         <h1>inside Tweet</h1>
-            
-    //       <TweetData key={Math.random} data={tweet}></TweetData>
-    //       </div>
-          
-    //     )
-    //   })
-
 
     return (
-        
-      <Fragment>
-          <div class='split-center_newdata'>
-          <div style={{
-            marginLeft: '20px',
-            marginBottom : '500px',
-            fontWeight: '800',
-            fontSize: '19px'  
-        }}></div>
+      <div>
+       {/* <div className='col-sm-7'>  */}
         <Tweet tweetsDtls = {this.state.tweets}></Tweet>
-        
         </div>
-      </Fragment>
+        
+        // <div className='col-sm-1' />
+        // <br></br>
+        // </div>
+      // </div>
+
+     
     )
   }
 }

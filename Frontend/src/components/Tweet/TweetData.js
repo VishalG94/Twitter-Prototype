@@ -17,21 +17,21 @@ class TweetData extends Component {
         this.state = {
             replyFlag: false,
             retweetFlag: false,
-            pic:''
+            pic:'',
         }
     }
 
     componentWillMount()
   {
     let email =this.props.data.owner.email;
-    console.log(this.props.data.owner.email);
+    console.log(email);
     let data = { email : email }
         // alert(data.email)
         this.props.getProfile({ params: data }, (response) => {
           // console.log(this.props.user)
           // alert(response.data);
           console.log(this.props.user)
-            console.log(response.data.image);
+            console.log(response.data);
             let img = '/images/profile/' + response.data.image
             
             this.setState({
@@ -47,20 +47,21 @@ class TweetData extends Component {
         //prevent page from refresh
         e.preventDefault();
         const data = {
-
             tweetid: this.props.data._id,
             email: sessionStorage.getItem("email"),
             flag: 0
         };
         //set the with credentials to true
         axios.defaults.withCredentials = true;
-        //make a post request with the user data
+        
         axios.post(ROOT_URL + "/hitlike", data).then(response => {
-            console.log("Status Code : ", response.status);
+            console.log("Status Code : ", response.data);
             if (response.status === 200) {
-
+                
+                console.log(data.likes)
+                
                 this.setState({
-                    authFlag: true
+                    authFlag: true,
                 });
                 window.location.reload();
             } else {
@@ -979,14 +980,16 @@ class TweetData extends Component {
 // export default TweetData;
 
 const mapStateToProps = state => {
-    return { user: state.user }
-  }
-  
-  export default connect(
-    mapStateToProps,
-    { getProfile }
-  )(
-    reduxForm({
-      form: 'streamLogin',
-    })(TweetData)
-  )
+ return { user: state.user }
+ }
+ 
+ export default connect(
+ mapStateToProps,
+ { getProfile }
+ )(
+ reduxForm({
+ form: 'streamLogin',
+ })(TweetData)
+ )
+
+
