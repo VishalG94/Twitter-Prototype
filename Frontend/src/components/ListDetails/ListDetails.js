@@ -6,6 +6,7 @@ import Tweet from '../Tweet/Tweet'
 import LeftNavbar from '../LeftNavbar/LeftNavbar'
 import './ListDetails.css'
 import EditList from '../Lists/EditList';
+import './ListDetails.css'
 
 class ListDetails extends Component {
 
@@ -61,6 +62,7 @@ class ListDetails extends Component {
 
   render() {
 
+
     return (
         <div>
         <div>
@@ -69,15 +71,46 @@ class ListDetails extends Component {
           </div>
 
           <div class='split-center-list-details'>
-          <ul> 
-                {/* <EditList/>
-                <hr/>                  */}
-                <span>
-                <Tweet tweetsDtls={this.state.tweets} /> 
-                
-                {this.state.text}                
-                
-                </span>      
+              <ul class="list-group" >              
+                  
+                  { (sessionStorage.getItem('SelectedUserProfileId') !== sessionStorage.getItem('id') )  && (sessionStorage.getItem('SelectedUserProfileId') != null) 
+                    &&
+                  <button
+                    type='button'
+                    style={{
+                      marginRight:'10%',
+                      outline: 'none',
+                      border: 'none',
+                      backgroundColor: '#4285f4',
+                      float:'right'
+                    }}     
+                    className='btn btn-primary'                        
+                  >
+                    Subscribe
+                  </button>                
+                  
+                  } 
+                                        
+                <h3
+              style={{
+                marginLeft: '20px',
+                fontWeight: '800',
+                fontSize: '19px'
+              }}
+            >
+              List
+            </h3>
+            <br></br>
+            <div style={{ borderBottom: '1px solid #E0E0E0' }} />
+
+                    
+                      
+                      <Tweet tweetsDtls={this.state.tweets} /> 
+                    
+                      {this.state.text}                                 
+                      
+                    
+                                          
                 
               </ul>
             </div>          

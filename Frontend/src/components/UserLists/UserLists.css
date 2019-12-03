@@ -1,0 +1,117 @@
+.col-sm-2 {
+    border-radius: 2px;
+    border: 1px solid balck;
+    padding: 40px 40px 40px 40px;
+    font-size: 15.4px;
+    line-height: 1.595;
+    background-color: white;
+  }
+
+  .navbar-brand{
+    background-color: #ffffff;
+    
+  }
+
+  .split-right-list {
+    margin-top: 52px;
+    height: 100%;
+    width: 30%;
+    position: fixed;
+    /* background-color: red; */
+    border-right: 1px solid #e0e0e0;
+    z-index: 1;
+    top: 0;
+    right: 10%;
+    overflow-x: hidden;
+  }
+  
+  
+.split-center-list {
+  margin-top: 65px;  
+  height: 100%;
+  width: 45%;
+  position: fixed;
+  left: 20%;
+  /* background-color: blue; */
+  z-index: 1;
+  top: 0;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  overflow-x: hidden;
+}
+
+
+  span{
+    font-weight: bold;       
+  }
+
+  .labels{
+      text-align: center;
+      line-height: 2;
+      
+  }
+
+  .active{
+      color: rgba(29,161,242,1.00);
+  }
+
+  .preview-img {
+    border-radius: 100%;
+    margin: 10px;
+    box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.7);
+  }
+  .user-name {
+    color: black;
+    font-weight: 700;
+    font-size: 15px;
+  }
+  .preview i {
+    color: white;
+    font-size: 35px;
+    transform: translate(50px, 130px);
+  }
+  
+  .browse-button {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    position: absolute; /* Tweak the position property if the element seems to be unfit */
+    top: 50px;
+    left: 541px;
+    background: linear-gradient(180deg, transparent, black);
+    opacity: 0;
+    transition: 0.3s ease;
+  }
+  
+  .browse-button:hover {
+    opacity: 1;
+  }
+  .browse-input {
+    width: 200px;
+    height: 200px;
+    border-radius: 100%;
+    transform: translate(-1px, -26px);
+    opacity: 0;
+  }
+  
+  .li-profile {
+    margin-bottom: 10px;
+  }
+  
+  .col-sm-2 .tab {
+    box-sizing: inherit;
+    color: #0070eb;
+    font-size: 15.4px;
+    font-weight: bold;
+    margin: -40px -40px -40px -40px;
+    padding: 20px 20px 20px 20px;
+  }
+  
+  .col-sm-10 {
+    border-radius: 2px;
+    flex: 0 0 75%;
+    max-width: 75%;
+    background-color: white;
+  }
+
+  

@@ -17,6 +17,8 @@ var follow = require('./services/followupdate')
 var profileupdate = require('./services/profileupdate');
 var followedBy = require('./services/followedBy');
 var fetchlist = require('./services/lists/fetchlist');
+var fetchuserlists = require('./services/lists/fetchuserlists');
+
 var createlist = require('./services/lists/createlist');
 var fetchsubscribedlist = require('./services/lists/fetchsubscribedlist');
 var fetchlisttweets = require('./services/lists/fetchlisttweets');
@@ -71,3 +73,5 @@ handleTopicRequest('fetchlist', fetchlist)
 handleTopicRequest('createlist', createlist)
 handleTopicRequest('fetchlisttweets', fetchlisttweets)
 handleTopicRequest('fetchsubscribedlist', fetchsubscribedlist)
+handleTopicRequest('fetchuserlists', fetchuserlists)
+

@@ -283,7 +283,7 @@ class Profile extends Component {
 
                                     <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="/profile/tweets" class="list-group-item">Tweets</a></li>
                                     <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets and Replies</a></li>
-                                    <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Media</a></li>
+                                    <li style={{ width: "25%" }}> <Link style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} to={{ pathname:'/userlists',  state:{ username:this.state.username }}} class="list-group-item">View Lists</Link></li>
                                     <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/profile/likes" class="list-group-item">Likes</a></li>
 
                                 </ul>

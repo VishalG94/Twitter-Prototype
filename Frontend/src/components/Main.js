@@ -21,6 +21,7 @@ import BookMarkedTweets from './UserTweets/BookMarkedTweets'
 import Lists from './Lists/Lists'
 import ListDetails from './ListDetails/ListDetails'
 import SubscribedList from './Lists/SubscribedList'
+import UserLists from './UserLists/UserLists'
 
 // Create a Main Component
 
@@ -50,6 +51,8 @@ class Main extends Component {
         <Route path='/lists' component={Lists} />
         <Route path='/listdetails' component={ListDetails} />
         <Route path='/subscribedlist' component={SubscribedList} />
+        <Route path='/userlists' component={UserLists} />
+        
        
       </div>
     )

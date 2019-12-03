@@ -9,9 +9,7 @@ import EditList from "./EditList";
 
 class ListData extends Component {
     constructor(props) {
-        super(props);
-
-             
+        super(props);             
     }
 
     render() {
@@ -21,10 +19,7 @@ class ListData extends Component {
         newdetails = 
                 <div>
                     {/* <h1>Already Not liked</h1> */}
-                    <Link to={{
-                pathname:'/listdetails',
-                state:{id : this.props.data._id}
-                }}
+                    <Link to={{ pathname:'/listdetails',  state:{id : this.props.data._id, owner:this.props.data.owner }}}
                       class='list-group-item' >
                   
                         <div class='row'>

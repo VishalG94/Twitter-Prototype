@@ -22,8 +22,7 @@ class Tweet extends Component {
           <TweetData key={Math.random} data={tweet}></TweetData>
         </div>
       )
-    })
-  
+    })  
 
     return (
       
