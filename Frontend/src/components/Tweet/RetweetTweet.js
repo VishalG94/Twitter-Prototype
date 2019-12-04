@@ -14,7 +14,8 @@ class RetweetTweet extends React.Component {
         this.state = {
             text: "",
             file: null,
-            url: null
+            url: null,
+            pic : ''
         }
 
         this.textChangeHandler = this.textChangeHandler.bind(this)
@@ -32,11 +33,15 @@ class RetweetTweet extends React.Component {
             // alert(response.data);
             console.log(this.props.user)
               console.log(response.data);
-              let img = '/images/profile/' + response.data.image
+              let img = '/images/profile/' 
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }
+            this.setState({
               
-              this.setState({
-                
-                pic: img
+              pic: img
         });
               
           })

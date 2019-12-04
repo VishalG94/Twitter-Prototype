@@ -13,6 +13,7 @@ import GraphLikes from './GraphLikes'
 import GraphRetweet from './GraphRetweet'
 import GraphTweet from './GraphTweet'
 import BarProfileView from './BarProfileView'
+import DashNavbar from '../LeftNavbar/DashNavBar';
 class Dashboard extends Component {
 
   constructor(props) {
@@ -33,7 +34,8 @@ class Dashboard extends Component {
         <div>
           <div className='row'>
             <div className='col-sm-2'>
-              <LeftNavbar />
+              {/* <LeftNavbar /> */}
+              <DashNavbar />
             </div>
           </div>
           <div class='split-center-dashboard'>

@@ -48,9 +48,6 @@ class Profile extends Component {
             // follow: false
         })
 
-
-
-
         let temp = sessionStorage.getItem('SelectedUserProfile')
         console.log(temp);
         let data = { email: temp }
@@ -102,9 +99,7 @@ class Profile extends Component {
             // })
             
             
-            // sessionStorage.setItem('userDtls', JSON.stringify(response.data))
-          
-        })
+            
         });
 
         let temp1 = sessionStorage.getItem('email')
@@ -122,7 +117,7 @@ class Profile extends Component {
         });
 
        
-
+    })
     }
 
     selectComponent = e => {
@@ -288,7 +283,7 @@ class Profile extends Component {
                             fontSize: '19px'
                         }}
                     >
-                        {this.state.username}
+                       {this.state.first_name}{this.state.last_name}
                     </h3>
 
 
