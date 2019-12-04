@@ -96,8 +96,8 @@ class graph extends Component {
         this.state.tweets.forEach(info =>{
             check.forEach(vals =>{
               // console.log(info.time)
-              // console.log(vals.name)
-              // console.log(info.time.slice(8,10))
+              //  console.log(vals.name)
+              //  console.log(info.time.slice(8,10))
                 
                 if(vals.name<10){
                   if(info.time.slice(8,10)==='0'+vals.name.toString() && info.time.slice(5,7)==='12'){

@@ -68,6 +68,7 @@ class Profile extends Component {
             } 
             axios.post(`${ROOT_URL}/profileview`, data)
             .then(response => {
+            // sessionStorage.removeItem('userDtls')
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
@@ -76,10 +77,12 @@ class Profile extends Component {
                 last_name: response.data.last_name,
                 profilepic: img,
                 username: response.data.username,
-
+                
 
             })
-            console.log(this.state.follow)
+            
+            // sessionStorage.setItem('userDtls', JSON.stringify(response.data))
+          
         })
         });
 
