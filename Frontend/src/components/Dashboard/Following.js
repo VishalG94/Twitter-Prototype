@@ -31,7 +31,7 @@ class Following extends Component {
     }).then(response => {
       if (response.status == 200) {
         console.log("Followers Fetched");
-        alert(response.data)
+        // alert(response.data)
 
         let temp = (response.data)
         // alert(temp)

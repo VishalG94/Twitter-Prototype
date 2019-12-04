@@ -109,7 +109,7 @@ class Followers extends Component {
                 <nav aria-label="Page navigation example">
 
                     <ul className="pagination" id='page-numbers'>
-                        {renderPageNumbers}
+                        {/* {renderPageNumbers} */}
                     </ul>
 
                 </nav>

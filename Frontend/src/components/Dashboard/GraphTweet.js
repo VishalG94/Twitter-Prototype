@@ -27,6 +27,7 @@ import {
       <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>{payload.disp}</text>
       <text x={cx} y={cy+20} dy={8} textAnchor="middle" fill={fill}>{"Views: "}{value}</text>
+      <text x={cx} y={cy-120} dy={8} textAnchor="middle" fill={fill}>{"Top 10 viewed Tweets"}</text>
         <Sector
           cx={cx}
           cy={cy}

@@ -39,10 +39,17 @@ class RetweetTweet extends React.Component {
             } else {
                 img = img + 'Twitternew.png'
             }
-            this.setState({
+        //     this.setState({
               
-              pic: img
-        });
+        //       pic: img
+        // });
+
+        axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+            //   alert('Axios get image:'+ response.data)
+              this.setState({
+                  pic: 'data:image/png;base64, ' + response.data
+              })
+          })
               
           })
 
