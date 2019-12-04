@@ -195,7 +195,7 @@ router.post('/receivermessageslist', function (req, res) {
 
 router.post('/sendermessageslist', function (req, res) {
   console.log('Inside message sendermessageslist' + JSON.stringify(req.body))
-  let msg = req.body;
+  // let msg = req.body;
   // console.log(msg.receiver_name)
   // messages.distinct(
   //   "sender_name", { receiver_name: msg.sender_name })

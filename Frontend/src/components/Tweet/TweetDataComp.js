@@ -274,7 +274,7 @@ class TweetDataComp extends React.Component {
         let hasImageTag = null
         if (this.props.data.image && this.props.data.image !== "/uploads/") {
             hasImageTag = (
-                <div>
+                <div style={{ marginLeft: '3%' }}>
                     <img
                         class='rounded-circle'
                         style={{ borderRadius: '10px' }}
@@ -363,8 +363,8 @@ class TweetDataComp extends React.Component {
         return (
             <div>
                 <div class="tweet">
-                    <div class="list-group-item">
-                    
+                    <div style={{ borderRadius: '0px' }} class="list-group-item">
+
                         <a href={`/viewtweet/` + this.props.data._id} onClick={this.viewTweetCalled}>
                             <div class='row'>
                                 <div class='col-sm-1'>
@@ -378,8 +378,7 @@ class TweetDataComp extends React.Component {
                                 </div>
 
                                 <div class='col-sm-11'>
-                                
-                                    <h4 class='user-name'>
+                                    <h4 style={{ marginLeft: '3%' }} class='user-name'>
                                     <a href='/profile'
                                     id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
                                         {this.props.data.owner.first_name + " " + this.props.data.owner.last_name} </a>
@@ -406,17 +405,17 @@ class TweetDataComp extends React.Component {
 
                                     </h4>
 
-                                    <div style={{ color: 'black' }}>{this.props.data.text}</div>
+                                    <div style={{ marginLeft: '3%', color: 'black' }}>{this.props.data.text}</div>
                                     <br />
                                     {hasImageTag}
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
                                     
                                 </div>
                             </div>
                         </a>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey' }}>
+                        <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey', marginLeft: '6%' }}>
                             <span class="far fa-comment fa-2x"></span>
                         </button>
                         <label style={{ fontSize: "20px" }}> {this.props.data.reply.length}</label>

@@ -170,7 +170,9 @@ class Home extends Component {
                                 <Tweet tweetsDtls={this.state.tweets} />
                                 {/* <Tweet /> */}
                             </ul>
-                            {replys}
+                            <div style={{ marginLeft: '4%' }}>
+                                {replys}
+                            </div>
                         </div>
 
                         <div className='col-sm-1' />

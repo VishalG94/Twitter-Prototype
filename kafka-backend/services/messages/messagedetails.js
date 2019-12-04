@@ -22,6 +22,7 @@ function handle_request(msg, callback) {
             console.log('Successfully fetched data from DB')
             console.log(JSON.stringify(results))
             callback(null, results)
+
         })
         .catch(err => {
             console.log('Error occured while fetching data from DB')

@@ -1,5 +1,5 @@
-const Tweet = require('../api/models/tweet');
-const User = require('../api/models/user');
+const Tweet = require('../../api/models/tweet');
+const User = require('../../api/models/user');
 
 function handle_request(msg, callback) {
 
