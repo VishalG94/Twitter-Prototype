@@ -81,30 +81,32 @@ class graph extends Component {
 
   componentWillMount() {
     var email = sessionStorage.getItem("email")
-    console.log(email);
+    //console.log(email);
     axios.get(ROOT_URL + '/fetchusertweets', {
       params: {
         email: email
       }
     })
       .then((response) => {
-        console.log("Received response")
-        console.log(response.data)
+        //console.log("Received response")
+        //console.log(response.data)
         //update the state with the response data
         this.setState({
 
           tweets: this.state.tweets.concat(response.data)
         });
-        console.log(this.state.tweets)
+        //console.log(this.state.tweets)
         let check =[]
         this.state.tweets.forEach(info =>{
-            console.log(info)
-            console.log(info.time.slice(8,10))
+            //console.log(info)
+            //console.log(info.time.slice(8,10))
             check.push({ name: info.retweet.length, value: info.retweet.length , disp : info.text})
         })
-        console.log(check)
+        //console.log(check)
+        check.sort((a, b) => parseInt(a.value) - parseInt(b.value)).reverse();        
+        let ch=check.slice(0,5)
         this.setState({
-            data : check
+            data : ch
           });
       });
   }

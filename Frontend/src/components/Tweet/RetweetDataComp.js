@@ -7,14 +7,18 @@ import ROOT_URL from "../../constants"
 import ReplyTweet from "./ReplyTweet";
 import RetweetTweet from "./RetweetTweet";
 import dateformat from 'dateformat';
+import {getProfile} from '../../actions'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
-class TweetDataComp extends React.Component {
+class RetweetDataComp extends React.Component {
 
     constructor(props) {
         super(props)
         this.state = {
             replyFlag: false,
-            retweetFlag: false
+            retweetFlag: false,
+            pic:''
         }
 
         this.likePressed = this.likePressed.bind(this)
@@ -24,6 +28,52 @@ class TweetDataComp extends React.Component {
         this.retweetPressed = this.retweetPressed.bind(this)
         this.viewTweetCalled = this.viewTweetCalled.bind(this)
     }
+
+    componentWillMount()
+    {
+      let email =this.props.data.owner.email;
+      console.log(email);
+      let data = { email : email }
+          // alert(data.email)
+          this.props.getProfile({ params: data }, (response) => {
+            // console.log(this.props.user)
+            // alert(response.data);
+            console.log(this.props.user)
+              console.log(response.data);
+              let img = '/images/profile/' 
+
+              if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }
+              
+              this.setState({
+                
+                pic: img
+        });
+              
+          })
+    }
+
+    Search = (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('SelectedProfileId')
+        sessionStorage.removeItem('SelectedUserProfile')
+        sessionStorage.setItem('SelectedUserProfileId', e.target.id)
+        sessionStorage.setItem('SelectedUserProfile', e.target.name)
+
+        let x= sessionStorage.getItem('email')
+        let y = sessionStorage.getItem('SelectedUserProfile')
+        if(x!=y){
+        console.log(x);
+        window.location.replace('/profile');
+        }
+        else{
+            window.location.replace('/userprofile')
+        }
+    }
+    
 
     likePressed = e => {
         var headers = new Headers();
@@ -185,12 +235,12 @@ class TweetDataComp extends React.Component {
 
 
     render() {
-
+        
         var dateVar = dateformat(this.props.data.time, 'mmm dd')
-
+        
 
         let hasImageTag = null
-        // if(this.props.data.retweetdata!=null){
+        if(this.props.data.retweetdata!=null){
         if (this.props.data.retweetdata.image && this.props.data.retweetdata.image !== "/uploads/") {
             hasImageTag = (
                 <div>
@@ -205,7 +255,7 @@ class TweetDataComp extends React.Component {
                 </div>
             )
         }
-        // }
+        }
 
         let replyBar = null;
         if (this.state.replyFlag) {
@@ -278,6 +328,7 @@ class TweetDataComp extends React.Component {
         }
 
         return (
+            
             <div>
                 <div class="tweet">
                     <div style={{borderRadius:'0px'}} class="list-group-item">
@@ -285,7 +336,7 @@ class TweetDataComp extends React.Component {
                         <div class='row'>
                             <div class='col-sm-1'>
                                 <img
-                                    src={require('../img/Twitternew.png')}
+                                    src={this.state.pic}
                                     class='preview-img'
                                     width='50'
                                     height='50'
@@ -295,7 +346,9 @@ class TweetDataComp extends React.Component {
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
                                 <h4 style={{marginLeft:'3%'}} class='user-name'>
-                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                <a href='/profile'
+                                    id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                     <span
                                         style={{
                                             fontWeight: 'normal',
@@ -401,4 +454,9 @@ class TweetDataComp extends React.Component {
     }
 }
 
-export default TweetDataComp
+const mapStateToProps = state => {
+    return { user: state.user }
+    }
+    
+export default connect( mapStateToProps,{ getProfile })(
+    reduxForm({form: 'streamLogin',})(RetweetDataComp))

@@ -7,6 +7,9 @@ import ROOT_URL from "../../constants"
 import ReplyTweet from "./ReplyTweet";
 import RetweetTweet from "./RetweetTweet";
 import dateformat from 'dateformat';
+import {getProfile} from '../../actions'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
 class TweetDataComp extends React.Component {
 
@@ -14,7 +17,8 @@ class TweetDataComp extends React.Component {
         super(props)
         this.state = {
             replyFlag: false,
-            retweetFlag: false
+            retweetFlag: false,
+            pic:''
         }
 
         this.likePressed = this.likePressed.bind(this)
@@ -25,6 +29,50 @@ class TweetDataComp extends React.Component {
         this.viewTweetCalled = this.viewTweetCalled.bind(this)
         this.deletePressed = this.deletePressed.bind(this)
     }
+
+    componentWillMount()
+  {
+    let email =this.props.data.owner.email;
+    console.log(email);
+    let data = { email : email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          console.log(this.props.user)
+            console.log(response.data);
+            let img = '/images/profile/' 
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }
+            
+            this.setState({
+              
+              pic: img
+      });
+            
+        })
+  }
+
+  Search = (e) => {
+    e.preventDefault();
+    sessionStorage.removeItem('SelectedProfileId')
+    sessionStorage.removeItem('SelectedUserProfile')
+    sessionStorage.setItem('SelectedUserProfileId', e.target.id)
+    sessionStorage.setItem('SelectedUserProfile', e.target.name)
+
+    let x= sessionStorage.getItem('email')
+    let y = sessionStorage.getItem('SelectedUserProfile')
+    if(x!=y){
+    console.log(x);
+    window.location.replace('/profile');
+    }
+    else{
+        window.location.replace('/userprofile')
+    }
+}
 
     likePressed = e => {
         var headers = new Headers();
@@ -214,7 +262,7 @@ class TweetDataComp extends React.Component {
     render() {
         console.log("Views " + this.props.data.views)
         var dateVar = dateformat(this.props.data.time, 'mmm dd')
-        // alert(JSON.stringify(this.props.data.owner))
+        console.log(JSON.stringify(this.props.data.owner))
         let deleteFlag = null;
         if (this.props.data.owner._id === sessionStorage.getItem('id')) {
             deleteFlag =
@@ -321,7 +369,7 @@ class TweetDataComp extends React.Component {
                             <div class='row'>
                                 <div class='col-sm-1'>
                                     <img
-                                        src={require('../img/Twitternew.png')}
+                                        src={this.state.pic}
                                         class='preview-img'
                                         width='50'
                                         height='50'
@@ -331,7 +379,9 @@ class TweetDataComp extends React.Component {
 
                                 <div class='col-sm-11'>
                                     <h4 style={{ marginLeft: '3%' }} class='user-name'>
-                                        {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                    <a href='/profile'
+                                    id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                        {this.props.data.owner.first_name + " " + this.props.data.owner.last_name} </a>
                                         <span
                                             style={{
                                                 fontWeight: 'normal',
@@ -350,7 +400,9 @@ class TweetDataComp extends React.Component {
 
                                             . {dateVar}
                                         </span>
-                                        {deleteFlag}
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                       
+
                                     </h4>
 
                                     <div style={{ marginLeft: '3%', color: 'black' }}>{this.props.data.text}</div>
@@ -358,7 +410,7 @@ class TweetDataComp extends React.Component {
                                     {hasImageTag}
 
 
-
+                                    
                                 </div>
                             </div>
                         </a>
@@ -380,8 +432,10 @@ class TweetDataComp extends React.Component {
                         <label style={{ fontSize: "20px" }}> {this.props.data.likes.length}</label>
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     {bookmarkButton}
-
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {deleteFlag}
                     </div>
+
                 </div>
                 {replyBar}
                 {retweetBar}
@@ -390,4 +444,17 @@ class TweetDataComp extends React.Component {
     }
 }
 
-export default TweetDataComp
+// export default TweetDataComp
+
+const mapStateToProps = state => {
+    return { user: state.user }
+    }
+    
+    export default connect(
+    mapStateToProps,
+    { getProfile }
+    )(
+    reduxForm({
+    form: 'streamLogin',
+    })(TweetDataComp)
+    )

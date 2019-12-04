@@ -62,7 +62,7 @@ export function getProfile(values, callback) {
 
     return (dispatch) =>{
         request.then((res)=>{
-            console.log("In get profile response:" + JSON.stringify(res));
+            // console.log("In get profile response:" + JSON.stringify(res));
             dispatch({
                 type: GET_PROFILE,
                 payload: res.data
