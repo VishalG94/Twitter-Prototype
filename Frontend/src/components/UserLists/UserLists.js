@@ -136,7 +136,7 @@ class UserLists extends Component {
       likes: 30,
       retweets: 20,
       comments: 10
-    }
+    }    
 
     return (
       <div>
