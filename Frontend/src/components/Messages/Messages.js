@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 // import './Messages.css'
 import axios from 'axios'
 import { loginuser } from '../../actions'
+import { getProfile } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 import jwtDecode from 'jwt-decode'
@@ -43,6 +44,13 @@ class Messages extends Component {
       authFlag: false,
       authFailed: false
     })
+    let email = sessionStorage.getItem('email');
+    let data1 = { email: email }
+    this.props.getProfile({ params: data1 }, (response) => {
+      console.log('Response user' + response.data)
+      sessionStorage.setItem('userDtls', JSON.stringify(response.data))
+    });
+
 
     let user = JSON.parse(sessionStorage.getItem('userDtls'))
     let sender = JSON.parse(sessionStorage.getItem('userDtls')).username
@@ -53,6 +61,7 @@ class Messages extends Component {
     }
     // sessionStorage.setItem('following', ['samkit', 'abc143', 'arunb1620'])
     // sessionStorage.setItem('followedby', ['kiranbijjala94', 'abc143', 'samkit'])
+
     let followingArray = (user.following).map((item) => { return item["username"]; });
     this.setState({ following: followingArray })
     let followedbyArray = (user.followedBy).map((list) => { return list.username; });
@@ -231,13 +240,52 @@ class Messages extends Component {
 
     let searchlist = null;
     let dispalyList = null;
+    let recieverMsg = null;
+    if (sessionStorage.getItem('reciever')) {
+
+      recieverMsg = (<button
+        id='messagebarbutton'
+        type='submit'
+        class='messageButton'
+      >
+        <i class='far fa-paper-plane ' />
+      </button>)
+    } else {
+      alert('here')
+      recieverMsg = (<button
+        id='messagebarbutton'
+        type='submit'
+        class='messageButton'
+        disabled>
+        <i class='far fa-paper-plane ' />
+      </button>)
+    }
 
     searchlist = JSON.parse(sessionStorage.getItem('messagesearchresult'));
     // let following = sessionStorage.getItem('following')
     // let followedby = sessionStorage.getItem('followedby')
     let previousChat = this.state.uniqueMessagesList;
     let previousChatList = null;
-    
+    let sendMessage = null;
+    if (sessionStorage.getItem('reciever')) {
+      sendMessage = (<button
+        id='messagebarbutton'
+        type='submit'
+        class='messageButton'
+      >
+        <i class='far fa-paper-plane ' />
+      </button>)
+    } else {
+      sendMessage = (<button
+        id='messagebarbutton'
+        type='submit'
+        class='messageButton'
+        disabled
+      >
+        <i class='far fa-paper-plane ' />
+      </button>)
+    }
+
     if (previousChat !== null) {
       previousChatList = Object.keys(previousChat).map((person) => {
         return (
@@ -248,9 +296,9 @@ class Messages extends Component {
 
     let user = JSON.parse(sessionStorage.getItem('userDtls'))
     if (searchlist !== null) {
-      
+
       messagesList = Object.keys(searchlist).map((person) => {
-        
+
         if (user.following.includes(searchlist[person]._id) && user.followedBy.includes(searchlist[person]._id)) {
           return (
             <ActiveChat person={searchlist[person].username}></ActiveChat>
@@ -390,13 +438,14 @@ class Messages extends Component {
                     </div>
 
                     <div class='col-sm-1'>
-                      <button
+                      {/* <button
                         id='messagebarbutton'
                         type='submit'
                         class='messageButton'
                       >
                         <i class='far fa-paper-plane ' />
-                      </button>
+                      </button> */}
+                      {sendMessage}
                     </div>
                   </div>
                 </form>
@@ -428,7 +477,7 @@ const mapStateToProps = state => {
 
 export default connect(
   mapStateToProps,
-  { loginuser }
+  { loginuser, getProfile }
 )(
   reduxForm({
     form: 'streamLogin',

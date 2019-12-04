@@ -3,6 +3,7 @@ var User = require("../../models/user");
 const mongoose = require("../../../sql/mongoose")
 var express = require('express');
 var router = express.Router();
+var kafka = require('../../../kafka/client');
 
 
 router.get("/viewtweet", function (req, res) {

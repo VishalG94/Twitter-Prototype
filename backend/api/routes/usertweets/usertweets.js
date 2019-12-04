@@ -14,9 +14,15 @@ router.get("/fetchusertweets", function (req, res) {
 
         // console.log(doc + " Name" + doc.first_name + "fetchtweets success!" + doc.following[0])
         console.log(doc);
-        Tweet.find({ owner: doc._id } )
-            .populate('owner')
-            // .populate('first_name')
+        Tweet.find({ owner: doc._id } ).sort({ time: -1 })
+        .populate('owner')
+        .populate('retweetdata')
+        .populate({
+            path: 'retweetdata',
+            populate: {
+                path: 'owner'
+            }
+        })
             .exec()     
             .then((result1) => {
                 console.log("Tweet res " + result1)

@@ -7,14 +7,22 @@ const mongoose = require('mongoose')
 function handle_request(msg, callback) {
 
     messages
-        .find({
-            sender_name: msg.sender_name,
-            receiver_name: msg.receiver_name
-        })
+        .find(
+            {
+                $or: [{
+                    sender_name: msg.sender_name,
+                    receiver_name: msg.receiver_name
+                }, {
+                    sender_name: msg.receiver_name,
+                    receiver_name: msg.sender_name
+                }]
+            }
+        )
         .then(results => {
             console.log('Successfully fetched data from DB')
             console.log(JSON.stringify(results))
             callback(null, results)
+
         })
         .catch(err => {
             console.log('Error occured while fetching data from DB')

@@ -5,11 +5,55 @@ import { Redirect } from "react-router";
 import ROOT_URL from "../../constants"
 import './ListData.css'
 import EditList from "./EditList";
-
+import {getProfile} from '../../actions'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
 class ListData extends Component {
     constructor(props) {
-        super(props);             
+        super(props);
+        this.state = {
+            pic:''
+        }
+}
+
+    componentWillMount()
+    {
+      let email =this.props.data.owner.email;
+      console.log(email);
+      let data = { email : email }
+          // alert(data.email)
+          this.props.getProfile({ params: data }, (response) => {
+            // console.log(this.props.user)
+            // alert(response.data);
+            console.log(this.props.user)
+              console.log(response.data);
+              let img = '/images/profile/' + response.data.image
+              
+              this.setState({
+                
+                pic: img
+        });
+              
+          })
+    }
+
+    Search = (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('SelectedProfileId')
+        sessionStorage.removeItem('SelectedUserProfile')
+        sessionStorage.setItem('SelectedUserProfileId', e.target.id)
+        sessionStorage.setItem('SelectedUserProfile', e.target.name)
+    
+        let x= sessionStorage.getItem('email')
+        let y = sessionStorage.getItem('SelectedUserProfile')
+        if(x!=y){
+        console.log(x);
+        window.location.replace('/profile');
+        }
+        else{
+            window.location.replace('/userprofile')
+        }
     }
 
     render() {
@@ -25,7 +69,7 @@ class ListData extends Component {
                         <div class='row'>
                             <div class='col-sm-1'>
                                 <img
-                                    src={require('../img/Twitternew.png')}
+                                    src={this.state.pic}
                                     class='preview-img'
                                     width='50'
                                     height='50'
@@ -35,7 +79,9 @@ class ListData extends Component {
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
                                 <h4 class='user-name'>
-                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}
+                                <a href='/profile'
+                                    id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                    {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                     <span
                                         style={{
                                             fontWeight: 'normal',
@@ -88,4 +134,9 @@ class ListData extends Component {
     }
 }
 
-export default ListData;
+const mapStateToProps = state => {
+    return { user: state.user }
+    }
+    
+export default connect( mapStateToProps,{ getProfile })(
+    reduxForm({form: 'streamLogin',})(ListData))
