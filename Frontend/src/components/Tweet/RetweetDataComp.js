@@ -171,6 +171,32 @@ class RetweetDataComp extends React.Component {
         });
     };
 
+    deletePressed = e => {
+        var headers = new Headers();
+        //prevent page from refresh
+        e.preventDefault();
+        const data = {
+            tweetid: this.props.data._id,
+        };
+        //set the with credentials to true
+        axios.defaults.withCredentials = true;
+        //make a post request with the user data
+        axios.post(ROOT_URL + "/deletetweet", data).then(response => {
+            console.log("Status Code : ", response.status);
+            if (response.status === 200) {
+
+                this.setState({
+                    authFlag: true
+                });
+                window.location.reload();
+            } else {
+                this.setState({
+                    authFlag: false
+                });
+            }
+        });
+    };
+
     unlikePressed = e => {
         var headers = new Headers();
         //prevent page from refresh
@@ -247,7 +273,13 @@ class RetweetDataComp extends React.Component {
         
         var dateVar = dateformat(this.props.data.time, 'mmm dd')
         
-
+        let deleteFlag = null;
+        if (this.props.data.owner._id === sessionStorage.getItem('id')) {
+            deleteFlag =
+                <button type="submit" class="btn btn-link" onClick={this.deletePressed} style={{ color: 'grey' }}>
+                    <span class="glyphicon glyphicon-trash fa-2x"></span>
+                </button>
+        }
         let hasImageTag = null
         if(this.props.data.retweetdata!=null){
         if (this.props.data.retweetdata.image && this.props.data.retweetdata.image !== "/uploads/") {
@@ -454,6 +486,8 @@ class RetweetDataComp extends React.Component {
 
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                     {bookmarkButton}
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    {deleteFlag}
                     </div>
                     </div>
                     {replyBar}

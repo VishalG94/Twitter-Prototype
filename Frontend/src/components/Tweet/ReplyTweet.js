@@ -3,6 +3,9 @@ import { nominalTypeHack } from 'prop-types'
 import '../WriteTweet/WriteTweet.css'
 import axios from 'axios';
 import ROOT_URL from "../../constants"
+import {getProfile} from '../../actions'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
 class ReplyTweet extends React.Component {
 
@@ -11,12 +14,37 @@ class ReplyTweet extends React.Component {
         this.state = {
             text: "",
             file: null,
-            url: null
+            url: null,
+            pic:''
         }
 
         this.textChangeHandler = this.textChangeHandler.bind(this)
         this.submitReply = this.submitReply.bind(this);
     }
+
+    componentWillMount()
+  {
+    let email =sessionStorage.getItem('email')
+    let data = { email : email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          console.log(this.props.user)
+            console.log(response.data);
+            let img = '/images/profile/' 
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }
+            this.setState({
+              
+              pic: img
+      });
+            
+        })
+  }
 
     textChangeHandler = (e) => {
         this.setState({
@@ -30,7 +58,7 @@ class ReplyTweet extends React.Component {
         const data = {
             tweetid: this.props.data._id,
             text: this.state.text,
-            email: sessionStorage.getItem('email')
+            email: sessionStorage.getItem('id')
         }
 
         axios.defaults.withCredentials = true;
@@ -65,7 +93,7 @@ class ReplyTweet extends React.Component {
                 <div class='row'>
                     <div class='col-sm-1'>
                         <img
-                            src={require('../img/Twitternew.png')}
+                            src={this.state.pic}
                             class='preview-img'
                             width='50'
                             height='50'
@@ -105,4 +133,11 @@ class ReplyTweet extends React.Component {
     }
 }
 
-export default ReplyTweet
+// export default ReplyTweet
+
+const mapStateToProps = state => {
+    return { user: state.user }
+    }
+    
+export default connect( mapStateToProps,{ getProfile })(
+    reduxForm({form: 'streamLogin',})(ReplyTweet))
