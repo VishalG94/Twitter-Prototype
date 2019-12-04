@@ -13,7 +13,7 @@ class WriteTweet extends React.Component {
       text: "",
       file: null,
       url: null,
-      profilepic:''
+      pic:''
         }
 
     this.imagehandleChange = this.imagehandleChange.bind(this)
@@ -31,11 +31,15 @@ class WriteTweet extends React.Component {
           // alert(response.data);
           console.log(this.props.user)
             console.log(response.data);
-            let img = '/images/profile/' + response.data.image
-            
+            let img = '/images/profile/' 
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }
             this.setState({
               
-              profilepic: img
+              pic: img
       });
             
         })
@@ -109,7 +113,7 @@ class WriteTweet extends React.Component {
         <div class='row'>
           <div class='col-sm-1'>
             <img
-              src={this.state.profilepic}
+              src={this.state.pic}
               class='preview-img'
               width='50'
               height='50'

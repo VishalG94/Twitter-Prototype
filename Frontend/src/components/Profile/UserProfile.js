@@ -333,7 +333,7 @@ class UserProfile extends Component {
                             fontSize: '19px'
                         }}
                     >
-                        {this.state.first_name}
+                        {this.state.first_name}{this.state.last_name}
                     </h3>
 
 

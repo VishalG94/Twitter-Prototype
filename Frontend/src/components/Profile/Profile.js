@@ -31,7 +31,7 @@ class Profile extends Component {
             password: '',
             file: '',
             img: '',
-            
+            username:'',
             component: 'Tweets',
             // following:false,
             follow: false
@@ -57,7 +57,6 @@ class Profile extends Component {
         console.log(data.email)
         axios.defaults.withCredentials = true;
         this.props.getProfile({ params: data }, (response) => {
-            
             console.log(this.props.user)
             console.log(response.data);
             let img = '/images/profile/' 
@@ -66,9 +65,6 @@ class Profile extends Component {
             } else {
                 img = img + 'Twitternew.png'
             } 
-            axios.post(`${ROOT_URL}/profileview`, data)
-            .then(response => {
-            // sessionStorage.removeItem('userDtls')
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
@@ -80,6 +76,11 @@ class Profile extends Component {
                 
 
             })
+            
+            axios.post(`${ROOT_URL}/profileview`, data)
+            .then(response => {
+            // sessionStorage.removeItem('userDtls')
+           
             
             // sessionStorage.setItem('userDtls', JSON.stringify(response.data))
           
@@ -267,7 +268,7 @@ class Profile extends Component {
                             fontSize: '19px'
                         }}
                     >
-                        {this.state.username}
+                       {this.state.first_name}{this.state.last_name}
                     </h3>
 
 

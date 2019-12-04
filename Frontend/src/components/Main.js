@@ -22,7 +22,7 @@ import BookMarkedTweets from './UserTweets/BookMarkedTweets'
 import Lists from './Lists/Lists'
 import ListDetails from './ListDetails/ListDetails'
 import SubscribedList from './Lists/SubscribedList'
-
+import Following from './Dashboard/Following'
 import UserRetweets from './UserTweets/UserRetweets'
 // Create a Main Component
 
@@ -48,6 +48,7 @@ class Main extends Component {
         <Route path='/likes' component={SearchProfileTweets} />
         <Route  path='/userlikes' component={UserLikes} />
         <Route path='/followers' component={Followers} />
+        <Route path='/following' component={Following} />
         <Route path='/bookmarks' component={BookMarkedTweets} />
         <Route path='/lists' component={Lists} />
         <Route path='/listdetails' component={ListDetails} />
