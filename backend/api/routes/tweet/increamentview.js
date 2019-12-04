@@ -26,6 +26,25 @@ router.post("/increamentview", function (req, res) {
             });
             res.end("Unsuccessfully increamentview");
         })
+
+    // kafka.make_request('increamentview', req.body, function (err, results) {
+    //     console.log('in result');
+
+    //     if (err || results === "error") {
+    //         console.log("Inside err");
+    //         res.writeHead(400, {
+    //             "Content-Type": "text/plain"
+    //         });
+    //         res.end("Unsuccessful increamentview");
+    //     } else {
+    //         console.log("Inside else");
+    //         res.writeHead(200, {
+    //             "Content-Type": "text/plain"
+    //         });
+    //         res.end("Successful increamentview");
+    //     }
+    // });
+
 });
 
 module.exports = router

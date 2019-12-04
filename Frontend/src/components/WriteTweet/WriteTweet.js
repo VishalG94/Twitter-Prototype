@@ -2,9 +2,11 @@ import React from 'react'
 import { nominalTypeHack } from 'prop-types'
 import './WriteTweet.css'
 import axios from 'axios';
-import {getProfile} from '../../actions'
+import { getProfile } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
+import ROOT_URL from "../../constants"
+
 class WriteTweet extends React.Component {
 
   constructor(props) {
@@ -13,32 +15,38 @@ class WriteTweet extends React.Component {
       text: "",
       file: null,
       url: null,
-      profilepic:''
-        }
+      profilepic: ''
+    }
 
     this.imagehandleChange = this.imagehandleChange.bind(this)
     this.textChangeHandler = this.textChangeHandler.bind(this)
     this.submitTweet = this.submitTweet.bind(this);
   }
 
-  componentWillMount()
-  {
-    let email =sessionStorage.getItem('email')
-    let data = { email : email }
-        // alert(data.email)
-        this.props.getProfile({ params: data }, (response) => {
-          // console.log(this.props.user)
-          // alert(response.data);
-          console.log(this.props.user)
-            console.log(response.data);
-            let img = '/images/profile/' + response.data.image
-            
-            this.setState({
-              
-              profilepic: img
-      });
-            
+  componentWillMount() {
+    let email = sessionStorage.getItem('email')
+    let data = { email: email }
+    // alert(data.email)
+    this.props.getProfile({ params: data }, (response) => {
+      // console.log(this.props.user)
+      // alert(response.data);
+      console.log(this.props.user)
+      console.log(response.data);
+      let img = '/images/profile/' + response.data.image
+
+      // this.setState({
+
+      //   profilepic: img
+      // });
+
+      axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+        //   alert('Axios get image:'+ response.data)
+        this.setState({
+          profilepic: 'data:image/png;base64, ' + response.data
         })
+      })
+
+    })
   }
 
   imagehandleChange(event) {
@@ -82,7 +90,7 @@ class WriteTweet extends React.Component {
           this.setState({
             edit: false
           })
-         
+
           window.location.reload();
         }
       }).catch((error) => {
@@ -105,7 +113,7 @@ class WriteTweet extends React.Component {
 
 
     return (
-      <li href='#' class='list-group-item'>
+      <li style={{ borderRadius: '0px' }} href='#' class='list-group-item'>
         <div class='row'>
           <div class='col-sm-1'>
             <img

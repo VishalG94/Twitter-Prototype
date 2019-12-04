@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt')
 
 function handle_request(msg, callback) {
     console.log("Inside Update Post Request\n");
-    console.log(msg.email);
+    console.log(msg);
     let password = msg.password;
     bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(msg.password, salt, function (err, hash) {
@@ -14,6 +14,7 @@ function handle_request(msg, callback) {
                     first_name: msg.first_name,
                     last_name: msg.last_name,
                     password: hash,
+                    zipcode : msg.zipcode
                 }
             }, { new: true }).then((docs) => {
                 console.log("In Update Profile Query");

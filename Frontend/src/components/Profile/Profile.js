@@ -31,7 +31,7 @@ class Profile extends Component {
             password: '',
             file: '',
             img: '',
-            
+            username:'',
             component: 'Tweets',
             // following:false,
             follow: false
@@ -48,38 +48,58 @@ class Profile extends Component {
             // follow: false
         })
 
-        // let kiran = {
-        //     email: "arunb1620@gmail.com"
-        // };
-        // let temp = kiran.email
-
-
-
         let temp = sessionStorage.getItem('SelectedUserProfile')
         console.log(temp);
         let data = { email: temp }
         console.log(data.email)
         axios.defaults.withCredentials = true;
         this.props.getProfile({ params: data }, (response) => {
-            
+           
             console.log(this.props.user)
-            console.log(response.data);
-            let img = '/images/profile/' + response.data.image
-            axios.post(`${ROOT_URL}/profileview`, data)
-            .then(response => {
+            console.log(response.data);            
+            let img = '/images/profile/' 
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }            
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
                 password: response.data.password,
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
-                profilepic: img,
-                username: response.data.username,
-
+                profilepic: response.data.image,
+                username: response.data.username,                
 
             })
-            console.log(this.state.follow)
-        })
+
+            axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+                // console.log('Axios get image:', response.data)
+                this.setState({
+                    profilepic: 'data:image/png;base64, ' + response.data
+                })
+    
+            })
+
+            sessionStorage.setItem('username',this.state.username)
+            axios.post(`${ROOT_URL}/profileview`, data)
+            .then(response => {
+            // sessionStorage.removeItem('userDtls')
+            
+            // this.setState({
+            //     email: response.data.email,
+            //     // phone: response.data.phone,
+            //     password: response.data.password,
+            //     first_name: response.data.first_name,
+            //     last_name: response.data.last_name,
+            //     profilepic: img,
+            //     username: response.data.username,                
+
+            // })
+            
+            
+            
         });
 
         let temp1 = sessionStorage.getItem('email')
@@ -96,18 +116,16 @@ class Profile extends Component {
             // alert(this.state.follow)
         });
 
-
+       
+    })
     }
 
     selectComponent = e => {
         e.preventDefault();
         this.setState({
             component : e.target.id
-        }
-        ,()=>{
-            alert(this.state.component)
-        }
-        )
+        
+        })
 
     }
 
@@ -132,7 +150,7 @@ class Profile extends Component {
                         following: response.data.following,
                         follow: true
                     });
-                    alert("Following User Successfully");
+                    // alert("Following User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
@@ -159,7 +177,7 @@ class Profile extends Component {
                         followedBy: data1.followedBy,
                         // follow: true
                     });
-                    alert("Followed By User Successfully");
+                    // alert("Followed By User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
@@ -192,7 +210,7 @@ class Profile extends Component {
                         following: response.data.following,
                         follow: false
                     });
-                    alert("Unfollowing User Successfully");
+                    // alert("Unfollowing User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
@@ -219,7 +237,7 @@ class Profile extends Component {
                         followedBy: data1.followedBy,
                         // follow: true
                     });
-                    alert("UnFollowing User Successfully");
+                    // alert("UnFollowing User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
@@ -265,7 +283,7 @@ class Profile extends Component {
                             fontSize: '19px'
                         }}
                     >
-                        {this.state.username}
+                       {this.state.first_name}{this.state.last_name}
                     </h3>
 
 
@@ -306,10 +324,10 @@ class Profile extends Component {
 
                                 <ul style={{ width: "100%" }} class="nav navbar-nav">
 
-                                <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets</a></li>
-                                <li style={{ width: "25%" }}> <a  onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets and Replies</a></li>
-                                <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Media</a></li>
-                                <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/#" class="list-group-item">Likes</a></li>
+                                    <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="/profile/tweets" class="list-group-item">Tweets</a></li>
+                                    <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets and Replies</a></li>
+                                    <li style={{ width: "25%" }}> <Link style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} to={{ pathname:'/userlists',  state:{ username:this.state.username }}} class="list-group-item">View Lists</Link></li>
+                                    <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/profile/likes" class="list-group-item">Likes</a></li>
 
                                 </ul>
 

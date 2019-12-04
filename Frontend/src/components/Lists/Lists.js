@@ -159,7 +159,7 @@ class Lists extends Component {
 
               <ListNavbar/>
 
-                <List/>              
+                <List />              
                 
               </ul>
             </div>

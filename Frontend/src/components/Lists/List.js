@@ -28,6 +28,7 @@ class List extends Component {
         this.setState({
           lists: this.state.lists.concat(response.data)
         });
+        sessionStorage.setItem('SelectedUserProfileId',sessionStorage.getItem('id'))
       });
   } 
 

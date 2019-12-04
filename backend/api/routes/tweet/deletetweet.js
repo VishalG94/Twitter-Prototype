@@ -29,6 +29,24 @@ router.post("/deletetweet", function (req, res) {
             });
             res.end("Unsuccessfully deleted Tweet");
         })
+
+    // kafka.make_request('deletetweet', req.body, function (err, results) {
+    //     console.log('in result');
+
+    //     if (err || results === "error") {
+    //         console.log("Inside err");
+    //         res.writeHead(400, {
+    //             "Content-Type": "text/plain"
+    //         });
+    //         res.end("Unsuccessful deletetweet");
+    //     } else {
+    //         console.log("Inside else");
+    //         res.writeHead(200, {
+    //             "Content-Type": "text/plain"
+    //         });
+    //         res.end("Successful deletetweet");
+    //     }
+    // });
 });
 
 module.exports = router

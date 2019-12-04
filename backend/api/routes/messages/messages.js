@@ -17,51 +17,51 @@ let kafka = require('../../../kafka/client')
 
 router.post('/postmessage', function (req, res) {
   console.log('Inside messages Post Request')
-  let msg = req.body
-  var now = new Date()
-  var today = dateforamt(now, 'yyyy-mm-dd HH:MM:ss')
-  var id = mongoose.Types.ObjectId()
-  console.log('Req Body : ', msg)
-  let mesg = new messageSchema({
-    _id: id,
-    sender_name: msg.sender_name,
-    receiver_name: msg.receiver_name,
-    text: msg.text,
-    created: today
-  })
-  console.log(msg)
-  mesg
-    .save()
-    .then(response => {
-      console.log('response' + response)
-      // callback(null, response)
-      res.writeHead(200, {
-        'Content-Type': 'text/plain'
-      })
-      res.end('Successfully Registered')
-    })
-    .catch(err => {
-      console.log('Error occured while inserting data in DB' + err)
-      // callback(err, 'Error')
-      res.writeHead(400, {
-        'Content-Type': 'text/plain'
-      })
-      res.end('Error occured while inserting data in DB')
-    })
-  // kafka.make_request('post_message', req.body, function (err, results) {
-  //   if (err) {
-  //     res.writeHead(400, {
-  //       'Content-Type': 'text/plain'
-  //     })
-  //     res.end('Error occured while inserting data in DB')
-  //     console.log('Unable get data')
-  //   } else {
+  // let msg = req.body
+  // var now = new Date()
+  // var today = dateforamt(now, 'yyyy-mm-dd HH:MM:ss')
+  // var id = mongoose.Types.ObjectId()
+  // console.log('Req Body : ', msg)
+  // let mesg = new messageSchema({
+  //   _id: id,
+  //   sender_name: msg.sender_name,
+  //   receiver_name: msg.receiver_name,
+  //   text: msg.text,
+  //   created: today
+  // })
+  // console.log(msg)
+  // mesg
+  //   .save()
+  //   .then(response => {
+  //     console.log('response' + response)
+  //     // callback(null, response)
   //     res.writeHead(200, {
   //       'Content-Type': 'text/plain'
   //     })
   //     res.end('Successfully Registered')
-  //   }
-  // })
+  //   })
+  //   .catch(err => {
+  //     console.log('Error occured while inserting data in DB' + err)
+  //     // callback(err, 'Error')
+  //     res.writeHead(400, {
+  //       'Content-Type': 'text/plain'
+  //     })
+  //     res.end('Error occured while inserting data in DB')
+  //   })
+  kafka.make_request('post_message', req.body, function (err, results) {
+    if (err) {
+      res.writeHead(400, {
+        'Content-Type': 'text/plain'
+      })
+      res.end('Error occured while inserting data in DB')
+      console.log('Unable get data')
+    } else {
+      res.writeHead(200, {
+        'Content-Type': 'text/plain'
+      })
+      res.end('Successfully Registered')
+    }
+  })
 })
 
 
@@ -106,50 +106,50 @@ router.post('/messagessearchbar', (req, res) => {
 router.post('/messagedetails', function (req, res) {
   console.log('Inside message details' + JSON.stringify(req.body))
   let msg = req.body;
-  messages
-    .find(
-      {
-        $or: [{
-          sender_name: msg.sender_name,
-          receiver_name: msg.receiver_name
-        }, {
-          sender_name: msg.receiver_name,
-          receiver_name: msg.sender_name
-        }]
-      }
-    )
-    .then(results => {
-      console.log('Successfully fetched data from DB')
-      console.log(JSON.stringify(results))
-      // callback(null, results)
-      res.writeHead(200, {
-        'Content-Type': 'application/json'
-      })
-      res.end(JSON.stringify(results))
-    })
-    .catch(err => {
-      console.log('Error occured while fetching data from DB')
-      // callback(err, 'Error')
-      res.writeHead(400, {
-        'Content-Type': 'text/plain'
-      })
-      res.end('Error occured while fetching data from DB')
-      console.log('Unable get data')
-    })
-  // kafka.make_request('message_details', req.body, function (err, results) {
-  //   if (err) {
+  // messages
+  //   .find(
+  //     {
+  //       $or: [{
+  //         sender_name: msg.sender_name,
+  //         receiver_name: msg.receiver_name
+  //       }, {
+  //         sender_name: msg.receiver_name,
+  //         receiver_name: msg.sender_name
+  //       }]
+  //     }
+  //   )
+  //   .then(results => {
+  //     console.log('Successfully fetched data from DB')
+  //     console.log(JSON.stringify(results))
+  //     // callback(null, results)
+  //     res.writeHead(200, {
+  //       'Content-Type': 'application/json'
+  //     })
+  //     res.end(JSON.stringify(results))
+  //   })
+  //   .catch(err => {
+  //     console.log('Error occured while fetching data from DB')
+  //     // callback(err, 'Error')
   //     res.writeHead(400, {
   //       'Content-Type': 'text/plain'
   //     })
   //     res.end('Error occured while fetching data from DB')
   //     console.log('Unable get data')
-  //   } else {
-  //     res.writeHead(200, {
-  //       'Content-Type': 'application/json'
-  //     })
-  //     res.end(JSON.stringify(results))
-  //   }
-  // })
+  //   })
+  kafka.make_request('message_details', req.body, function (err, results) {
+    if (err) {
+      res.writeHead(400, {
+        'Content-Type': 'text/plain'
+      })
+      res.end('Error occured while fetching data from DB')
+      console.log('Unable get data')
+    } else {
+      res.writeHead(200, {
+        'Content-Type': 'application/json'
+      })
+      res.end(JSON.stringify(results))
+    }
+  })
 })
 
 router.post('/receivermessageslist', function (req, res) {
@@ -195,43 +195,43 @@ router.post('/receivermessageslist', function (req, res) {
 
 router.post('/sendermessageslist', function (req, res) {
   console.log('Inside message sendermessageslist' + JSON.stringify(req.body))
-  let msg = req.body;
-  console.log(msg.receiver_name)
-  messages.distinct(
-    "sender_name", { receiver_name: msg.sender_name })
-    .then(results => {
-      console.log('Successfully fetched data from DB')
-      console.log(JSON.stringify(results))
-      // callback(null, results)
-      res.writeHead(200, {
-        'Content-Type': 'application/json'
-      })
-      res.end(JSON.stringify(results))
-    })
-    .catch(err => {
-      console.log('Error occured while fetching data from DB')
-      // callback(err, 'Error')
-      res.writeHead(400, {
-        'Content-Type': 'text/plain'
-      })
-      res.end('Error occured while fetching data from DB')
-      console.log('Unable get data')
-    })
-
-  // kafka.make_request('sendermessages_list', req.body, function (err, results) {
-  //   if (err) {
+  // let msg = req.body;
+  // console.log(msg.receiver_name)
+  // messages.distinct(
+  //   "sender_name", { receiver_name: msg.sender_name })
+  //   .then(results => {
+  //     console.log('Successfully fetched data from DB')
+  //     console.log(JSON.stringify(results))
+  //     // callback(null, results)
+  //     res.writeHead(200, {
+  //       'Content-Type': 'application/json'
+  //     })
+  //     res.end(JSON.stringify(results))
+  //   })
+  //   .catch(err => {
+  //     console.log('Error occured while fetching data from DB')
+  //     // callback(err, 'Error')
   //     res.writeHead(400, {
   //       'Content-Type': 'text/plain'
   //     })
   //     res.end('Error occured while fetching data from DB')
   //     console.log('Unable get data')
-  //   } else {
-  //     res.writeHead(200, {
-  //       'Content-Type': 'application/json'
-  //     })
-  //     res.end(JSON.stringify(results))
-  //   }
-  // })
+  //   })
+
+  kafka.make_request('sendermessages_list', req.body, function (err, results) {
+    if (err) {
+      res.writeHead(400, {
+        'Content-Type': 'text/plain'
+      })
+      res.end('Error occured while fetching data from DB')
+      console.log('Unable get data')
+    } else {
+      res.writeHead(200, {
+        'Content-Type': 'application/json'
+      })
+      res.end(JSON.stringify(results))
+    }
+  })
 })
 
 
