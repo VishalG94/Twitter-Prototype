@@ -81,7 +81,7 @@ class Followers extends Component {
 
             )
         })
-        
+
         let details = this.state.followers.map(followers => {
             return (
                 <div>
@@ -108,9 +108,9 @@ class Followers extends Component {
                 </div>
                 <nav aria-label="Page navigation example">
 
-                  <ul className="pagination" id='page-numbers'>
-                    {renderPageNumbers}
-                  </ul>
+                    <ul className="pagination" id='page-numbers'>
+                        {renderPageNumbers}
+                    </ul>
 
                 </nav>
             </div>
