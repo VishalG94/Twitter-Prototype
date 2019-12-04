@@ -7,7 +7,7 @@ import ROOT_URL from "../../constants"
 import ReplyTweet from "./ReplyTweet";
 import RetweetTweet from "./RetweetTweet";
 import dateformat from 'dateformat';
-import {getProfile} from '../../actions'
+import { getProfile } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
 
@@ -18,7 +18,7 @@ class TweetDataComp extends React.Component {
         this.state = {
             replyFlag: false,
             retweetFlag: false,
-            pic:''
+            pic: ''
         }
 
         this.likePressed = this.likePressed.bind(this)
@@ -30,49 +30,56 @@ class TweetDataComp extends React.Component {
         this.deletePressed = this.deletePressed.bind(this)
     }
 
-    componentWillMount()
-  {
-    let email =this.props.data.owner.email;
-    console.log(email);
-    let data = { email : email }
+    componentWillMount() {
+        let email = this.props.data.owner.email;
+
+        console.log(email);
+        let data = { email: email }
         // alert(data.email)
         this.props.getProfile({ params: data }, (response) => {
-          // console.log(this.props.user)
-          // alert(response.data);
-          console.log(this.props.user)
+            // console.log(this.props.user)
+            // alert(response.data);
+            console.log(this.props.user)
             console.log(response.data);
-            let img = '/images/profile/' 
+            let img = '/images/profile/'
             if (response.data.image) {
-                img = img + response.data.image
+                img = img + 'Twitternew.png'
             } else {
                 img = img + 'Twitternew.png'
             }
-            
-            this.setState({
-              
-              pic: img
-      });
-            
+
+            // this.setState({
+
+            //     pic: img
+            // });
+
         })
-  }
 
-  Search = (e) => {
-    e.preventDefault();
-    sessionStorage.removeItem('SelectedProfileId')
-    sessionStorage.removeItem('SelectedUserProfile')
-    sessionStorage.setItem('SelectedUserProfileId', e.target.id)
-    sessionStorage.setItem('SelectedUserProfile', e.target.name)
+        axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+            // console.log('Axios get image:', response.data)
+            this.setState({
+                pic: 'data:image/png;base64, ' + response.data
+            })
+        })
+    }
 
-    let x= sessionStorage.getItem('email')
-    let y = sessionStorage.getItem('SelectedUserProfile')
-    if(x!=y){
-    console.log(x);
-    window.location.replace('/profile');
+    Search = (e) => {
+        e.preventDefault();
+        sessionStorage.removeItem('SelectedProfileId')
+        sessionStorage.removeItem('SelectedUserProfile')
+        sessionStorage.setItem('SelectedUserProfileId', e.target.id)
+        sessionStorage.setItem('SelectedUserProfile', e.target.name)
+
+        let x = sessionStorage.getItem('email')
+        let y = sessionStorage.getItem('SelectedUserProfile')
+        if (x != y) {
+            console.log(x);
+            window.location.replace('/profile');
+        }
+        else {
+            window.location.replace('/userprofile')
+        }
     }
-    else{
-        window.location.replace('/userprofile')
-    }
-}
 
     likePressed = e => {
         var headers = new Headers();
@@ -379,9 +386,9 @@ class TweetDataComp extends React.Component {
 
                                 <div class='col-sm-11'>
                                     <h4 style={{ marginLeft: '3%' }} class='user-name'>
-                                    <a href='/profile'
-                                    id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
-                                        {this.props.data.owner.first_name + " " + this.props.data.owner.last_name} </a>
+                                        <a href='/profile'
+                                            id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
+                                            {this.props.data.owner.first_name + " " + this.props.data.owner.last_name} </a>
                                         <span
                                             style={{
                                                 fontWeight: 'normal',
@@ -401,7 +408,7 @@ class TweetDataComp extends React.Component {
                                             . {dateVar}
                                         </span>
                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                       
+
 
                                     </h4>
 
@@ -410,7 +417,7 @@ class TweetDataComp extends React.Component {
                                     {hasImageTag}
 
 
-                                    
+
                                 </div>
                             </div>
                         </a>
@@ -448,13 +455,13 @@ class TweetDataComp extends React.Component {
 
 const mapStateToProps = state => {
     return { user: state.user }
-    }
-    
-    export default connect(
+}
+
+export default connect(
     mapStateToProps,
     { getProfile }
-    )(
+)(
     reduxForm({
-    form: 'streamLogin',
+        form: 'streamLogin',
     })(TweetDataComp)
-    )
+)

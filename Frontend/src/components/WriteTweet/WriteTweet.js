@@ -5,6 +5,8 @@ import axios from 'axios';
 import { getProfile } from '../../actions'
 import { Field, reduxForm } from 'redux-form'
 import { connect } from 'react-redux'
+import ROOT_URL from "../../constants"
+
 class WriteTweet extends React.Component {
 
   constructor(props) {
@@ -32,10 +34,17 @@ class WriteTweet extends React.Component {
       console.log(response.data);
       let img = '/images/profile/' + response.data.image
 
-      this.setState({
+      // this.setState({
 
-        profilepic: img
-      });
+      //   profilepic: img
+      // });
+
+      axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+        //   alert('Axios get image:'+ response.data)
+        this.setState({
+          profilepic: 'data:image/png;base64, ' + response.data
+        })
+      })
 
     })
   }

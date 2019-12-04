@@ -10,15 +10,14 @@ const app = express()
 
 aws.config.update({
     accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_ACCESS_KEY,
-    region: process.env.REGION
+    secretAccessKey: process.env.SECRET_ACCESS_KEY
 })
 const s3 = new aws.S3()
 
 const upload = multer({
     storage: multerS3({
         s3: s3,
-        bucket: 'twitter-prototype',
+        bucket: 'twitter8',
         acl: 'public-read',
         metadata: function (req, file, cb) {
             // cb(null, { fieldName: file.fieldname });
@@ -35,7 +34,12 @@ const upload = multer({
             )
         },
         key: function (req, file, cb) {
-            cb(null, Date.now().toString())
+            cb(null, file.fieldname +
+
+                '_' +
+                Date.now() +
+                path.extname(file.originalname) +
+                '.png')
         }
     })
 })
