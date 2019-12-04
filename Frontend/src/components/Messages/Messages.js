@@ -51,6 +51,7 @@ class Messages extends Component {
       sessionStorage.setItem('userDtls', JSON.stringify(response.data))
     });
 
+
     let user = JSON.parse(sessionStorage.getItem('userDtls'))
     let sender = JSON.parse(sessionStorage.getItem('userDtls')).username
     let reciever = sessionStorage.getItem('reciever')
@@ -239,6 +240,26 @@ class Messages extends Component {
 
     let searchlist = null;
     let dispalyList = null;
+    let recieverMsg = null;
+    if (sessionStorage.getItem('reciever')) {
+
+      recieverMsg = (<button
+        id='messagebarbutton'
+        type='submit'
+        class='messageButton'
+      >
+        <i class='far fa-paper-plane ' />
+      </button>)
+    } else {
+      alert('here')
+      recieverMsg = (<button
+        id='messagebarbutton'
+        type='submit'
+        class='messageButton'
+        disabled>
+        <i class='far fa-paper-plane ' />
+      </button>)
+    }
 
     searchlist = JSON.parse(sessionStorage.getItem('messagesearchresult'));
     // let following = sessionStorage.getItem('following')
