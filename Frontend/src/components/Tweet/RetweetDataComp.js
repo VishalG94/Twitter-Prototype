@@ -411,7 +411,7 @@ class RetweetDataComp extends React.Component {
                                                     . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
                                                 </span>
                                             </h4>
-                                            <div style={{ marginLeft:'3%', color: 'black' }}>{this.props.data.retweetdata.text}</div>
+                                            <div style={{ marginLeft:'4%', color: 'black' }}>{this.props.data.retweetdata.text}</div>
                                             <br />
                                             {hasImageTag}
                                             
