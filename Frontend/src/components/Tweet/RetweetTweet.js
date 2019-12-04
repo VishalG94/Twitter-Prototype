@@ -3,6 +3,9 @@ import { nominalTypeHack } from 'prop-types'
 import '../WriteTweet/WriteTweet.css'
 import axios from 'axios';
 import ROOT_URL from "../../constants"
+import {getProfile} from '../../actions'
+import { Field, reduxForm } from 'redux-form'
+import { connect } from 'react-redux'
 
 class RetweetTweet extends React.Component {
 
@@ -18,6 +21,28 @@ class RetweetTweet extends React.Component {
         this.submitRetweet = this.submitRetweet.bind(this);
     }
 
+    componentWillMount()
+    {
+      let email =sessionStorage.getItem('email');
+      console.log(email);
+      let data = { email : email }
+          // alert(data.email)
+          this.props.getProfile({ params: data }, (response) => {
+            // console.log(this.props.user)
+            // alert(response.data);
+            console.log(this.props.user)
+              console.log(response.data);
+              let img = '/images/profile/' + response.data.image
+              
+              this.setState({
+                
+                pic: img
+        });
+              
+          })
+
+   
+    }
     textChangeHandler = (e) => {
         this.setState({
             text: e.target.value
@@ -51,7 +76,7 @@ class RetweetTweet extends React.Component {
     }
 
     render() {
-
+       
         let userEdit = null;
         if (!this.state.url) {
             <div>
@@ -65,7 +90,7 @@ class RetweetTweet extends React.Component {
                 <div class='row'>
                     <div class='col-sm-1'>
                         <img
-                            src={require('../img/Twitternew.png')}
+                            src={this.state.pic}
                             class='preview-img'
                             width='50'
                             height='50'
@@ -105,4 +130,11 @@ class RetweetTweet extends React.Component {
     }
 }
 
-export default RetweetTweet
+// export default RetweetTweet
+
+const mapStateToProps = state => {
+    return { user: state.user }
+    }
+    
+export default connect( mapStateToProps,{ getProfile })(
+    reduxForm({form: 'streamLogin',})(RetweetTweet))

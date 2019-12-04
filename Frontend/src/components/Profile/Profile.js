@@ -48,10 +48,6 @@ class Profile extends Component {
             // follow: false
         })
 
-        // let kiran = {
-        //     email: "arunb1620@gmail.com"
-        // };
-        // let temp = kiran.email
 
 
 
@@ -64,7 +60,12 @@ class Profile extends Component {
             
             console.log(this.props.user)
             console.log(response.data);
-            let img = '/images/profile/' + response.data.image
+            let img = '/images/profile/' 
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            } 
             axios.post(`${ROOT_URL}/profileview`, data)
             .then(response => {
             this.setState({
@@ -96,6 +97,7 @@ class Profile extends Component {
             // alert(this.state.follow)
         });
 
+       
 
     }
 
@@ -103,11 +105,8 @@ class Profile extends Component {
         e.preventDefault();
         this.setState({
             component : e.target.id
-        }
-        ,()=>{
-            alert(this.state.component)
-        }
-        )
+        
+        })
 
     }
 
@@ -132,7 +131,7 @@ class Profile extends Component {
                         following: response.data.following,
                         follow: true
                     });
-                    alert("Following User Successfully");
+                    // alert("Following User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
@@ -159,7 +158,7 @@ class Profile extends Component {
                         followedBy: data1.followedBy,
                         // follow: true
                     });
-                    alert("Followed By User Successfully");
+                    // alert("Followed By User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
@@ -192,7 +191,7 @@ class Profile extends Component {
                         following: response.data.following,
                         follow: false
                     });
-                    alert("Unfollowing User Successfully");
+                    // alert("Unfollowing User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
@@ -219,7 +218,7 @@ class Profile extends Component {
                         followedBy: data1.followedBy,
                         // follow: true
                     });
-                    alert("UnFollowing User Successfully");
+                    // alert("UnFollowing User Successfully");
                 } else {
                     console.log('Change failed !!! ');
 
