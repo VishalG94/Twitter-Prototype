@@ -3,10 +3,9 @@ import { nominalTypeHack } from 'prop-types'
 import './WriteTweet.css'
 import axios from 'axios';
 import { getProfile } from '../../actions'
-import { Field, reduxForm } from 'redux-form'
+import { Field, reduxForm } from 'redux-form';
 import { connect } from 'react-redux'
-import ROOT_URL from "../../constants"
-
+import ROOT_URL from '../../constants' 
 class WriteTweet extends React.Component {
 
   constructor(props) {
@@ -15,7 +14,7 @@ class WriteTweet extends React.Component {
       text: "",
       file: null,
       url: null,
-      profilepic: ''
+      profilepic:''
     }
 
     this.imagehandleChange = this.imagehandleChange.bind(this)
@@ -24,36 +23,39 @@ class WriteTweet extends React.Component {
   }
 
   componentWillMount() {
-    let email = sessionStorage.getItem('email')
-    let data = { email: email }
-    // alert(data.email)
-    this.props.getProfile({ params: data }, (response) => {
-      // console.log(this.props.user)
-      // alert(response.data);
-      console.log(this.props.user)
-      console.log(response.data);
-      let img = `${ROOT_URL}/images/profile/`
-              if (response.data.image) {
-                  img = img + response.data.image
-              } else {
-                  img = img + 'Twitternew.png'
-              }
-  
-              this.setState({
-                  profilepic: img
-              });
-
-      // axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-      //   //   alert('Axios get image:'+ response.data)
-      //   this.setState({
-      //     profilepic: 'data:image/png;base64, ' + response.data
-      //   })
-      // })
+    this.setState({
+        authFlag: false,
+        authFailed: false,
+        // profilepic: '',
 
     })
-  }
+
+    let temp = sessionStorage.getItem('email')
+    console.log(temp);
+    let data = { email: temp }
+    console.log(data.email)
+    this.props.getProfile({ params: data }, (response) => {
+        // console.log(this.props.user)
+        // console.log(response.data);
+        let img = `${ROOT_URL}/images/profile/`
+// let img = '/images/profile/'
+        
+          if (response.data.image) {
+              img = img + response.data.image
+          } else {
+              img = img + 'Twitternew.png'
+          }
+
+        this.setState({
+            profilepic: img
+
+        })
+    });
+
+}
 
   imagehandleChange(event) {
+  //  alert(event.target.files[0])
     this.setState({
       file: event.target.files[0],
       url: URL.createObjectURL(event.target.files[0])
@@ -68,6 +70,7 @@ class WriteTweet extends React.Component {
   }
 
   submitTweet = (e) => {
+    console.log(this.state.file)
     e.preventDefault();
     const body = {
       text: this.state.text,
@@ -75,6 +78,7 @@ class WriteTweet extends React.Component {
     }
     let dataadd = new FormData();
     dataadd.append('body', JSON.stringify(body));
+    
     dataadd.append('image', this.state.file);
 
     console.log(dataadd);
@@ -87,14 +91,15 @@ class WriteTweet extends React.Component {
     axios.defaults.withCredentials = true;
     axios.post(`${ROOT_URL}/writetweet`, dataadd, config)
       .then(response => {
-        console.log(response.dataadd);
+        console.log(response);
         console.log("Status Code : ", response.status);
         if (response.status === 200) {
           console.log('successfully entered user data')
           this.setState({
-            edit: false
+            edit: false,
+            file: null,
+            url: null,
           })
-
           window.location.reload();
         }
       }).catch((error) => {
@@ -117,7 +122,7 @@ class WriteTweet extends React.Component {
 
 
     return (
-      <li style={{ borderRadius: '0px' }} href='#' class='list-group-item'>
+      <li href='#' class='list-group-item'>
         <div class='row'>
           <div class='col-sm-1'>
             <img
@@ -181,15 +186,10 @@ class WriteTweet extends React.Component {
 
 // export default WriteTweet
 
-const mapStateToProps = state => {
-  return { user: state.user }
+function mapStateToProps(state) {
+  return {
+      user: state.user
+  };
 }
 
-export default connect(
-  mapStateToProps,
-  { getProfile }
-)(
-  reduxForm({
-    form: 'streamLogin',
-  })(WriteTweet)
-)
+export default connect(mapStateToProps, { getProfile })(WriteTweet);

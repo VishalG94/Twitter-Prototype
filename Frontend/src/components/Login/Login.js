@@ -78,7 +78,7 @@ class Login extends Component {
         sessionStorage.setItem('id', res.data.id)
         sessionStorage.setItem('first_name', res.data.first_name)
         sessionStorage.setItem('last_name', res.data.last_name)
-
+        sessionStorage.setItem('username', res.data.username)
         this.props.history.push('/home')
         window.location.reload()
       } else {

@@ -32,23 +32,17 @@ class ReplyTweet extends React.Component {
           // alert(response.data);
           console.log(this.props.user)
             console.log(response.data);
-            let img = '/images/profile/' 
+            // let img = '/images/profile/' 
+            let img = `${ROOT_URL}/images/profile/`
             if (response.data.image) {
                 img = img + response.data.image
             } else {
                 img = img + 'Twitternew.png'
             }
-    //         this.setState({
+            this.setState({
               
-    //           pic: img
-    //   });
-
-    axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-        //   alert('Axios get image:'+ response.data)
-          this.setState({
-              pic: 'data:image/png;base64, ' + response.data
-          })
-      })
+              pic: img
+      });
             
         })
   }
@@ -65,7 +59,8 @@ class ReplyTweet extends React.Component {
         const data = {
             tweetid: this.props.data._id,
             text: this.state.text,
-            email: sessionStorage.getItem('id')
+            email: sessionStorage.getItem('id'),
+            username: sessionStorage.getItem('username'),
         }
 
         axios.defaults.withCredentials = true;

@@ -9,7 +9,7 @@ const tweetSchema = mongoose.Schema({
   image: String,
   owner: { type: ObjectId, ref: 'User' },
   retweet: [{ type: ObjectId }],
-  reply: [{ userid: String, comment: String }],
+  reply: [{ userid: String, username:String, comment: String }],
   likes: [{ type: ObjectId }],
   time: { type: Date, default: Date.now },
   retweetFlag: Boolean,

@@ -12,6 +12,7 @@ class ReplyTweet extends React.Component {
         }
 
     }
+    
 
     render() {
 
@@ -39,7 +40,7 @@ class ReplyTweet extends React.Component {
                     <div class='col-sm-11'>
                         <div class='bg'>
                             <h4 style={{ marginLeft: '3%' }} class='user-name'>
-                                @{this.props.data.userid}
+                                @{this.props.data.username}
                             </h4>
                             <span style={{ marginLeft: '3%' }}>{this.props.data.comment}</span>
                         </div>

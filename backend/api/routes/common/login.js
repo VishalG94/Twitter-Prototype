@@ -37,12 +37,13 @@ router.post('/login', (req, res) => {
 
             console.log("mongo fetch result " + result1)
             var obj = {
-              username: result.username,
+              username: result1.username,
               token: 'JWT ' + token,
               email: req.body.email,
               id: result1._id,
               first_name: result1.first_name,
               last_name: result1.last_name,
+              
             }
 
             // res.status(200).json({ username: result.username, token: 'JWT ' + token, email: req.body.email });

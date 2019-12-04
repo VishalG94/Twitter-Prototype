@@ -39,29 +39,29 @@ class Main extends Component {
         <Route path='/search' component={Search} />
         <Route path='/signup' component={SignUp} />
         <Route path='/home' component={Home} />
-        <Route path='/messages' component={Messages} />
-        <Route path='/profile' component={Profile} />
-        <Route  path='/userprofile' component={UserProfile} />
-        <Route path='/dashboard' component={Dashboard} />
-        <Route path='/graphlike' component={GraphLikes} />
-        <Route path='/graphre' component={GraphRe} />
-        <Route path='/barday' component={Barday} />
-        <Route  path='/usertweets' component={UserTweets} />
-        <Route path='/tweets' component={SearchProfileTweets} />
-        <Route path='/likes' component={SearchProfileTweets} />
-        <Route  path='/userlikes' component={UserLikes} />
-        <Route path='/followers' component={Followers} />
-        <Route path='/following' component={Following} />
-        <Route path='/bookmarks' component={BookMarkedTweets} />
+        <PrivateRoute path='/messages' component={Messages} />
+        <PrivateRoute path='/profile' component={Profile} />
+        <PrivateRoute  path='/userprofile' component={UserProfile} />
+        <PrivateRoute path='/dashboard' component={Dashboard} />
+        <PrivateRoute path='/graphlike' component={GraphLikes} />
+        <PrivateRoute path='/graphre' component={GraphRe} />
+        <PrivateRoute path='/barday' component={Barday} />
+        <PrivateRoute  path='/usertweets' component={UserTweets} />
+        <PrivateRoute path='/tweets' component={SearchProfileTweets} />
+        <PrivateRoute path='/likes' component={SearchProfileTweets} />
+        <PrivateRoute  path='/userlikes' component={UserLikes} />
+        <PrivateRoute path='/followers' component={Followers} />
+        <PrivateRoute path='/following' component={Following} />
+        <PrivateRoute path='/bookmarks' component={BookMarkedTweets} />
         <Route path='/lists' component={Lists} />
-        <Route path='/listdetails' component={ListDetails} />
-        <Route path='/subscribedlist' component={SubscribedList} />
-        <Route path='/userlists' component={UserLists} />
-        <Route path='/usersubscribedlist' component={UserSubscribedLists} /> 
+        <PrivateRoute path='/listdetails' component={ListDetails} />
+        <PrivateRoute path='/subscribedlist' component={SubscribedList} />
+        <PrivateRoute path='/userlists' component={UserLists} />
+        <PrivateRoute path='/usersubscribedlist' component={UserSubscribedLists} /> 
             
        
-        <Route static path='/viewtweet/:id' component={ViewTweet} />
-        <Route  path='/userretweets' component={UserRetweets} />
+        <PrivateRoute static path='/viewtweet/:id' component={ViewTweet} />
+        <PrivateRoute  path='/userretweets' component={UserRetweets} />
       </div>
     )
   }

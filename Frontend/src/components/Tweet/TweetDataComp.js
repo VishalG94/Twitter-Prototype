@@ -33,15 +33,14 @@ class TweetDataComp extends React.Component {
     componentWillMount() {
         let email = this.props.data.owner.email;
 
-        console.log(email);
+       
         let data = { email: email }
-        // alert(data.email)
+        
         this.props.getProfile({ params: data }, (response) => {
-            // console.log(this.props.user)
-            // alert(response.data);
-            console.log(this.props.user)
-            console.log(response.data);
+            
             let img = `${ROOT_URL}/images/profile/`
+
+            // let img = '/images/profile/'
               if (response.data.image) {
                   img = img + response.data.image
               } else {
@@ -56,12 +55,6 @@ class TweetDataComp extends React.Component {
 
         })
 
-        axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-            // console.log('Axios get image:', response.data)
-            this.setState({
-                pic: 'data:image/png;base64, ' + response.data
-            })
-        })
     }
 
     Search = (e) => {
@@ -74,7 +67,7 @@ class TweetDataComp extends React.Component {
         let x = sessionStorage.getItem('email')
         let y = sessionStorage.getItem('SelectedUserProfile')
         if (x != y) {
-            console.log(x);
+          //  console.log(x);
             window.location.replace('/profile');
         }
         else {
@@ -96,7 +89,7 @@ class TweetDataComp extends React.Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         axios.post(ROOT_URL + "/hitlike", data).then(response => {
-            console.log("Status Code : ", response.status);
+           // console.log("Status Code : ", response.status);
             if (response.status === 200) {
 
                 this.setState({
@@ -125,7 +118,7 @@ class TweetDataComp extends React.Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         axios.post(ROOT_URL + "/hitbookmark", data).then(response => {
-            console.log("Status Code : ", response.status);
+          //  console.log("Status Code : ", response.status);
             if (response.status === 200) {
 
                 this.setState({
@@ -154,7 +147,7 @@ class TweetDataComp extends React.Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         axios.post(ROOT_URL + "/hitbookmark", data).then(response => {
-            console.log("Status Code : ", response.status);
+        //    console.log("Status Code : ", response.status);
             if (response.status === 200) {
 
                 this.setState({
@@ -183,7 +176,7 @@ class TweetDataComp extends React.Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         axios.post(ROOT_URL + "/hitlike", data).then(response => {
-            console.log("Status Code : ", response.status);
+          //  console.log("Status Code : ", response.status);
             if (response.status === 200) {
 
                 this.setState({
@@ -199,14 +192,14 @@ class TweetDataComp extends React.Component {
     };
 
     replyPressed = e => {
-        console.log("Reply pressed")
+      //  console.log("Reply pressed")
         this.setState({
             replyFlag: true
         })
     }
 
     retweetPressed = e => {
-        console.log("Retweet pressed!!")
+      //  console.log("Retweet pressed!!")
         this.setState({
             retweetFlag: true
         })
@@ -225,7 +218,7 @@ class TweetDataComp extends React.Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         axios.post(ROOT_URL + "/increamentview", data).then(response => {
-            console.log("Status Code : ", response.status);
+        //    console.log("Status Code : ", response.status);
             if (response.status === 200) {
                 window.location.replace(`/viewtweet/` + this.props.data._id)
                 this.setState({
@@ -252,7 +245,7 @@ class TweetDataComp extends React.Component {
         axios.defaults.withCredentials = true;
         //make a post request with the user data
         axios.post(ROOT_URL + "/deletetweet", data).then(response => {
-            console.log("Status Code : ", response.status);
+         //   console.log("Status Code : ", response.status);
             if (response.status === 200) {
 
                 this.setState({
@@ -268,9 +261,9 @@ class TweetDataComp extends React.Component {
     };
 
     render() {
-        console.log("Views " + this.props.data.views)
+       // console.log("Views " + this.props.data.views)
         var dateVar = dateformat(this.props.data.time, 'mmm dd')
-        console.log(JSON.stringify(this.props.data.owner))
+       // console.log(JSON.stringify(this.props.data.owner))
         let deleteFlag = null;
         if (this.props.data.owner._id === sessionStorage.getItem('id')) {
             deleteFlag =
@@ -300,7 +293,7 @@ class TweetDataComp extends React.Component {
 
         let replyBar = null;
         if (this.state.replyFlag) {
-            console.log("Inside set reply flag")
+           //console.log("Inside set reply flag")
             replyBar =
                 <div>
                     <ReplyTweet data={this.props.data} />
@@ -309,7 +302,7 @@ class TweetDataComp extends React.Component {
 
         let retweetBar = null;
         if (this.state.retweetFlag) {
-            console.log("Inside set reply flag")
+           // console.log("Inside set reply flag")
             retweetBar =
                 <div>
                     <RetweetTweet data={this.props.data} />
@@ -318,15 +311,15 @@ class TweetDataComp extends React.Component {
 
         let id = sessionStorage.getItem('id')
         let likeFlag = false
-        console.log("inside tweetdata" + this.props.data);
+      //  console.log("inside tweetdata" + this.props.data);
         for (let i = 0; i < this.props.data.likes.length; i++) {
             if (this.props.data.likes[i] == id) {
                 //add object id retrieved from session storage
-                console.log("already liked")
+                //console.log("already liked")
                 likeFlag = true;
                 break;
             } else {
-                console.log("not liked yet")
+                //console.log("not liked yet")
             }
         }
 
@@ -334,11 +327,11 @@ class TweetDataComp extends React.Component {
         for (let i = 0; i < this.props.data.bookmarks.length; i++) {
             if (this.props.data.bookmarks[i] == id) {
                 //add object id retrieved from session storage
-                console.log("already bookmarked")
+            //    console.log("already bookmarked")
                 bookmarkFlag = true;
                 break;
             } else {
-                console.log("not bookmarked yet")
+             //   console.log("not bookmarked yet")
             }
         }
 

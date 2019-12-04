@@ -63,8 +63,8 @@ class CreateList extends Component {
     }
     console.log("Inside Submit of Create List")
     axios.defaults.withCredentials = true;
-
-    axios.post(`${ROOT_URL}/createlists`, data)
+    if(data.members){
+      axios.post(`${ROOT_URL}/createlists`, data)
       .then(response => {
         console.log(response.data)
         window.location.reload();        
@@ -72,6 +72,8 @@ class CreateList extends Component {
         console.log("Error while creating list!")    
         throw error;            
       });
+    }
+    
   }
 
 

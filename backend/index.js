@@ -42,7 +42,7 @@ app.use(cookieParser())
 
 var cors = require('cors')
 
-app.use(cors({ origin: 'http://18.223.168.146:3000', credentials: true }))
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 
 app.use(
   session({
@@ -57,7 +57,7 @@ app.use(
 app.use(bodyParser.json())
 
 app.use(function (req, res, next) {
-  res.setHeader('Access-Control-Allow-Origin', 'http://18.223.168.146:3000')
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
   res.setHeader('Access-Control-Allow-Credentials', 'true')
   res.setHeader(
     'Access-Control-Allow-Methods',

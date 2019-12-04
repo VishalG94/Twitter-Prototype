@@ -10,11 +10,12 @@ router.post("/hitreply", function (req, res) {
     var tweetid = req.body.tweetid;
     var commentowner = req.body.email;
     var comment = req.body.text;
+    var uname = req.body.username;
 
 
     console.log("Body " + tweetid + comment + commentowner)
 
-    var replyVar = { userid: commentowner, comment: comment };
+    var replyVar = { userid: commentowner, username: uname, comment: comment };
 
     Tweet.findOneAndUpdate({ _id: tweetid }, { $push: { reply: replyVar } }).then(result => {
         console.log(result);

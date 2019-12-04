@@ -79,7 +79,7 @@ class BookMarkedTweets extends Component {
             </div>
             <div className='col-sm-7'>
               <ul>
-                <WriteTweet />
+                {/* <WriteTweet /> */}
                 <Tweet tweetsDtls={this.state.tweets} />
                 {/* <Tweet /> */}
               </ul>

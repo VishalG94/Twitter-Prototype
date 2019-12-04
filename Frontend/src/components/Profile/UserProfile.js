@@ -72,7 +72,7 @@ class UserProfile extends Component {
                 last_name: response.data.last_name,
                 zipcode: response.data.zipcode,
                 // follow : response.data.following,
-                profilepic: response.data.image,
+                // profilepic: response.data.image,
                 profilepic: img
 
             })
@@ -150,15 +150,26 @@ class UserProfile extends Component {
             }
         }
         axios
-            .post('/userprofile', formData, config)
+            .post(`${ROOT_URL}/userprofile`, formData, config)
             .then(response => {
                 let data = { 'email': email }
-                axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-                    // console.log('Axios get image:', response.data)
-                    this.setState({
-                        profilepic: 'data:image/png;base64, ' + response.data
-                    })
-                })
+                // axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+                //     // console.log('Axios get image:', response.data)
+                //     this.setState({
+                //         profilepic: 'data:image/png;base64, ' + response.data
+                //     })
+                // })
+
+                let img = `${ROOT_URL}/images/profile/`
+              if (response.data.image) {
+                  img = img + response.data.image
+              } else {
+                  img = img + 'Twitternew.png'
+              }
+              this.setState({
+                    profilepic:img
+              })
+              window.location.reload()
 
             })
             .catch(error => { console.log('Error in image retrieve') })
