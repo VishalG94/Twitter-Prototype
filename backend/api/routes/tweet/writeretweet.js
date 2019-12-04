@@ -57,7 +57,7 @@ router.post('/writeretweet', (req, res) => {
                 })
         })
 
-    // kafka.make_request('post_tweet', { req.body: req.body, filepath: filepath }, function (err, results) {
+    // kafka.make_request('writeretweet', { req.body: req.body, filepath: filepath }, function (err, results) {
     //   console.log('in result');
 
     //   if (err) {
@@ -69,7 +69,7 @@ router.post('/writeretweet', (req, res) => {
     //     console.log(results);
     //     console.log("result received")
     //     //res.status(200).json({ success: req.body.email });
-    //     res.status(200).end("Successful Tweet");
+    //     res.status(200).end("Successful writeretweet");
     //   }
     // });
 
