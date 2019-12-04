@@ -31,7 +31,7 @@ class Profile extends Component {
             password: '',
             file: '',
             img: '',
-            
+            username:'',
             component: 'Tweets',
             // following:false,
             follow: false
@@ -57,18 +57,15 @@ class Profile extends Component {
         console.log(data.email)
         axios.defaults.withCredentials = true;
         this.props.getProfile({ params: data }, (response) => {
-            
+           
             console.log(this.props.user)
-            console.log(response.data);
+            console.log(response.data);            
             let img = '/images/profile/' 
             if (response.data.image) {
                 img = img + response.data.image
             } else {
                 img = img + 'Twitternew.png'
-            } 
-            axios.post(`${ROOT_URL}/profileview`, data)
-            .then(response => {
-            // sessionStorage.removeItem('userDtls')
+            }            
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
@@ -76,10 +73,25 @@ class Profile extends Component {
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
                 profilepic: img,
-                username: response.data.username,
-                
+                username: response.data.username,                
 
             })
+            sessionStorage.setItem('username',this.state.username)
+            axios.post(`${ROOT_URL}/profileview`, data)
+            .then(response => {
+            // sessionStorage.removeItem('userDtls')
+            
+            // this.setState({
+            //     email: response.data.email,
+            //     // phone: response.data.phone,
+            //     password: response.data.password,
+            //     first_name: response.data.first_name,
+            //     last_name: response.data.last_name,
+            //     profilepic: img,
+            //     username: response.data.username,                
+
+            // })
+            
             
             // sessionStorage.setItem('userDtls', JSON.stringify(response.data))
           

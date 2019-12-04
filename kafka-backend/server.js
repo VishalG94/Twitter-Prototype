@@ -19,10 +19,14 @@ var follow = require('./services/followupdate')
 var profileupdate = require('./services/profileupdate');
 var followedBy = require('./services/followedBy');
 var fetchlist = require('./services/lists/fetchlist');
+var fetchlistdetails = require('./services/lists/fetchlistdetails');
 var fetchuserlists = require('./services/lists/fetchuserlists');
-
+var subscribelist = require('./services/lists/subscribelist');
+var unsubscribelist = require('./services/lists/unsubscribelist');
 var createlist = require('./services/lists/createlist');
 var fetchsubscribedlist = require('./services/lists/fetchsubscribedlist');
+var fetchusersubscribedlist = require('./services/lists/fetchusersubscribedlist');
+
 var fetchlisttweets = require('./services/lists/fetchlisttweets');
 var messagessearchbar = require('./services/messages/messagessearchbar')
 app.use(passport.initialize())
@@ -77,5 +81,10 @@ handleTopicRequest('fetchlist', fetchlist)
 handleTopicRequest('createlist', createlist)
 handleTopicRequest('fetchlisttweets', fetchlisttweets)
 handleTopicRequest('fetchsubscribedlist', fetchsubscribedlist)
+handleTopicRequest('fetchusersubscribedlist', fetchusersubscribedlist)
 handleTopicRequest('fetchuserlists', fetchuserlists)
+handleTopicRequest('subscribelist', subscribelist)
+handleTopicRequest('unsubscribelist', unsubscribelist)
+handleTopicRequest('fetchlistdetails', fetchlistdetails)
+
 

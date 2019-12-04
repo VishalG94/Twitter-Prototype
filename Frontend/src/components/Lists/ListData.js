@@ -19,6 +19,7 @@ class ListData extends Component {
 
     componentWillMount()
     {
+      console.log(this.props.data);  
       let email =this.props.data.owner.email;
       console.log(email);
       let data = { email : email }
@@ -28,7 +29,12 @@ class ListData extends Component {
             // alert(response.data);
             console.log(this.props.user)
               console.log(response.data);
-              let img = '/images/profile/' + response.data.image
+              let img = '/images/profile/' 
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }  
               
               this.setState({
                 

@@ -19,6 +19,7 @@ import ListNavbar from '../ListNavbar/ListNavbar'
 import List from '../Lists/List'
 import CreateList from '../Lists/CreateList'
 import UserList from './UserList'
+import UserListNavbar from '../ListNavbar/UserListNavbar'
 
 
 class UserLists extends Component {
@@ -155,7 +156,7 @@ class UserLists extends Component {
               @{data.handler}
               <br/> 
 
-              <ListNavbar/>
+              <UserListNavbar/>
 
                 <UserList data={this.props.location.state.username} />              
                 

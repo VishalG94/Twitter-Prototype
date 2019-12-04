@@ -5,10 +5,10 @@ var express = require('express');
 var router = express.Router();
 var kafka = require('../../../kafka/client');
 
-router.post("/subscribelist", function (req, res) {
-    console.log("Inside fetchlists");
+router.post("/unsubscribelist", function (req, res) {
+    console.log("Inside unsubscribe lists");
     
-    kafka.make_request('subscribelist', req.body , function (err, results) {
+    kafka.make_request('unsubscribelist', req.body , function (err, results) {
         console.log('in result');
     
         if (err) {
@@ -18,7 +18,7 @@ router.post("/subscribelist", function (req, res) {
           res.end("Error");
         } else {
           console.log(results);
-          console.log("result received Subscribe List")
+          console.log("result received unSubscribe List")
           //res.status(200).json({ success: req.body.email });
           res.status(200).end(JSON.stringify(results));
         }

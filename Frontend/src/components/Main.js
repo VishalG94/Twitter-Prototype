@@ -22,6 +22,7 @@ import BookMarkedTweets from './UserTweets/BookMarkedTweets'
 import Lists from './Lists/Lists'
 import ListDetails from './ListDetails/ListDetails'
 import SubscribedList from './Lists/SubscribedList'
+import UserSubscribedLists from './UserLists/UserSubscribedLists'
 import UserLists from './UserLists/UserLists'
 
 import UserRetweets from './UserTweets/UserRetweets'
@@ -54,7 +55,8 @@ class Main extends Component {
         <Route path='/listdetails' component={ListDetails} />
         <Route path='/subscribedlist' component={SubscribedList} />
         <Route path='/userlists' component={UserLists} />
-        
+        <Route path='/usersubscribedlist' component={UserSubscribedLists} /> 
+            
        
         <Route static path='/viewtweet/:id' component={ViewTweet} />
         <Route  path='/userretweets' component={UserRetweets} />

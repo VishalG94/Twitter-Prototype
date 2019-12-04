@@ -16,11 +16,28 @@ class ListDetails extends Component {
       tweets: [],
       flag : false,
       text:"",
-      replyToggle: false
+      replyToggle: false,
+      subscribe:false
     }
+    this.subscribelist = this.subscribelist.bind(this);
+    this.unsubscribelist = this.unsubscribelist.bind(this);
   }
 
-
+  componentWillMount() {
+    axios.get(ROOT_URL + '/fetchlistdetails', {
+      params: {        
+        list_id : this.props.location.state.id
+      }
+    }).then(response => {
+      console.log("Response in fetchlistdetails")
+      console.log(response)
+      this.setState({
+        subscribe : response.data[0].subscribers.includes(sessionStorage.getItem('id'))
+      })
+      console.log("Subscribe flag is "+this.state.subscribe);
+    })
+    
+  }
   
   componentDidMount() {
     var email = sessionStorage.getItem("email")
@@ -57,11 +74,96 @@ class ListDetails extends Component {
       });
   }
 
+  subscribelist(){
+
+    let data = {
+          email : sessionStorage.getItem('email'),
+          list_id : this.props.location.state.id
+    }
+
+    axios.post(`${ROOT_URL}/subscribelist`, data)
+      .then((response) => {
+        console.log("Received response")
+        console.log(response)
+        this.setState({
+          subscribe:true
+        })
+        //update the state with the response data       
+        
+      });
+  }
+
+  unsubscribelist(){
+
+    let data = {
+          email : sessionStorage.getItem('email'),
+          list_id : this.props.location.state.id
+    }
+
+    axios.post(`${ROOT_URL}/unsubscribelist`, data)
+      .then((response) => {
+        console.log("Received response")
+        console.log(response)
+        this.setState({
+          subscribe:false
+        })
+        //update the state with the response data       
+        
+      });
+  }
+
   // let Tweet = props => {
 
 
   render() {
-
+    
+    let subscribechange = null      
+      
+        if(sessionStorage.getItem('SelectedUserProfileId') !== sessionStorage.getItem('id')  &&  sessionStorage.getItem('SelectedUserProfileId') != null)
+        {
+          if(this.state.subscribe)
+          {
+            subscribechange = (
+              <button
+                    type='button'
+                    style={{
+                      marginRight:'10%',
+                      outline: 'none',
+                      border: 'none',
+                      backgroundColor: '#4285f4',
+                      float:'right'
+                    }}     
+                    onClick={this.unsubscribelist}
+                    className='btn btn-primary'                        
+                  >
+                    Subscribed
+                  </button>                
+                  
+            )
+          }
+          else{
+            subscribechange = (
+              <button
+                    type='button'
+                    style={{
+                      marginRight:'10%',
+                      outline: 'none',
+                      border: 'none',
+                      backgroundColor: '#4285f4',
+                      float:'right'
+                    }}     
+                    onClick={this.subscribelist}
+                    className='btn btn-primary'                        
+                  >
+                    Subscribe
+                  </button>                
+                  
+            )
+          }
+          
+        }
+      
+      
 
     return (
         <div>
@@ -73,7 +175,7 @@ class ListDetails extends Component {
           <div class='split-center-list-details'>
               <ul class="list-group" >              
                   
-                  { (sessionStorage.getItem('SelectedUserProfileId') !== sessionStorage.getItem('id') )  && (sessionStorage.getItem('SelectedUserProfileId') != null) 
+                  {/* { (sessionStorage.getItem('SelectedUserProfileId') !== sessionStorage.getItem('id') )  && (sessionStorage.getItem('SelectedUserProfileId') != null) 
                     &&
                   <button
                     type='button'
@@ -84,12 +186,16 @@ class ListDetails extends Component {
                       backgroundColor: '#4285f4',
                       float:'right'
                     }}     
+                    onClick={this.subscribelist}
                     className='btn btn-primary'                        
                   >
                     Subscribe
                   </button>                
-                  
-                  } 
+                    
+                  }  */}
+
+                  {subscribechange}
+
                                         
                 <h3
               style={{
