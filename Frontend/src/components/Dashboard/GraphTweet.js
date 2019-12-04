@@ -26,7 +26,7 @@ import {
     return (
       <g>
       <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>{payload.disp}</text>
-      <text x={cx} y={cy+20} dy={8} textAnchor="middle" fill={fill}>{"Likes: "}{value}</text>
+      <text x={cx} y={cy+20} dy={8} textAnchor="middle" fill={fill}>{"Views: "}{value}</text>
         <Sector
           cx={cx}
           cy={cy}
@@ -47,7 +47,7 @@ import {
         />
         <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
         <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`Like`}</text>
+        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333">{`Views`}</text>
         <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999">
           {`(Rate ${(percent * 100).toFixed(2)}%)`}
         </text>
@@ -98,11 +98,11 @@ class graph extends Component {
         //console.log(this.state.tweets)
         let check =[]
         this.state.tweets.forEach(info =>{
-            check.push({ name: info.likes.length, value: info.likes.length , disp : info.text})
-        })           
+            check.push({ name: info.views.length, value: info.views.length , disp : info.text})
+        })
+        //console.log(check)
         check.sort((a, b) => parseInt(a.value) - parseInt(b.value)).reverse();        
         let ch=check.slice(0,10)
-        //console.log(ch)
         this.setState({
             data : ch
           });

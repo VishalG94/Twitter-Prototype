@@ -11,6 +11,8 @@ import Tweet from '../Tweet/Tweet'
 import Barday from './Barday'
 import GraphLikes from './GraphLikes'
 import GraphRetweet from './GraphRetweet'
+import GraphTweet from './GraphTweet'
+import BarProfileView from './BarProfileView'
  class Dashboard extends Component{
 
     constructor(props){
@@ -42,10 +44,18 @@ import GraphRetweet from './GraphRetweet'
                     <div class='col-sm-4'>
                     <GraphRetweet></GraphRetweet>
                     </div>
+                    <div class='col-sm-4'>
+                    <GraphTweet></GraphTweet>
+                    </div>
+                    
                     </div>
                     <div className='row'>
                     <Barday></Barday>
                      </div>
+                     <div className='row'>
+                     <BarProfileView></BarProfileView>
+                     </div>
+                     
                     </div>
                     <div className='col-sm-1' />
                   </div>
