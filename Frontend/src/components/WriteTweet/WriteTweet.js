@@ -117,7 +117,7 @@ class WriteTweet extends React.Component {
         <div class='row'>
           <div class='col-sm-1'>
             <img
-              src={this.state.pic}
+              src={this.state.profilepic}
               class='preview-img'
               width='50'
               height='50'
