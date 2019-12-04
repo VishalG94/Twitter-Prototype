@@ -24,7 +24,7 @@ class ReplyTweet extends React.Component {
 
 
         return (
-            <li href='#' class='list-group-item'>
+            <li style={{ borderRadius: '0%' }} href='#' class='list-group-item'>
                 <div class='row'>
                     <div class='col-sm-1'>
                         <img
@@ -38,10 +38,10 @@ class ReplyTweet extends React.Component {
 
                     <div class='col-sm-11'>
                         <div class='bg'>
-                            <h4 class='user-name'>
+                            <h4 style={{ marginLeft: '3%' }} class='user-name'>
                                 @{this.props.data.userid}
                             </h4>
-                            <span>{this.props.data.comment}</span>
+                            <span style={{ marginLeft: '3%' }}>{this.props.data.comment}</span>
                         </div>
                         <br />
                     </div>

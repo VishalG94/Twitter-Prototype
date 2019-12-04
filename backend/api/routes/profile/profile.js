@@ -5,26 +5,31 @@ const User = require('../../models/user');
 const mongoose = require('mongoose')
 const path = require('path')
 const fs = require('fs')
-// var upload = require('../../../multer');
-var imagepath="";
-var multer = require('multer');
-const storage = multer.diskStorage({
-    destination: './public/profile/',
-    filename: function (req, file, cb) {
-      cb(
-        null,
-        file.fieldname +
-          '_' +
-          Date.now() +
-          path.extname(file.originalname) +
-          '.png'
-      )
-    }
-  })
-  
-  const upload = multer({
-    storage: storage
-  })
+var upload = require('../../config/multers3');
+var imagepath = "";
+const aws = require('aws-sdk');
+const s3 = new aws.S3(); // Pass in opts to S3 if necessary
+
+
+
+// var multer = require('multer');
+// const storage = multer.diskStorage({
+//     destination: './public/profile/',
+//     filename: function (req, file, cb) {
+//       cb(
+//         null,
+//         file.fieldname +
+//           '_' +
+//           Date.now() +
+//           path.extname(file.originalname) +
+//           '.png'
+//       )
+//     }
+//   })
+
+//   const upload = multer({
+//     storage: storage
+//   })
 
 
 // router.get('/profile', function (req, res) {
@@ -102,27 +107,27 @@ router.post('/followupdate', function (req, res) {
 
 })
 
-  router.post('/followedupdate', function (req, res) {
+router.post('/followedupdate', function (req, res) {
     console.log("Inside Profile Update");
     console.log(req.body);
-  
-    kafka.make_request("followedBy",req.body,function(err,results){
-      if (err){
-        console.log( " ERROR Occurred");
-        res.json({
-            status:"error",
-            msg:"System Error, Try Again."
-        })
-    }else{
-      console.log("Posted Followed By user");
-      res.writeHead(200,{
-          'Content-Type' : 'application/json'
-          })
-          res.end(JSON.stringify(results));
-      }
+
+    kafka.make_request("followedBy", req.body, function (err, results) {
+        if (err) {
+            console.log(" ERROR Occurred");
+            res.json({
+                status: "error",
+                msg: "System Error, Try Again."
+            })
+        } else {
+            console.log("Posted Followed By user");
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            })
+            res.end(JSON.stringify(results));
+        }
     })
-  
-  })
+
+})
 
 
 
@@ -153,34 +158,34 @@ router.post('/followupdate', function (req, res) {
 
 router.post('/userprofile', upload.single('myImage'), (req, res) => {
 
-  console.log(req.file);
-//   var filepath = '/uploads/' + imagepath ;
-  
-            console.log('Inside upload post call')
-            console.log(req.file.originalname)
-            console.log(req.file.filename);
-            User
-                .findOneAndUpdate(
-                    { email: req.file.originalname },
-                    { $set: { image: req.file.filename } }
-                )
-                .then(response => {
-                    console.log('response' + response)
-                    console.log('Updated image.')
-                    res.writeHead(200, {
-                        'Content-Type': 'text/plain'
-                    })
-                    res.end('Successfully Registered')
-                })
-                .catch(err => {
-                    console.log('Error occured while upating data in DB')
-                    res.writeHead(400, {
-                        'Content-Type': 'text/plain'
-                    })
-                    res.end('Error occured while upating data in DB')
-                })
-        
-    })
+    console.log(req.file);
+    //   var filepath = '/uploads/' + imagepath ;
+
+    console.log('Inside upload post call')
+    console.log(req.file.originalname)
+    console.log(req.file.metadata.fieldName);
+    User
+        .findOneAndUpdate(
+            { email: req.file.originalname },
+            { $set: { image: req.file.metadata.fieldName } }
+        )
+        .then(response => {
+            console.log('response' + response)
+            console.log('Updated image.')
+            res.writeHead(200, {
+                'Content-Type': 'text/plain'
+            })
+            res.end('Successfully Registered')
+        })
+        .catch(err => {
+            console.log('Error occured while upating data in DB')
+            res.writeHead(400, {
+                'Content-Type': 'text/plain'
+            })
+            res.end('Error occured while upating data in DB')
+        })
+
+})
 
 
 
@@ -202,20 +207,36 @@ router.post('/userimage', function (req, res) {
             ) {
                 console.log('No records found!')
             } else {
-                console.log(results[0].image)
-                console.log(__dirname.split('/api/routes')[0] + '/public/profile/' + results[0].image);
-                binaryData = fs.readFileSync(
-                    __dirname.split('/api/routes')[0] + '/public/profile/' + results[0].image
-                )
-                console.log(binaryData);
-                base64String = new Buffer(binaryData).toString('base64')
-                console.log('Successfully fetched data from DB')
-                console.log(JSON.stringify(results[0]));
+                var getParams = {
+                    Bucket: 'twitter8', // your bucket name,
+                    Key: results[0].image // path to the object you're looking for
+                }
+                s3.getObject(getParams, function (err, data) {
+                    // Handle any error and exit
+                    if (err)
+                        return err;
 
-                res.writeHead(200, {
-                    'Content-Type': 'image/png'
-                })
-                res.end(base64String)
+                    // No error happened
+                    // Convert Body from a Buffer to a String
+
+                    let objectData = data.Body.toString('base64'); // Use the encoding necessary
+                    // console.log(objectData)
+                    res.writeHead(200, {
+                        'Content-Type': 'image/png'
+                    })
+                    res.end(objectData)
+                });
+                // console.log(results[0].image)
+                // console.log(__dirname.split('/api/routes')[0] + '/public/profile/' + results[0].image);
+                // binaryData = fs.readFileSync(
+                //     __dirname.split('/api/routes')[0] + '/public/profile/' + results[0].image
+                // )
+                // console.log(binaryData);
+                // base64String = new Buffer(binaryData).toString('base64')
+                // console.log('Successfully fetched data from DB')
+                // console.log(JSON.stringify(results[0]));
+
+
             }
         })
         .catch(err => {
@@ -230,23 +251,23 @@ router.post('/userimage', function (req, res) {
 router.post('/update', function (req, res) {
     console.log("Inside Profile Update");
     console.log(req.body);
-  
-    kafka.make_request("profile_update",req.body,function(err,results){
-      if (err){
-        console.log( " ERROR Occurred");
-        res.json({
-            status:"error",
-            msg:"System Error, Try Again."
-        })
-    }else{
-      console.log("\nProfile for user sent to client");
-      res.writeHead(200,{
-          'Content-Type' : 'application/json'
-          })
-          res.end(JSON.stringify(results));
-      }
+
+    kafka.make_request("profile_update", req.body, function (err, results) {
+        if (err) {
+            console.log(" ERROR Occurred");
+            res.json({
+                status: "error",
+                msg: "System Error, Try Again."
+            })
+        } else {
+            console.log("\nProfile for user sent to client");
+            res.writeHead(200, {
+                'Content-Type': 'application/json'
+            })
+            res.end(JSON.stringify(results));
+        }
     })
-  
-  })
+
+})
 
 module.exports = router

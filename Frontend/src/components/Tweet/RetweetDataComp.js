@@ -39,21 +39,30 @@ class RetweetDataComp extends React.Component {
             // console.log(this.props.user)
             // alert(response.data);
             console.log(this.props.user)
-              console.log(response.data);
-              let img = '/images/profile/' 
+            //   alert(response.data);
+            //   let img = '/images/profile/' 
 
+              let img = '/images/profile/'
               if (response.data.image) {
-                img = img + response.data.image
-            } else {
-                img = img + 'Twitternew.png'
-            }
-              
-              this.setState({
-                
-                pic: img
-        });
-              
+                  img = img + 'Twitternew.png'
+              } else {
+                  img = img + 'Twitternew.png'
+              }
+  
+            //   this.setState({
+            //       pic: img
+            //   });
+  
           })
+  
+          axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+            //   alert('Axios get image:'+ response.data)
+              this.setState({
+                  pic: 'data:image/png;base64, ' + response.data
+              })
+          })
+              
+          
     }
 
     Search = (e) => {
@@ -363,7 +372,7 @@ class RetweetDataComp extends React.Component {
             
             <div>
                 <div class="tweet">
-                    <div class="list-group-item">
+                    <div style={{borderRadius:'0px'}} class="list-group-item">
                     <a href={`/viewtweet/` + this.props.data._id} onClick={this.viewTweetCalled} >
                         <div class='row'>
                             <div class='col-sm-1'>
@@ -377,14 +386,14 @@ class RetweetDataComp extends React.Component {
                             </div>
                             {/* <div class='col-sm-1'></div> */}
                             <div class='col-sm-11'>
-                                <h4 class='user-name'>
+                                <h4 style={{marginLeft:'3%'}} class='user-name'>
                                 <a href='/profile'
                                     id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
                                     {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
                                     <span
                                         style={{
                                             fontWeight: 'normal',
-                                            color: 'grey'
+                                            color: 'grey'                                            
                                         }}
                                     >
                                         @{this.props.data.owner.username}
@@ -400,12 +409,12 @@ class RetweetDataComp extends React.Component {
                                         . {dateVar}
                                     </span>
                                 </h4>
-                                <div style={{ color: 'black', marginLeft: "30px" }}><span style={{ marginLeft: "30px" }} >{this.props.data.text}</span></div>
+                                <div style={{ color: 'black', marginLeft: "3%" }}><span>{this.props.data.text}</span></div>
                                 <br />
-                                <br />
+                                
                                 {/* retweet part starts here*/}
                                 <div class='list-group-item'
-                                    style={{ borderRadius: '10px', borderStyle: "solid", borderWidth: "2px", borderColor: "ededed" }}
+                                    style={{ borderRadius: '10px', marginLeft:'3%' }}
                                     width='500px'
                                     height='250%' >
 
@@ -421,7 +430,7 @@ class RetweetDataComp extends React.Component {
                                         </div>
                                         {/* <div class='col-sm-1'></div> */}
                                         <div class='col-sm-11'>
-                                            <h4 class='user-name'>
+                                            <h4 tyle={{marginLeft:'3%'}} class='user-name'>
                                                 {this.props.data.retweetdata.owner.first_name + " " + this.props.data.retweetdata.owner.last_name}
                                                 <span
                                                     style={{
@@ -443,29 +452,19 @@ class RetweetDataComp extends React.Component {
                                                     . {dateformat(this.props.data.retweetdata.time, 'mmm dd')}
                                                 </span>
                                             </h4>
-                                            <div style={{ color: 'black' }}>{this.props.data.retweetdata.text}</div>
+                                            <div style={{ marginLeft:'4%', color: 'black' }}>{this.props.data.retweetdata.text}</div>
                                             <br />
                                             {hasImageTag}
+                                            
                                         </div>
                                     </div>
-
-
-                                    {/* retweet part ends here */}
-
-
-                                    <br />
-
                                 </div>
-                                <br />
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                     
-
+                                <br></br>
                             </div>
                         </div>
-
                     </a >
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                      <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey' }}>
+                      <button type="submit" class="btn btn-link" onClick={this.replyPressed} style={{ color: 'grey', marginLeft:'6%' }}>
                                     <span class="far fa-comment fa-2x"></span>
                                 </button>
                                 <label style={{ fontSize: "20px" }}> {this.props.data.reply.length}</label>
