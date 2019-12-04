@@ -43,7 +43,7 @@ class Home extends Component {
         this.props.getProfile({ params: data }, (response) => {
           // console.log(this.props.user)
           // alert(response.data);
-          console.log('Response user' + response.data)
+          // console.log('Response user' + response.data)
           sessionStorage.setItem('userDtls', JSON.stringify(response.data))
         });
   }
@@ -65,8 +65,8 @@ class Home extends Component {
       }
     })
       .then((response) => {
-        console.log("Received response")
-        console.log(response)
+        // console.log("Received response")
+        // console.log(response)
         //update the state with the response data
         this.setState({
 

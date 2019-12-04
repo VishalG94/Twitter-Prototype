@@ -57,13 +57,13 @@ class UserProfile extends Component {
         this.props.getProfile({ params: data }, (response) => {
             // console.log(this.props.user)
             // console.log(response.data);
-            let img = '/images/profile/'
-            // console.log(img);
-            if (response.data.image) {
-                img = img + response.data.image
-            } else {
-                img = img + 'Twitternew.png'
-            }
+            let img = `${ROOT_URL}/images/profile/`
+              if (response.data.image) {
+                  img = img + response.data.image
+              } else {
+                  img = img + 'Twitternew.png'
+              }
+  
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
@@ -72,21 +72,21 @@ class UserProfile extends Component {
                 last_name: response.data.last_name,
                 zipcode: response.data.zipcode,
                 // follow : response.data.following,
-                profilepic: response.data.image
-                // profilepic: img
+                profilepic: response.data.image,
+                profilepic: img
 
             })
             // alert(response.data.image)
         });
 
 
-        axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-            // console.log('Axios get image:', response.data)
-            this.setState({
-                profilepic: 'data:image/png;base64, ' + response.data
-            })
+        // axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+        //     // console.log('Axios get image:', response.data)
+        //     this.setState({
+        //         profilepic: 'data:image/png;base64, ' + response.data
+        //     })
 
-        })
+        // })
 
 
 

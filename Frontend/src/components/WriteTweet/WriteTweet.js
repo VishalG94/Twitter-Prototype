@@ -32,19 +32,23 @@ class WriteTweet extends React.Component {
       // alert(response.data);
       console.log(this.props.user)
       console.log(response.data);
-      let img = '/images/profile/' + response.data.image
+      let img = `${ROOT_URL}/images/profile/`
+              if (response.data.image) {
+                  img = img + response.data.image
+              } else {
+                  img = img + 'Twitternew.png'
+              }
+  
+              this.setState({
+                  profilepic: img
+              });
 
-      // this.setState({
-
-      //   profilepic: img
-      // });
-
-      axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-        //   alert('Axios get image:'+ response.data)
-        this.setState({
-          profilepic: 'data:image/png;base64, ' + response.data
-        })
-      })
+      // axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+      //   //   alert('Axios get image:'+ response.data)
+      //   this.setState({
+      //     profilepic: 'data:image/png;base64, ' + response.data
+      //   })
+      // })
 
     })
   }
@@ -81,7 +85,7 @@ class WriteTweet extends React.Component {
     };
     console.log(dataadd)
     axios.defaults.withCredentials = true;
-    axios.post('http://localhost:3001/writetweet', dataadd, config)
+    axios.post(`${ROOT_URL}/writetweet`, dataadd, config)
       .then(response => {
         console.log(response.dataadd);
         console.log("Status Code : ", response.status);

@@ -57,30 +57,31 @@ class Profile extends Component {
            
             console.log(this.props.user)
             console.log(response.data);            
-            let img = '/images/profile/' 
-            if (response.data.image) {
-                img = img + response.data.image
-            } else {
-                img = img + 'Twitternew.png'
-            }            
+            
+            let img = `${ROOT_URL}/images/profile/`
+              if (response.data.image) {
+                  img = img + response.data.image
+              } else {
+                  img = img + 'Twitternew.png'
+              }  
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
                 password: response.data.password,
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
-                profilepic: response.data.image,
+                profilepic: img,
                 username: response.data.username,                
 
             })
 
-            axios.post(`${ROOT_URL}/userimage`, data).then(response => {
-                // console.log('Axios get image:', response.data)
-                this.setState({
-                    profilepic: 'data:image/png;base64, ' + response.data
-                })
+            // axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+            //     // console.log('Axios get image:', response.data)
+            //     this.setState({
+            //         profilepic: 'data:image/png;base64, ' + response.data
+            //     })
     
-            })
+            // })
 
             sessionStorage.setItem('username',this.state.username)
             axios.post(`${ROOT_URL}/profileview`, data)

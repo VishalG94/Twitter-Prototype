@@ -41,17 +41,18 @@ class TweetDataComp extends React.Component {
             // alert(response.data);
             console.log(this.props.user)
             console.log(response.data);
-            let img = '/images/profile/'
-            if (response.data.image) {
-                img = img + 'Twitternew.png'
-            } else {
-                img = img + 'Twitternew.png'
-            }
-
-            // this.setState({
-
-            //     pic: img
-            // });
+            let img = `${ROOT_URL}/images/profile/`
+              if (response.data.image) {
+                  img = img + response.data.image
+              } else {
+                  img = img + 'Twitternew.png'
+              }
+  
+              this.setState({
+                  pic: img
+              });
+  
+          
 
         })
 
