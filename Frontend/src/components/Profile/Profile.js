@@ -72,10 +72,19 @@ class Profile extends Component {
                 password: response.data.password,
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
-                profilepic: img,
+                profilepic: response.data.image,
                 username: response.data.username,                
 
             })
+
+            axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+                // console.log('Axios get image:', response.data)
+                this.setState({
+                    profilepic: 'data:image/png;base64, ' + response.data
+                })
+    
+            })
+
             sessionStorage.setItem('username',this.state.username)
             axios.post(`${ROOT_URL}/profileview`, data)
             .then(response => {

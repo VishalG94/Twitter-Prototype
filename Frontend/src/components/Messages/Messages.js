@@ -251,7 +251,6 @@ class Messages extends Component {
         <i class='far fa-paper-plane ' />
       </button>)
     } else {
-      alert('here')
       recieverMsg = (<button
         id='messagebarbutton'
         type='submit'
