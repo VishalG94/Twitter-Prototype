@@ -48,43 +48,58 @@ class Profile extends Component {
             // follow: false
         })
 
-
-
-
         let temp = sessionStorage.getItem('SelectedUserProfile')
         console.log(temp);
         let data = { email: temp }
         console.log(data.email)
         axios.defaults.withCredentials = true;
         this.props.getProfile({ params: data }, (response) => {
+           
             console.log(this.props.user)
-            console.log(response.data);
+            console.log(response.data);            
             let img = '/images/profile/' 
             if (response.data.image) {
                 img = img + response.data.image
             } else {
                 img = img + 'Twitternew.png'
-            } 
+            }            
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
                 password: response.data.password,
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
-                profilepic: img,
-                username: response.data.username,
-                
+                profilepic: response.data.image,
+                username: response.data.username,                
 
             })
-            
+
+            axios.post(`${ROOT_URL}/userimage`, data).then(response => {
+                // console.log('Axios get image:', response.data)
+                this.setState({
+                    profilepic: 'data:image/png;base64, ' + response.data
+                })
+    
+            })
+
+            sessionStorage.setItem('username',this.state.username)
             axios.post(`${ROOT_URL}/profileview`, data)
             .then(response => {
             // sessionStorage.removeItem('userDtls')
-           
             
-            // sessionStorage.setItem('userDtls', JSON.stringify(response.data))
-          
-        })
+            // this.setState({
+            //     email: response.data.email,
+            //     // phone: response.data.phone,
+            //     password: response.data.password,
+            //     first_name: response.data.first_name,
+            //     last_name: response.data.last_name,
+            //     profilepic: img,
+            //     username: response.data.username,                
+
+            // })
+            
+            
+            
         });
 
         let temp1 = sessionStorage.getItem('email')
@@ -102,7 +117,7 @@ class Profile extends Component {
         });
 
        
-
+    })
     }
 
     selectComponent = e => {
@@ -309,10 +324,10 @@ class Profile extends Component {
 
                                 <ul style={{ width: "100%" }} class="nav navbar-nav">
 
-                                <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets</a></li>
-                                <li style={{ width: "25%" }}> <a  onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets and Replies</a></li>
-                                <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Media</a></li>
-                                <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/#" class="list-group-item">Likes</a></li>
+                                    <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="/profile/tweets" class="list-group-item">Tweets</a></li>
+                                    <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets and Replies</a></li>
+                                    <li style={{ width: "25%" }}> <Link style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} to={{ pathname:'/userlists',  state:{ username:this.state.username }}} class="list-group-item">View Lists</Link></li>
+                                    <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/profile/likes" class="list-group-item">Likes</a></li>
 
                                 </ul>
 

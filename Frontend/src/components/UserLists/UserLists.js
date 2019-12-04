@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import '../../App.css'
-import './Lists.css'
+import './UserLists.css'
 import axios from 'axios'
 import cookie from 'react-cookies'
 import { Redirect } from 'react-router'
@@ -18,12 +18,11 @@ import {NavLink} from 'react-router-dom';
 import ListNavbar from '../ListNavbar/ListNavbar'
 import List from '../Lists/List'
 import CreateList from '../Lists/CreateList'
+import UserList from './UserList'
+import UserListNavbar from '../ListNavbar/UserListNavbar'
 
 
-
-
-
-class Lists extends Component {
+class UserLists extends Component {
   // call the constructor method
   constructor(props) {
     super(props)
@@ -138,7 +137,7 @@ class Lists extends Component {
       likes: 30,
       retweets: 20,
       comments: 10
-    }
+    }    
 
     return (
       <div>
@@ -157,17 +156,13 @@ class Lists extends Component {
               @{data.handler}
               <br/> 
 
-              <ListNavbar/>
+              <UserListNavbar/>
 
-                <List />              
+                <UserList data={this.props.location.state.username} />              
                 
               </ul>
-            </div>
-           
-           
-          <div class='split-right-list'>
-            <CreateList/>
-          </div>
+            </div>          
+          
         </div>
       </div >
 
@@ -196,5 +191,5 @@ export default connect(
   reduxForm({
     form: 'streamLogin',
     validate: validate
-  })(Lists)
+  })(UserLists)
 )

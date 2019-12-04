@@ -1,10 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import axios from 'axios';
 import ROOT_URL from '../../constants'
-import ListData from './ListData'
-import EditList from './EditList'
+import ListData from '../Lists/ListData'
 
-class List extends Component {
+class UserSubscribedList extends Component {
 
   constructor(props) {
     super(props);
@@ -15,10 +14,10 @@ class List extends Component {
  
   componentDidMount() {
     var email = sessionStorage.getItem("email")
-    console.log("Inside List component");
-    axios.get(`${ROOT_URL}/fetchlist`, {
+    console.log("Inside Subscribed List component");
+    axios.get(`${ROOT_URL}/fetchusersubscribedlist`, {
       params: {
-        email: email
+        username:sessionStorage.getItem('username')
       }
     })
       .then((response) => {
@@ -28,7 +27,6 @@ class List extends Component {
         this.setState({
           lists: this.state.lists.concat(response.data)
         });
-        sessionStorage.setItem('SelectedUserProfileId',sessionStorage.getItem('id'))
       });
   } 
 
@@ -43,9 +41,8 @@ class List extends Component {
     })
 
 
-    return (      
-
-      <Fragment>        
+    return (
+      <Fragment>
 
         {details}
         
@@ -56,4 +53,4 @@ class List extends Component {
   }
 }
 
-export default List
+export default UserSubscribedList

@@ -61,28 +61,25 @@ class ListData extends Component {
 
         var newdetails = null;
 
-        newdetails =
-            <div>
-                {/* <h1>Already Not liked</h1> */}
-                <Link to={{
-                    pathname: '/listdetails',
-                    state: { id: this.props.data._id }
-                }}
-                    class='list-group-item' >
-
-                    <div class='row'>
-                        <div class='col-sm-1'>
-                            <img
-                                src={this.state.pic}
-                                class='preview-img'
-                                width='50'
-                                height='50'
-                                alt='profile pic'
-                            />
-                        </div>
-                        {/* <div class='col-sm-1'></div> */}
-                        <div class='col-sm-11'>
-                            <h4 class='user-name'>
+        newdetails = 
+                <div>
+                    {/* <h1>Already Not liked</h1> */}
+                    <Link to={{ pathname:'/listdetails',  state:{id : this.props.data._id, owner:this.props.data.owner }}}
+                      class='list-group-item' >
+                  
+                        <div class='row'>
+                            <div class='col-sm-1'>
+                                <img
+                                    src={this.state.pic}
+                                    class='preview-img'
+                                    width='50'
+                                    height='50'
+                                    alt='profile pic'
+                                />
+                            </div>
+                            {/* <div class='col-sm-1'></div> */}
+                            <div class='col-sm-11'>
+                                <h4 class='user-name'>
                                 <a href='/profile'
                                     id={this.props.data.owner._id} name={this.props.data.owner.email} onClick={this.Search}>
                                     {this.props.data.owner.first_name + " " + this.props.data.owner.last_name}</a>
