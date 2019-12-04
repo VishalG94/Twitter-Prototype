@@ -7,7 +7,9 @@ import {
 } from 'recharts';
 import { scaleOrdinal } from 'd3-scale';
 import { schemeCategory10 } from 'd3-scale-chromatic';
-
+import { Field, reduxForm } from 'redux-form'
+import {getProfile } from '../../actions'
+import { connect } from 'react-redux'
 const colors = scaleOrdinal(schemeCategory10).range();
 
 const data = [
@@ -73,8 +75,18 @@ class graph extends Component {
  
 
   componentWillMount() {    
-    let temp = JSON.parse(sessionStorage.getItem('userDtls'))
+    
+    let email =sessionStorage.getItem('email');
+    let data = { email: email }
+        // alert(data.email)
+        this.props.getProfile({ params: data }, (response) => {
+          // console.log(this.props.user)
+          // alert(response.data);
+          console.log('Response user' + response.data)
+          sessionStorage.setItem('updatedDtls', JSON.stringify(response.data))
+        });
     //console.log(temp)
+    let temp = JSON.parse(sessionStorage.getItem('updatedDtls'))
   
         let check=[]
         for(let i=1;i<=31;i++){
@@ -135,4 +147,17 @@ class graph extends Component {
   }
 }
 
-export default graph
+// export default graph
+
+const mapStateToProps = state => {
+  return { user: state.user }
+}
+
+export default connect(
+  mapStateToProps,
+  {  getProfile}
+)(
+  reduxForm({
+    form: 'streamLogin',
+  })(graph)
+)
