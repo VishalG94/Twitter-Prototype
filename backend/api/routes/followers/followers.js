@@ -7,14 +7,8 @@ var router = express.Router();
 
 router.get("/followers", function (req, res) {
     console.log("Inside fetch followers");
-    var followedBy = req.query.follow
+    var email = req.query.email
     console.log(followedBy)
-
-// var nameArr = followedBy.split('');
-//   console.log(nameArr);
-
-//   let str = nameArr;
-//   console.log(JSON.stringify(str));
 
     User.find({ _id: { $in: followedBy } })
         .then((result1) => {

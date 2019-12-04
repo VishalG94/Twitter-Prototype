@@ -15,6 +15,7 @@ import ROOT_URL from '../../constants.js'
 import sampleImg from '../img/GrubhubDetails.jpg'
 import UserTweets from '../UserTweets/UserTweets'
 import UserLikes from '../UserTweets/UserLikes'
+import Lists from '../Lists/Lists'
 
 class UserProfile extends Component {
     // call the constructor method
@@ -32,6 +33,7 @@ class UserProfile extends Component {
             img: '',
             edit: false,
             userid: '',
+            zipcode : '',
 
             // following:false,
             follow: false,
@@ -55,15 +57,20 @@ class UserProfile extends Component {
         this.props.getProfile({ params: data }, (response) => {
             console.log(this.props.user)
             console.log(response.data);
-            let img = '/images/profile/' + response.data.image
+            let img = '/images/profile/'
             // console.log(img);
-
+            if (response.data.image) {
+                img = img + response.data.image
+            } else {
+                img = img + 'Twitternew.png'
+            }
             this.setState({
                 email: response.data.email,
                 // phone: response.data.phone,
                 password: response.data.password,
                 first_name: response.data.first_name,
                 last_name: response.data.last_name,
+                zipcode :response.data.zipcode,
                 // follow : response.data.following,
                 profilepic: img
                 // profilepic: img
@@ -72,15 +79,18 @@ class UserProfile extends Component {
             console.log(this.props)
         });
 
+
     }
 
     update = (e) => {
+        console.log("hello lastname"+this.state.last_name)
         const data = {
             first_name: this.state.first_name,
             last_name: this.state.last_name,
             email: sessionStorage.getItem('email'),
             phone: this.state.phone,
             password: this.state.password,
+            zipcode :this.state.zipcode
             // path:this.state.path
         }
         console.log(data);
@@ -96,11 +106,12 @@ class UserProfile extends Component {
                         first_name: response.data.first_name,
                         last_name: response.data.last_name,
                         password: response.data.password,
+                        zipcode : response.data.zipcode
                         // email: response.data[0].email,
                         // phone: response.data.phone
                     });
                     // alert("Profile updation successful")
-                    window.location.reload();
+                    // window.location.reload();
                 } else {
                     console.log('Change failed !!! ');
 
@@ -186,12 +197,9 @@ class UserProfile extends Component {
     selectComponent = e => {
         e.preventDefault();
         this.setState({
-            component : e.target.id
-        }
-        ,()=>{
-            alert(this.state.component)
-        }
-        )
+            component: e.target.id
+        
+        })
 
     }
 
@@ -203,6 +211,7 @@ class UserProfile extends Component {
             email: this.state.email,
             password: this.state.password,
             phone: this.state.phone,
+            zipcode:this.state.zipcode,
             path: this.state.path
         }
         console.log("in submit profile  data:" + data);
@@ -218,10 +227,12 @@ class UserProfile extends Component {
     }
     render() {
         let selectedComp = null;
-        if(this.state.component==='Tweets'){
+        if (this.state.component === 'Tweets') {
             selectedComp = (<UserTweets></UserTweets>)
-        }else if(this.state.component === 'Likes'){
+        } else if (this.state.component === 'Likes') {
             selectedComp = (<UserLikes></UserLikes>)
+        } else if (this.state.component === 'Lists') {
+            selectedComp = (<Lists></Lists>)
         }
 
         let editprofile = null;
@@ -229,20 +240,23 @@ class UserProfile extends Component {
         if (this.state.component === 'Edit Profile') {
 
             editprofile = (
+                <form onSubmit={this.update}>
                 <div class='split-right_new'>
                     <div style={{ marginLeft: "10px" }}>
                         <h3>Edit Profile</h3>
+                        
                         <div className="form-group">
+                            
                             <div style={{ fontWeight: 'bold', fontSize: '18px' }}><span class="font">First name: {this.state.first_name}</span></div>
                             <div className="boxwidth-change">
-                                <input onChange={this.inputChangeHandler} type="text" class="form-control" name="first_name" placeholder='Edit first name' />
+                                <input onChange={this.inputChangeHandler} type="text" class="form-control" name="first_name" required placeholder='Edit first name' />
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Last name: {this.state.last_name} </div>
                             <div className="boxwidth-change">
-                                <input onChange={this.inputChangeHandler} type="text" class="form-control" autoFocus name="last_name" placeholder='Edit Last name' />
+                                <input onChange={this.inputChangeHandler} type="text" class="form-control" required autoFocus name="last_name" placeholder='Edit Last name' />
                             </div>
                         </div>
 
@@ -252,17 +266,28 @@ class UserProfile extends Component {
                                 <input
                                     onChange={this.inputChangeHandler}
                                     type="password"
+                                    required
                                     placeholder="Edit Password"
                                     class="form-control"
                                     name="password" />
                             </div>
                         </div>
 
-                        <div className="wrapperbutton">
-                            <button type="button" className="btn btn-primary btn-rounded" onClick={this.update}>Edit Profile</button>
+                        <div class="form-group">
+                            <div style={{ fontWeight: 'bold', fontSize: '18px' }}>Zipcode : {this.state.zipcode} </div>
+                            <div className="boxwidth-change">
+                                <input onChange={this.inputChangeHandler} type="text" class="form-control" pattern = "[0-9]{1,5}" required autoFocus name="zipcode" placeholder='Enter 5 digit Zipcode' />
+                            </div>
                         </div>
+                        
+                        <div className="wrapperbutton">
+                            <button type="submit" className="btn btn-primary btn-rounded" >Edit Profile</button>
+                        </div>
+                        
                     </div>
+                    
                 </div>
+                </form>
             )
         }
         let updatePic = null
@@ -354,16 +379,16 @@ class UserProfile extends Component {
                             <ul style={{ width: "100%" }} class="nav navbar-nav">
 
                                 <li style={{ width: "25%" }}> <a id="Tweets" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Tweets</a></li>
-                                <li style={{ width: "25%" }}> <a id ="Edit Profile" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Edit Profile</a></li>
-                                <li style={{ width: "25%" }}> <a style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Media</a></li>
-                                <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="/#" class="list-group-item">Likes</a></li>
+                                <li style={{ width: "25%" }}> <a id="Edit Profile" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Edit Profile</a></li>
+                                <li style={{ width: "25%" }}> <a  onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", borderRight: 'none', color: "black" }} href="#" class="list-group-item">Media</a></li>
+                                <li style={{ width: "25%" }}> <a id="Likes" onClick={this.selectComponent} style={{ textAlign: "center", borderRadius: "0px", color: "black" }} href="#" class="list-group-item">Likes</a></li>
 
                             </ul>
-                            
+
                         </nav>
                         {selectedComp}
                     </div>
-                    
+
                 </div>
                 {editprofile}
             </div>

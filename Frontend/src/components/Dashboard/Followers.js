@@ -4,6 +4,7 @@ import React, { Component , Fragment } from 'react'
 import connect from "react-redux/es/connect/connect";
 import UserList from '../Search/UserList'
 import Tweet from '../Tweet/Tweet'
+import ListData from '../Lists/ListData'
 class Followers extends Component {
     constructor(props) {
         super(props)
@@ -16,13 +17,11 @@ class Followers extends Component {
 
     componentWillMount() {
 
-        var user = JSON.parse(sessionStorage.getItem('userDtls'));
-        let follow = user.followedBy
-        console.log(user)
-        console.log(follow)
+        var email =sessionStorage.getItem('email')
+        console.log(email)
 
         axios.get((ROOT_URL) + '/followers', {
-            params: { follow: follow }
+            params: { email: email }
         }).then(response => {
             if (response.status == 200) {
                 console.log("Followers Fetched");
@@ -38,9 +37,17 @@ class Followers extends Component {
 
     render()
     {   
-        
+        let details = this.state.list.map(list => {
+            return (
+              <div>
+                <ListData key={Math.random} data={list}></ListData>
+              </div>
+            )
+          })
+      
+
         return (
-        <div>{this.state.list}</div>
+        <div>{details}</div>
         )
     }
     }
